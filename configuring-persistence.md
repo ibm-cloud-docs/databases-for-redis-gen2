@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2026-04-20"
+lastupdated: "2026-05-07"
 
 subcollection: databases-for-redis-gen2
 
@@ -10,15 +10,16 @@ subcollection: databases-for-redis-gen2
 # Configuring as persistence
 {: #configuring-persistence}
 
-Redis is recognized for its high-performance key-value database, notable for storing all data in RAM to avoid slow disk access. 
-Nonetheless, this RAM-centric approach poses a risk of data loss in the event of a Redis process or host incident, given the volatile nature of RAM. 
+Redis is recognized for its high-performance key-value database, notable for storing all data in RAM to avoid slow disk access.
+Nonetheless, this RAM-centric approach poses a risk of data loss in the event of a Redis process or host incident, given the volatile nature of RAM.
 To address this concern, Redis offers mechanisms for persisting data on disk.
 
 ## Persistence modes in Redis
 {: #persistence-modes}
 
-There are two primary persistence modes available: RDB (snapshot mode) and AOF (strong persistence). Each mode entails distinct trade-offs in terms of performance and reliability. 
-Hence, selecting the appropriate persistence mode in Redis necessitates a strategic decision.
+There are two primary persistence modes available: RDB (snapshot mode) and AOF (append-only logging). Each mode entails distinct trade-offs in terms of performance and durability. Hence, selecting the appropriate persistence mode in Redis necessitates a strategic decision.
+
+For production workloads, {{site.data.keyword.databases-for-redis}} uses a hybrid persistence model that combines RDB snapshots with AOF. This approach balances restart speed, operational efficiency, and durability.
 
 ### RDB snapshot
 {: #rdb-snapshot}
@@ -43,39 +44,50 @@ For more information, see [Redis persistence](https://redis.io/docs/latest/opera
 ## Set up persistence in {{site.data.keyword.databases-for-redis}}
 {: #set-up-persistence}
 
-In {{site.data.keyword.databases-for-redis_full}} deployment, both RDB snapshot and AOF are enabled by default on provisioning and your data is written to disk. However, users can [disable AOF](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache) to use {{site.data.keyword.databases-for-redis}} as a cache, which alleviates the IOPS load, resulting in better performance.
+In a {{site.data.keyword.databases-for-redis_full}} deployment, both RDB snapshots and AOF are enabled by default when the deployment is provisioned, and data is written to disk. Users can [disable AOF](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache) to use {{site.data.keyword.databases-for-redis}} as a cache, which can reduce IOPS demand and improve performance for cache-oriented workloads.
 
-{{site.data.keyword.databases-for-redis}} operates in high-availability, wherein RDB snapshots cannot be disabled.
+{{site.data.keyword.databases-for-redis}} operates in a high-availability configuration, so RDB snapshots cannot be disabled.
 {: note}
 
-1. Follow [these steps](/docs/databases-for-redis-gen2?topic=databases-for-redis-provisioning&interface=ui) to provision a {{site.data.keyword.databases-for-redis}} instance.
+
+1. Complete [these steps](/docs/databases-for-redis-gen2?topic=databases-for-redis-provisioning&interface=ui) to provision a {{site.data.keyword.databases-for-redis}} instance.
 1. Check the persistence setting by verifying {{site.data.keyword.databases-for-redis}} configuration. Access the ICD Redis instance using Redis CLI.
 
-  As the default, AOF is set to *yes*, so {{site.data.keyword.databases-for-redis}} is configured to take AOF persistence with fsync every second along with RDB snapshots. 
+By default, AOF is enabled with the `everysec` fsync policy. This means that {{site.data.keyword.databases-for-redis}} uses AOF persistence with fsync every second together with RDB snapshots.
 
-  AOF can be turned off if you want to use Redis as a cache. This can also increase database availability, as the Redis process doesn’t have to replay the transaction logs in case of a failover. For more information, see [Configuring Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache).
+AOF can be turned off if you want to use Redis as a cache. This can also reduce restart time after a failover because the Redis process does not need to replay append-only logs. For more information, see [Configuring Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache).
 
-### Reconfigure a Databases for Redis as a persistent setting
+## Backup durability and retention
+{: #backup-durability-retention}
+
+In addition to on-node persistence, {{site.data.keyword.databases-for-redis}} backups are stored in [{{site.data.keyword.cos_full_notm}}](/docs/cloud-object-storage?topic=cloud-object-storage-about-cloud-object-storage&cloud-object-storage-about-cloud-object-storage). Backups are encrypted at rest, and deployments can use customer-managed keys through [Key Protect integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-key-protect&interface=ui).
+
+For backup management, restore workflows, and retention details that apply to your deployment, see [Managing backups](/docs/databases-for-redis-gen2?topic=databases-for-redis-dashboard-backups).
+
+### Reconfigure persistence settings for {{site.data.keyword.databases-for-redis}}
 {: #reconfigure-redis-as-persistent}
 
-To configure changes to a {{site.data.keyword.databases-for-redis}} instance, you must utilize either the {{site.data.keyword.cloud_notm}} CLI or API for configuring persistence, as in the following example. 
+To configure persistence-related changes for a {{site.data.keyword.databases-for-redis}} deployment, use either the {{site.data.keyword.cloud_notm}} CLI or the API.
 
-Adjust the following settings:
+Adjust the following settings as needed:
 
-- Set `appendonly` to *yes* to enable AOF persistence.
-- Ensure `maxmemory-policy` is set to *noeviction* to prevent key expiration.
-- Set `stop-writes-on-bgsave-error` to *yes* to halt writes in case of backup errors.
+- Set `appendonly` to `yes` to enable AOF persistence.
+- Ensure `maxmemory-policy` is set to `noeviction` to prevent key eviction for persistent workloads.
+- Set `stop-writes-on-bgsave-error` to `yes` to halt writes if background persistence fails.
 
-CLI example
+CLI example:
 
 ```sh
-ibmcloud cdb deployment-configuration '<deployment name or CRN>' '{"configuration":{"maxmemory-policy":" noeviction", "appendonly":"yes", "stop-writes-on-bgsave-error":"yes"}}'
+ibmcloud cdb deployment-configuration '<deployment name or CRN>' '{"configuration":{"maxmemory-policy":"noeviction","appendonly":"yes","stop-writes-on-bgsave-error":"yes"}}'
 ```
 {: pre}
 
-API example
+API example:
 
-```curl
-curl -X PATCH 'https://api.{region}.databases.cloud.ibm.com/v4/ibm/deployments/{id}/configuration/schema' -H "Authorization: Bearer $APIKEY" -H "Content-Type: application/json" -d '{"configuration":{ "maxmemory-policy":""noeviction, "appendonly":"yes", "stop-writes-on-bgsave-error":"yes" } }'
+```sh
+curl -X PATCH "https://api.{region}.databases.cloud.ibm.com/v4/ibm/deployments/{id}/configuration/schema" \
+  -H "Authorization: Bearer $APIKEY" \
+  -H "Content-Type: application/json" \
+  -d '{"configuration":{"maxmemory-policy":"noeviction","appendonly":"yes","stop-writes-on-bgsave-error":"yes"}}'
 ```
 {: pre}
