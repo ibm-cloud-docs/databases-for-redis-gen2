@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-04-20"
+lastupdated: "2026-05-11"
 
 keywords: redis, databases
 
@@ -25,13 +25,13 @@ subcollection: databases-for-redis-gen2
 ## Memory policies
 {: #mem-policies}
 
-By default, deployments are configured with a `noeviction` policy. All data is kept in memory until the `maxmemory` limit is reached and Redis returns an error if the memory limit is exceeded. The `maxmemory` is set to 80% of a data node's available memory, so your node doesn't run out of system resources. 
+By default, deployments are configured with a `noeviction` policy. All data is kept in memory until the `maxmemory` limit is reached and Redis returns an error if the memory limit is exceeded. The `maxmemory` is set to 80% of a data node's available memory, so your node doesn't run out of system resources.
 
 You can scale the amount of memory to accommodate more data, and you can configure the `maxmemory` setting to tune memory usage. The [Redis documentation](https://redis.io/topics/memory-optimization#memory-allocation){: external} has some good information on memory behavior and tuning `maxmemory`.
 
-You can also configure your deployment to use [Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache), allowing Redis to evict data out of memory once the memory limit is reached. 
+You can also configure your deployment to use [Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache), allowing Redis to evict data out of memory once the memory limit is reached.
 
 ## Disk IOPS
 {: #disk-iops}
 
-The number of Input-Output Operations per second (IOPS) is limited by the type of storage volume. Storage volumes for {{site.data.keyword.databases-for-redis}} deployments are provisioned on [Block Storage Endurance Volumes in the 10 IOPS per GB tier](/docs/BlockStorage?topic=BlockStorage-orderingBlockStorage). By default, a deployment starts with persistence enabled. It's possible for very busy databases to exceed the IOPS for the disk size, and increasing disk can alleviate a performance bottleneck. 
+The number of Input-Output Operations per second (IOPS) is limited by the type of storage volume. Storage volumes for {{site.data.keyword.databases-for-redis}} deployments are provisioned on [Block Storage Endurance Volumes in the 10 IOPS per GB tier](/docs/BlockStorage?topic=BlockStorage-orderingBlockStorage). By default, a deployment starts with persistence enabled. It's possible for very busy databases to exceed the IOPS for the disk size, and increasing disk can alleviate a performance bottleneck.

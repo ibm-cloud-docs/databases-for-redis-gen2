@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-04-20"
+lastupdated: "2026-05-11"
 
 keywords: acl, access control list, connection strings, admin, service credentials, new user, admin password, default user, rbac
 
@@ -14,7 +14,7 @@ subcollection: databases-for-redis-gen2
 # Managing users and roles
 {: #user-management}
 
-{{site.data.keyword.databases-for-redis_full}} instances come with authentication enabled and use Redis's built-in access control.They support multiple users and authentication through  [Access Control List (ACL) support](https://redis.io/topics/acl){: external}. 
+{{site.data.keyword.databases-for-redis_full}} instances come with authentication enabled and use Redis's built-in access control. They support multiple users and authentication through [Access Control List (ACL) support](https://redis.io/topics/acl){: external}, leveraging Redis 8.2's enhanced ACL capabilities for granular permission control.
 
 
 ## Managing Redis users
@@ -471,7 +471,7 @@ The _Foundation Endpoint_ that is shown in the _Overview_ of your service provid
 
 ```sh
 curl -X POST https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{id}/users/{user_type} \
--H "Authorization: Bearer $APIKEY" \ 
+-H "Authorization: Bearer $APIKEY" \
 -H "Content-Type: application/json" \
 -d "{"user": {"username": "user", "password": "v3ry-1-secUre-pAssword-2"}}" \
 ```
@@ -479,7 +479,7 @@ curl -X POST https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{id
 
 To retrieve a user's connection strings, use the base URL with the `/users/{userid}/connections` endpoint.
 
-## Internal-use users 
+## Internal-use users
 {: #internal-users}
 
 There are four reserved users on your instance. Modifying these users causes your instance to become unstable or unusable.

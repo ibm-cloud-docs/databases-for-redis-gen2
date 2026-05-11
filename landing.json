@@ -1,7 +1,7 @@
 {
   "version": 2,
   "title": "IBM Cloud® Databases for Redis Gen 2",
-  "introduction": "Redis is a blazingly fast, in-memory data structure store.",
+  "introduction": "Redis is a blazingly fast, in-memory data structure store. IBM Cloud Databases for Redis Gen 2 delivers Redis 8.2 with Sentinel-based high availability, providing automatic failover and enterprise-grade reliability.",
   "product_page": "https://www.ibm.com/products/databases-for-redis",
   "console_page": "/databases/databases-for-redis/create",
   "section_topics": {

@@ -1,10 +1,10 @@
 ---
 
 copyright:
-  years: 2026
-lastupdated: "2026-04-20"
+  years: 2025, 2026
+lastupdated: "2026-05-11"
 
-keywords:
+keywords: redis gen 2, release notes, updates, changes, redis 8.2, sentinel
 
 subcollection: databases-for-redis-gen2
 
@@ -12,92 +12,80 @@ content-type: release-note
 
 ---
 
-
-
 {{site.data.keyword.attribute-definition-list}}
 
+# Release notes for {{site.data.keyword.databases-for-redis_full}}
+{: #redis-relnotes}
 
-
-# Release notes for _product-name_
-{: #my-service-relnotes}
-
-
-
-Use these release notes to learn about the latest updates to _product-name_ that are grouped by _date or build number_. Release notes are available for a minimum of three years.
+Use these release notes to learn about the latest updates to {{site.data.keyword.databases-for-redis_full}} that are grouped by date. Release notes are available for a minimum of three years.
 {: shortdesc}
 
+## March 2026
+{: #redis-mar2026}
 
-For information about changes to the _product-name_ API, see [Change log for _product-name_ API](/docs/link-to-change-log).
-{: tip}
-
-## How should I set up my page?
-{: #relnotes-page-setup}
+### 15 March 2026
+{: #redis-mar1526}
 {: release-note}
 
-* Use "Release notes for xxx" as your title, where xxx is the short name with no trademarks.
-* Name the file `release-notes.md` for URL readability.
-* If you require multiple release notes files, group under a "Release Notes" topicgroup and use a unique name for each file.
-* Add each release as an H2 or H3, depending on how frequently your service releases updates. If you release monthly or less, use an H2 for each entry. If you release several times a month, use an H2 with the month to group each H3 entry in that month.
-* The first entry in your release notes file should introduce your service and reflect the release date of the service.
-* Use a definition list entry for each update, change, or new item in that release.
-* Set the `release-note` content type attribute definition at the top of your file.
-* Set the `release-note` content type attribute on a new line following each H2 release entry.
-* Do not repeat task steps. Summarize and link off to task topic.
-* Do not include security bulletins or maintenance notifications in this file. There is a separate process for these types of notifications.
+{{site.data.keyword.databases-for-redis}} Gen 2 available in Chennai
+:   {{site.data.keyword.databases-for-redis}} Gen 2 is now available in the Chennai region (in-che), expanding deployment options for customers in South Asia. This region supports both Shared Compute and Isolated Compute hosting models with the same Redis 8.2 and Sentinel-based high availability features available in other regions.
 
-## What should I include in my release note entries?
-{: #release-notes-content-include}
+## February 2026
+{: #redis-feb2026}
+
+### 28 February 2026
+{: #redis-feb2826}
 {: release-note}
 
-Use a definition list to highlight each item covered in the release. Each entry should summarize the release details. You want to make sure you are not re-documenting information that is already available in documentation because then you'd have to maintain it in two places. If a more detailed explanation for the change exists out in a documentation page, then link out to the doc. For guidance on coding definition lists, [Definition lists](https://cloud.ibm.com/docs-internal/writing?topic=writing-lists#definition-lists).
+General Availability of {{site.data.keyword.databases-for-redis}} Gen 2
+:   {{site.data.keyword.databases-for-redis}} Gen 2 is now generally available. This major release introduces a modern cloud-native architecture with significant improvements over Gen 1, including Redis 8.2 support, Sentinel-based high availability with 30-90 second automatic failover, enhanced security with Redis ACLs, and improved scalability with separated control and data planes. Gen 2 offers both Shared Compute and Isolated Compute hosting models to meet diverse workload requirements.
 
-Because this content is single-sourced and pulled into the Status UI, you can only include the following markup in your definition list entries: paragraph, ordered list item, unordered list item, code phrase, links, keyrefs, bold, and italics. Any other markup is not supported.
+Redis 8.2 support with full protocol compatibility
+:   Gen 2 supports Redis 8.2, the latest major version, with full compatibility for both RESP2 and RESP3 protocols. This ensures seamless integration with existing Redis clients while providing access to the latest Redis features and performance improvements.
 
-For detailed guidance on what to include on this page, see [Release notes guidance](https://cloud.ibm.com/docs-internal/writing?topic=writing-releasenotes).
+Sentinel-based high availability architecture
+:   Gen 2 implements a 3-node Sentinel quorum for automatic failover, providing enterprise-grade reliability. The architecture includes 2 Redis members (Primary + Replica) and 3 Sentinel instances distributed across availability zones, ensuring automatic recovery from failures within 30-90 seconds with no manual intervention.
 
-## 1 September 2021
-{: #subcollection-date-for-update}
+Enhanced security with Redis ACLs
+:   Gen 2 introduces comprehensive Redis ACL support for multi-user environments with granular permission control. Users can configure command restrictions, key pattern access, and role-based access control (RBAC) with predefined roles (admin, read, write, all) and custom combinations.
+
+Separated control and data plane architecture
+:   The new architecture separates control plane operations (provisioning, configuration, credential management) from data plane workloads, enabling independent scaling, improved fault isolation, and simplified operations.
+
+## December 2025
+{: #redis-dec2025}
+
+### 15 December 2025
+{: #redis-dec1525}
 {: release-note}
 
-Item 1
-:   The classic toolkit is shut down as of 7 August 2020 and is replaced by Watson Studio. You can migrate the training data for classifiers created outside of Watson Studio until 30 September 2020. After you migrate, you can easily update the training data and create another classifier within Watson Studio.
+Beta release of {{site.data.keyword.databases-for-redis}} Gen 2
+:   {{site.data.keyword.databases-for-redis}} Gen 2 enters public beta, introducing a next-generation Redis service with modern cloud-native architecture. The beta includes Redis 8.2 support, Sentinel-based high availability, and new hosting model options. Customers are invited to test Gen 2 and provide feedback before general availability.
 
-Item 2
-:   You can now create Key Protect resources in the US East region.
+Shared Compute and Isolated Compute hosting models
+:   Gen 2 introduces two hosting models: Shared Compute for flexible multi-tenant deployments with fine-grained resource allocation, and Isolated Compute for secure single-tenant deployments with dedicated resources and hypervisor-level isolation. Both models support the same Redis features and high availability architecture.
 
-## 1 August 2021
-{: #subcollection-date-for-update}
+Hybrid persistence configuration
+:   Gen 2 supports flexible persistence options including RDB snapshots, AOF (Append-Only File), and hybrid persistence (RDB + AOF). The default configuration uses hybrid persistence with AOF fsync every second, balancing durability and performance for production workloads.
+
+Daily automated backups to Cloud Object Storage
+:   Gen 2 includes daily automated backups to IBM Cloud Object Storage with configurable retention periods (7, 14, or 30 days). Backups are encrypted with AES-256 and support cross-region replication and bring-your-own-key (BYOK) via Key Protect.
+
+## November 2025
+{: #redis-nov2025}
+
+### 30 November 2025
+{: #redis-nov3025}
 {: release-note}
 
-Single release item title
-:   Single release item description.
+{{site.data.keyword.databases-for-redis}} Gen 2 preview program
+:   Selected customers gain early access to {{site.data.keyword.databases-for-redis}} Gen 2 through a preview program. The preview includes core functionality for testing and validation, with feedback incorporated into the beta release.
 
-## July 2021
-{: #subcollection-jul21}
+## Related information
+{: #redis-relnotes-related}
 
-### 27 July 2021
-{: #subcollection-jul2721}
-{: release-note}
-
-New! IAM trusted profile support
-:   Link your cluster to a trusted profile in IAM so that the pods in your cluster can authenticate with IAM to use other {{site.data.keyword.cloud_notm}} services.
-
-Master versions
-:   Master fix pack update changelog documentation is available for Kubernetes version [1.21.3_1525](/docs/containers), [1.20.9_1547](/docs/containers), [1.19.13_1554](/docs/containers), and [1.18.20_1559](/docs/containers)
-
-### 26 July 2021
-{: #subcollection-jul2621}
-{: release-note}
-
-Secrets management
-:   For centralized management of all your secrets across clusters and injection at application runtime, try [{{site.data.keyword.secrets-manager_full_notm}}](/docs/secrets-manager?topic=secrets-manager-tutorial-kubernetes-secrets).
-
-{{site.data.keyword.block_storage_is_short}} add-on
-:   [Version `3.0.1`](/docs/containers) of the {{site.data.keyword.block_storage_is_short}} add-on is available.
-
-## 1 June 2021
-{: #subcollection-jun0121}
-{: release-note}
-
-Introducing _product-name_
-:   Description of your service.
+- [{{site.data.keyword.databases-for-redis}} Gen 2 documentation](/docs/databases-for-redis-gen2)
+- [{{site.data.keyword.databases-for-redis}} Gen 1 documentation](/docs/databases-for-redis)
+- [Database Versioning Policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy)
+- [High availability and disaster recovery](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-ha-dr)
+- [Security and compliance](/docs/databases-for-redis-gen2?topic=databases-for-redis-security-compliance)

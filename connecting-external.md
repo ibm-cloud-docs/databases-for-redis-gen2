@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-04-20"
+lastupdated: "2026-05-11"
 
 keywords: redis, databases
 
@@ -51,7 +51,7 @@ Then, the Node.js client is able to make a connection with.
 ```sh
 let connectionString = process.env.REDIS_URL;
 
-if (connectionString === undefined) {  
+if (connectionString === undefined) {
   console.error("Please set the REDIS_URL environment variable");
   process.exit(1);
 }
@@ -79,6 +79,63 @@ r = redis.StrictRedis(
 {: pre}
 
 Redis has an array of clients for applications to use. A fairly [comprehensive list is maintained on the Redis site](https://redis.io/clients){: external}. Some useful things to keep in mind when choosing a client are features that allow you to easily design your application for the cloud, like configuring [high-availability](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-ha-dr), security, and service proprietary certificate support.
+
+## Sentinel-aware connections
+{: #sentinel-aware-connections}
+
+{{site.data.keyword.databases-for-redis}} Gen 2 uses a 3-node Redis Sentinel configuration for automatic failover and high availability. For optimal resilience, use client libraries that support Sentinel-aware connections. These clients automatically discover the current primary node and handle failover events seamlessly.
+
+### Recommended Sentinel-aware client libraries
+{: #sentinel-client-libraries}
+
+The following client libraries provide robust Sentinel support:
+
+- **Node.js**: [ioredis](https://github.com/redis/ioredis){: external} - Full Sentinel support with automatic failover handling
+- **Node.js**: [node-redis](https://github.com/redis/node-redis){: external} - Native Sentinel support (v4+)
+- **Python**: [redis-py](https://github.com/redis/redis-py){: external} - Built-in Sentinel client
+- **Java**: [Jedis](https://github.com/redis/jedis){: external} or [Lettuce](https://github.com/lettuce-io/lettuce-core){: external} - Both support Sentinel
+- **Go**: [go-redis](https://github.com/redis/go-redis){: external} - Sentinel support included
+
+### Connecting with Sentinel support (Node.js example)
+{: #sentinel-connection-example}
+
+When using a Sentinel-aware client like ioredis, configure your connection to use the Sentinel endpoints:
+
+```javascript
+const Redis = require('ioredis');
+
+const client = new Redis({
+  sentinels: [
+    { host: 'sentinel-host-1', port: 26379 },
+    { host: 'sentinel-host-2', port: 26379 },
+    { host: 'sentinel-host-3', port: 26379 }
+  ],
+  name: 'mymaster',
+  password: 'your-password',
+  sentinelPassword: 'your-sentinel-password',
+  tls: {
+    rejectUnauthorized: true,
+    ca: fs.readFileSync('/path/to/ca-certificate.crt')
+  }
+});
+
+client.on('error', (err) => {
+  console.error('Redis connection error:', err);
+});
+
+client.on('ready', () => {
+  console.log('Connected to Redis via Sentinel');
+});
+```
+{: codeblock}
+
+The Sentinel-aware client automatically:
+- Discovers the current primary node
+- Monitors for failover events
+- Reconnects to the new primary after failover (typically within 30-90 seconds)
+- Handles connection retries and error recovery
+
+For applications requiring maximum availability, implementing connection retry logic and error handling is recommended. For more information, see [Error detection and handling with Redis](https://developer.ibm.com/articles/error-detection-and-handling-with-redis){: external}.
 
 ## TLS and service proprietary certificate support
 {: #tls-cert-support}
