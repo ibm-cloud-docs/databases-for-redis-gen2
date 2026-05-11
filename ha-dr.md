@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-04-20"
+lastupdated: "2026-05-11"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, redis
 
@@ -27,7 +27,15 @@ For more information about the available {{site.data.keyword.cloud_notm}} region
 
 ![Redis architecture](/images/Redis_high_availability.svg){: caption="Redis high availability architecture" caption-side="bottom"}
 
-{{site.data.keyword.databases-for-redis}} provides replication, failover, and high-availability features to protect your databases and data from infrastructure maintenance, upgrades, and some failures. Deployments contain a cluster with two data members in a primary plus replica configuration. The replica is kept up to date using asynchronous replication. High availability is monitored and managed with three [Redis sentinels](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/){: .external}
+{{site.data.keyword.databases-for-redis}} provides replication, failover, and high-availability features to protect your databases and data from infrastructure maintenance, upgrades, and some failures. Deployments contain two Redis data members in a primary and replica configuration. The replica is kept up to date by using asynchronous replication. High availability is monitored and coordinated by three [Redis Sentinels](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/){: .external} instances that are distributed across the deployment topology.
+
+In a typical multi-zone deployment, the topology spans three worker nodes or availability zones:
+
+- Zone A: primary member and one Sentinel instance
+- Zone B: replica member and one Sentinel instance
+- Zone C: one dedicated Sentinel instance
+
+This 3-node Sentinel layout helps maintain quorum during a single node or zone failure and enables automatic failover without manual intervention.
 
 By default, data persistence is enabled on all deployments and your data is written to disk. {{site.data.keyword.databases-for-redis}} uses a combination of [RDB snapshots and AOF (Append Only File)](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/){: .external} to persist data to disk. The interval for {{site.data.keyword.databases-for-redis}} to write to disk (fsync) is set to [once every second](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/#how-durable-is-the-append-only-file){: .external} to balance durability and performance.
 
@@ -42,9 +50,10 @@ You can turn off data persistence, which is useful for [configuring Redis as a 
 
 | Feature | Description | Consideration |
 | -------------- | -------------- | -------------- |
-| Automatic failover | Standard on all clusters and resilient against a zone or single member failure | |
-| Member count | Minimum - 2 members. Default is a Standard two-member cluster in a primary and replica configuration. A two-member cluster will automatically recover from a single instance or zone failure (with data loss up to the lag threshold). | Three Sentinel nodes to monitor the health of the cluster and coordinate failovers. |
-|Asynchronous replication | Enables replication from primary to replica without blocking the write path, ensuring high availability with low latency. Refer to [Asynchronous replication](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/){: .external}. |May result in data loss during failover due to replication lag (RPO > 0). Not suitable where strict data durability is required.|
+| Automatic failover | Standard on all clusters and resilient against a zone or single member failure. Sentinel instances detect failures, form quorum, and promote the replica automatically. | Recovery time depends on failure detection and promotion timing. Expect a brief interruption while clients reconnect. |
+| Member count | Minimum - 2 members. Default is a Standard two-member cluster in a primary and replica configuration. A two-member cluster can recover from a single instance or zone failure, subject to replication lag. | Three Sentinel nodes monitor the health of the cluster and coordinate failovers. |
+| Sentinel quorum | Three Sentinel instances are deployed so that a 2/3 quorum can survive a single worker or zone failure and authorize failover. | Client applications must tolerate a short interruption while topology changes propagate. |
+| Asynchronous replication | Enables replication from primary to replica without blocking the write path, ensuring high availability with low latency. Refer to [Asynchronous replication](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/){: .external}. | May result in data loss during failover due to replication lag (RPO > 0). Not suitable where strict data durability is required. |
 {: caption="High availability features" caption-side="top"}
 
 #### Asynchronous replication for {{site.data.keyword.databases-for-redis}}
@@ -58,6 +67,14 @@ To reduce data loss risk, {{site.data.keyword.databases-for-redis}} supports per
 
 Asynchronous replication in {{site.data.keyword.databases-for-redis}} ensures fast performance but does not eliminate the possibility of data loss during failover events. It is recommended for workloads where speed and availability outweigh strict data consistency.
 {: .note}
+
+### Automatic failover sequence
+{: #ha-failover-sequence}
+
+When the primary becomes unavailable, Sentinel instances monitor the loss of heartbeats, establish quorum, and coordinate failover. The replica with the best replication state is promoted to primary, the deployment is reconfigured, and clients can reconnect to the new topology. In most cases, failover completes within 30 - 90 seconds.
+
+Applications should use client behavior that supports reconnect and topology refresh after failover. Where supported by your client library, use Sentinel-aware connection handling or implement retry logic that can tolerate a primary change.
+{: .important}
 
 ## Disaster recovery architecture
 {: #disaster-recovery-intro}
@@ -93,7 +110,7 @@ The disaster recovery steps must be practiced regularly. As you build your plan,
 
 Applications that communicate over networks and cloud services are subject to transient connection failures. You want to design your applications to retry connections when errors are caused by a temporary loss in connectivity to your deployment or to {{site.data.keyword.cloud_notm}}.
 
-Because {{site.data.keyword.databases-for-redis}} is a managed service, regular updates and database maintenance occur as part of normal operations. This can occasionally cause short intervals where your database is unavailable. It can also cause the database to trigger a graceful fail-over, retry, and reconnect. It takes a short time for the database to determine which member is a replica and which is the leader, so you might also see a short connection interruption. Failovers generally take less than 30 seconds.
+Because {{site.data.keyword.databases-for-redis}} is a managed service, regular updates and database maintenance occur as part of normal operations. This can occasionally cause short intervals where your database is unavailable. It can also cause the database to trigger a graceful failover, retry, and reconnect. It takes a short time for the database to determine which member is the replica and which is the primary, so you might also see a short connection interruption. Depending on failure detection and promotion timing, failovers generally complete within 30 - 90 seconds.
 
 Your applications must be designed to handle temporary interruptions to the database, implement error handling for failed database commands, and implement retry logic to recover from a temporary interruption.Use IOREDIS, NODEREDIS or any other package of your choice to ensure continuity of your application.For more information, see [Error detection and handling with Redis blog post](https://developer.ibm.com/articles/error-detection-and-handling-with-redis).
 
