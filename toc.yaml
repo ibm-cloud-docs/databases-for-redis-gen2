@@ -100,6 +100,7 @@ toc:
       - topicgroup:
           label: FAQs
           topics:
+          - faq.md
           - include: ../cloud-databases-gen2/faq.md
           - include: ../cloud-databases-gen2/resource-config-faq.md
           - include: ../cloud-databases-gen2/availability-zones-faq.md
