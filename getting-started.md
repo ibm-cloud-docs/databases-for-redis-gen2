@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-05-11"
+lastupdated: "2026-05-12"
 
 keywords: redis, databases, getting started, redis gen 2, sentinel
 
@@ -26,7 +26,19 @@ completion-time: 10m
 {{site.data.keyword.databases-for-redis_full}} is a managed Redis service that provides a blazingly fast, in-memory data structure store with enterprise-grade reliability. This tutorial guides you through provisioning a Redis Gen 2 instance, connecting to it, and performing basic operations.
 {: shortdesc}
 
-Redis Gen 2 delivers Redis 8.2 with Sentinel-based high availability, featuring a 3-node Sentinel quorum for automatic failover with 30-90 second recovery time.
+Complete these steps to complete the tutorial:
+
+* [Before you begin](#prereqs)
+* [Step 1: Provision through the console](#provision-instance)
+* [Step 2: Set your Admin password](#set-admin-password)
+* [Step 3: Get connection strings](#get-connection-strings)
+* [Step 4: Connect with redis-cli](#connect-redis-cli)
+* [Step 5: Perform basic Redis operations](#basic-operations)
+* [Step 6: Verify Sentinel configuration](#verify-sentinel)
+* [Step 7: Connect to your instance](#redis_connect)
+* [Step 8: Use Redis](#using-redis)
+* [Next steps](#next_steps)
+* [Things to remember](#remember_important)
 
 ## Before you begin
 {: #prereqs}
@@ -196,6 +208,26 @@ This command displays replication information, including:
 - Replication offset
 
 The Sentinel architecture provides automatic failover with 30-90 second recovery time in case of primary node failure.
+
+## Next steps
+{: #next_steps}
+
+* If you are using Redis for the first time, read the [official Redis documentation](https://redis.io/documentation){: .external}, [an introduction to Redis data types and abstractions](https://redis.io/topics/data-types-intro){: .external}, and a [Command reference](https://redis.io/commands/){: .external} to learn about Redis.
+
+* Implement {{site.data.keyword.databases-for-redis_full}} best practices, read [Best practices for Redis on the IBM Cloud](/docs/databases-for-redis?topic=databases-for-redis-best-practices){: .external}.
+
+* To use {{site.data.keyword.databases-for-redis_full}} with your applications, see [Connecting an external application](/docs/databases-for-redis?topic=databases-for-redis-external-app) and [Connecting an IBM Cloud application](/docs/databases-for-redis?topic=databases-for-redis-ibmcloud-app).
+
+* To ensure the stability of your applications and your database, see [High-availability](/docs/databases-for-redis?topic=databases-for-redis-redis-ha-dr) and [Performance](/docs/databases-for-redis?topic=databases-for-redis-performance).
+
+* For more information on migrating your existing data to {{site.data.keyword.databases-for-redis}}, see [A how-to for migrating Redis to IBM Cloud Databases for Redis](/docs/databases-for-redis?topic=databases-for-redis-migrating&interface=ui).
+
+## Things to remember
+{: #remember_important}
+
+* {{site.data.keyword.databases-for-redis_full}} deployments are set by default as [**persistence**](/docs/databases-for-redis?topic=databases-for-redis-redis-ha-dr#ha-feature), however, you can change it as [**Cache**](/docs/databases-for-redis?topic=databases-for-redis-redis-cache&interface=cli).
+
+* Integrate {{site.data.keyword.databases-for-redis_full}} with [{{site.data.keyword.monitoringfull}}](/docs/databases-for-redis?topic=databases-for-redis-monitoring) and [{{site.data.keyword.logs_routing_full}}](/docs/logs-router?topic=logs-router-about) services to observe trends in your usage and right size your instance.
 
 ## Next steps
 {: #next-steps}
