@@ -29,9 +29,9 @@ completion-time: 10m
 Complete these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
-* [Step 1: Provision through the console](#provision-instance)
-* [Step 2: Set your Admin password](#set-admin-password)
-* [Step 3: Get connection strings](#get-connection-strings)
+* [Step 1: Provision an instance](#provision-instance)
+* [Step 2: Set the Admin password](#set-admin-password)
+* [Step 3: Get your connection strings](#get-connection-strings)
 * [Step 4: Connect with redis-cli](#connect-redis-cli)
 * [Step 5: Perform basic Redis operations](#basic-operations)
 * [Step 6: Verify Sentinel configuration](#verify-sentinel)
@@ -45,7 +45,7 @@ Complete these steps to complete the tutorial:
 
 You need an [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration/){: external}. You also need to install the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-getting-started){: external} and the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}.
 
-## Provision a {{site.data.keyword.databases-for-redis}} instance
+## Step 1: Provision a {{site.data.keyword.databases-for-redis}} instance
 {: #provision-instance}
 {: step}
 
@@ -66,7 +66,7 @@ Provisioning takes a few minutes. You can monitor the progress from your [Resour
 
 For more provisioning options, including CLI, API, and Terraform, see [Provisioning](/docs/databases-for-redis-gen2?topic=databases-for-redis-provisioning).
 
-## Set the admin password
+## Step 2: Set the admin password
 {: #set-admin-password}
 {: step}
 
@@ -88,7 +88,7 @@ Alternatively, set the password from the UI:
 4. Enter and confirm your new password.
 5. Click **Change Password**.
 
-## Get your connection strings
+## Step 3: Get your connection strings
 {: #get-connection-strings}
 {: step}
 
@@ -108,7 +108,7 @@ You can also view connection strings from the UI:
 2. Select **Overview** from the left navigation.
 3. Scroll to the **Endpoints** section to view connection information.
 
-## Connect with redis-cli
+## Step 4: Connect with redis-cli
 {: #connect-redis-cli}
 {: step}
 
@@ -119,18 +119,6 @@ If you don't have redis-cli installed, install it:
 **macOS:**
 ```sh
 brew install redis
-```
-{: pre}
-
-**Ubuntu/Debian:**
-```sh
-sudo apt-get install redis-tools
-```
-{: pre}
-
-**RHEL/CentOS:**
-```sh
-sudo yum install redis
 ```
 {: pre}
 
@@ -149,11 +137,11 @@ Replace the placeholders with values from your connection string:
 
 For detailed instructions on connecting with redis-cli, including certificate setup, see [Connecting with a CLI client](/docs/databases-for-redis-gen2?topic=databases-for-redis-connecting-cli-client).
 
-## Perform basic Redis operations
+## Step 5: Perform basic Redis operations
 {: #basic-operations}
 {: step}
 
-Once connected, try these basic Redis commands:
+When connected, try these basic Redis commands:
 
 Set a key-value pair:
 ```redis
@@ -191,7 +179,7 @@ KEYS *
 ```
 {: pre}
 
-## Verify Sentinel configuration
+## Step 6: Verify Sentinel configuration
 {: #verify-sentinel}
 {: step}
 
@@ -208,6 +196,46 @@ This command displays replication information, including:
 - Replication offset
 
 The Sentinel architecture provides automatic failover with 30-90 second recovery time in case of primary node failure.
+
+## Step 7: Connect to your instance
+{: #redis_connect}
+
+You can easily connect to Redis through the {{site.data.keyword.cloud_notm}} CLI using Redli to store and retrieve data with your {{site.data.keyword.databases-for-redis_full}} deployment.
+
+### Connect through the {{site.data.keyword.cloud_notm}} CLI
+{: #connecting-ibm-cloud-cli}
+
+Now that you've installed and set up Redli, the {{site.data.keyword.cloud_notm}} CLI tool, and the {{site.data.keyword.cloud_notm}} Databases plugin, connect to your deployment. Log in with `ibmcloud login`, and connect with `ibmcloud cdb cxn -s`, for example:
+
+```sh
+ibmcloud cdb cxn -s <INSTANCE_NAME_OR_CRN>
+```
+{: pre}
+
+Provide `admin` password when prompted and it uses _REDLI_ to connect.
+
+You can explore other options to connect to {{site.data.keyword.databases-for-redis_full}} using [Connecting through the command-line interface (CLI)](/docs/databases-for-redis?topic=databases-for-redis-connecting-cli-client){: external}.
+
+## Step 8: Use Redis
+{: #using-redis}
+
+Your connection is now open, which looks like:
+
+```text
+>
+```
+{: pre}
+
+You can start storing and retrieving data.
+
+```sh
+> set foo bar
+OK
+> get foo
+"bar"
+>
+```
+{: pre}
 
 ## Next steps
 {: #next_steps}
