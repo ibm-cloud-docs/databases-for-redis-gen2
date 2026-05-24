@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-05-11"
+lastupdated: "2026-05-24"
 
 keywords: redis gen 2, release notes, updates, changes, redis 8.2, sentinel
 
@@ -14,27 +14,17 @@ content-type: release-note
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Release notes for {{site.data.keyword.databases-for-redis_full}}
+# Release notes for {{site.data.keyword.databases-for-redis_full}} Gen 2
 {: #redis-relnotes}
 
 Use these release notes to learn about the latest updates to {{site.data.keyword.databases-for-redis_full}} that are grouped by date. Release notes are available for a minimum of three years.
 {: shortdesc}
 
-## March 2026
-{: #redis-mar2026}
+## May 2026
+{: #redisgen2-may2026}
 
-### 15 March 2026
-{: #redis-mar1526}
-{: release-note}
-
-{{site.data.keyword.databases-for-redis}} Gen 2 available in Chennai
-:   {{site.data.keyword.databases-for-redis}} Gen 2 is now available in the Chennai region (in-che), expanding deployment options for customers in South Asia. This region supports both Shared Compute and Isolated Compute hosting models with the same Redis 8.2 and Sentinel-based high availability features available in other regions.
-
-## February 2026
-{: #redis-feb2026}
-
-### 28 February 2026
-{: #redis-feb2826}
+### May 2026
+{: #redis-gen2-may3026}
 {: release-note}
 
 General Availability of {{site.data.keyword.databases-for-redis}} Gen 2
@@ -52,13 +42,6 @@ Enhanced security with Redis ACLs
 Separated control and data plane architecture
 :   The new architecture separates control plane operations (provisioning, configuration, credential management) from data plane workloads, enabling independent scaling, improved fault isolation, and simplified operations.
 
-## December 2025
-{: #redis-dec2025}
-
-### 15 December 2025
-{: #redis-dec1525}
-{: release-note}
-
 Beta release of {{site.data.keyword.databases-for-redis}} Gen 2
 :   {{site.data.keyword.databases-for-redis}} Gen 2 enters public beta, introducing a next-generation Redis service with modern cloud-native architecture. The beta includes Redis 8.2 support, Sentinel-based high availability, and new hosting model options. Customers are invited to test Gen 2 and provide feedback before general availability.
 
@@ -71,21 +54,5 @@ Hybrid persistence configuration
 Daily automated backups to Cloud Object Storage
 :   Gen 2 includes daily automated backups to IBM Cloud Object Storage with configurable retention periods (7, 14, or 30 days). Backups are encrypted with AES-256 and support cross-region replication and bring-your-own-key (BYOK) via Key Protect.
 
-## November 2025
-{: #redis-nov2025}
-
-### 30 November 2025
-{: #redis-nov3025}
-{: release-note}
-
 {{site.data.keyword.databases-for-redis}} Gen 2 preview program
 :   Selected customers gain early access to {{site.data.keyword.databases-for-redis}} Gen 2 through a preview program. The preview includes core functionality for testing and validation, with feedback incorporated into the beta release.
-
-## Related information
-{: #redis-relnotes-related}
-
-- [{{site.data.keyword.databases-for-redis}} Gen 2 documentation](/docs/databases-for-redis-gen2)
-- [{{site.data.keyword.databases-for-redis}} Gen 1 documentation](/docs/databases-for-redis)
-- [Database Versioning Policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy)
-- [High availability and disaster recovery](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-ha-dr)
-- [Security and compliance](/docs/databases-for-redis-gen2?topic=databases-for-redis-security-compliance)
