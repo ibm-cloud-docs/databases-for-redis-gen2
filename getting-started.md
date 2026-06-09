@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-08"
+lastupdated: "2026-06-09"
 
 keywords: redis gui, redis, redis cloud database, redis getting started, Gen 2, sentinel
 
@@ -84,14 +84,14 @@ Follow these steps to complete the tutorial: {: terraform}
 1. Click the [**{{site.data.keyword.databases-for-redis}} service**](https://cloud.ibm.com/catalog){: external} in the **catalog**.
 
 1. In **Service details**, configure the following:
-    - **Location** - Select a location that supports Gen 2
-    - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new instance.
-    - **Resource group** - If you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
+    - **Location** Select a location that supports Gen 2.
+    - **Service name** The name can be any string and is the name that is used on the web and in the CLI to identify the new instance.
+    - **Resource group** If you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
 
-1. **Resource allocation** - Select an isolated compute instance with a certain amount of RAM and CPU cores. Changing resource allocation requires selecting a different host size. *Once provisioned, disk cannot be scaled down.*
+1. **Resource allocation** Select an isolated compute instance with a certain amount of RAM and CPU cores. Changing resource allocation requires selecting a different host size. *After provisioning, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
-    - **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy&interface=ui){: external}.
-    - **Encryption** - If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the instance's disk. If you do not use your own key, the instance automatically creates and manages its own disk encryption key.
+    - **Database version** [Set only at deployment]{: tag-red} The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy&interface=ui){: external}.
+    - **Encryption** If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the instance's disk. If you do not use your own key, the instance automatically creates and manages its own disk encryption key.
 
 1. Click **Create**. The {{site.data.keyword.databases-for}} **Resource list** page opens.
 
@@ -100,7 +100,7 @@ Follow these steps to complete the tutorial: {: terraform}
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 {: note}
 
-{{site.data.keyword.databases-for-redis}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-redis}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 
 ## Step 1: Provision through the CLI
@@ -140,17 +140,17 @@ You can provision a {{site.data.keyword.databases-for-redis}} instance through t
       ```
       {: codeblock}
 
-      This will provision a Redis instance with 3 members, 40GB of storage per member running on hosts of flavor bx3d.8x40.
+      This will provision a Redis instance with 3 members and 40 GB of storage per member running on hosts of flavor bx3d.8x40.
 
-      If you pass in unsupported values, the `create` command will fail with a message indicating which values are invalid.
+      If you pass in unsupported values, the ** create ** command fails with a message indicating which values are invalid.
 
       Supported parameters:
 
       - storage_gb (valid integer values between 10 and 9600, representing disk storage per member in GB)
-      - members(valid integer values '2' and '3', indicating whether to run Redis with 2 zone HA or 3 zone HA).
-      - host_flavor(values depend on location)
+      - members (valid integer values '2' and '3', indicating whether to run Redis with 2-zone HA or 3-zone HA)
+      - host_flavor (values depend on location)
 
-   The fields in the command are described in the table that follows.
+   The fields in the command are described in the following table:
 
    | Field | Description | Flag |
    |-------|------------|------------|
@@ -192,7 +192,7 @@ The command prompts for the `Manager` user password and then runs the `redis-cli
 
 The `service-instance-create` command supports a `-p` flag, which allows JSON-formatted parameters to be passed to the provisioning process. Some parameter values are Cloud Resource Names (CRNs), which uniquely identify a resource in the cloud. All parameter names and values are passed as strings.
 
-For example, if a database is being provisioned from a particular backup and the new database instance needs a total of 9 GB of memory across three members, then the command to provision 3 GBs per member looks like:
+For example, if a database is being provisioned from a particular backup and the new database instance needs a total of 9 GB of memory across three members, the command to provision 3 GB per member looks like:
 
 ```sh
 ibmcloud resource service-instance-create databases-for-redis <SERVICE_NAME> standard us-south \
@@ -208,10 +208,10 @@ ibmcloud resource service-instance-create databases-for-redis <SERVICE_NAME> sta
 {: #provision_instance_api}
 {: api}
 
-Follow these steps to provision by using the [resource controller API](https://cloud.ibm.com/apidocs/resource-controller/resource-controller){: external}.
+Complete these steps to provision by using the [resource controller API](https://cloud.ibm.com/apidocs/resource-controller/resource-controller){: external}.
 
 1. Obtain an [IAM token from your API token](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#authentication){: external}.
-1. You need to know the ID of the resource group to which you would like to deploy. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
+1. You need to know the ID of the resource group you want to deploy to. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
 
    Use a command like:
 
@@ -220,7 +220,7 @@ Follow these steps to provision by using the [resource controller API](https://c
    ```
    {: pre}
 
-1. You need to know the region where you would like to deploy.
+1. You need to know the region where you want to deploy.
 
    To list all of the regions that instances can be provisioned into from the current region, use the [{{site.data.keyword.databases-for}} CLI](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}.
 
@@ -231,7 +231,7 @@ Follow these steps to provision by using the [resource controller API](https://c
    ```
    {: pre}
 
-   Once you have all the information, [provision a new resource instance](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with the {{site.data.keyword.cloud_notm}} resource controller.
+   When you have all the information, [provision a new resource instance](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with the {{site.data.keyword.cloud_notm}} resource controller.
 
    ```sh
    curl -X POST \
@@ -266,15 +266,15 @@ Supported parameters:
 {: #provisioning-parameters-api}
 {: api}
 
-* `backup_id`- A CRN of a backup resource to restore from. The backup must be created by a database instance with the same service ID. The backup is loaded after provisioning and the new instance starts up that uses that data. A backup CRN is in the format `crn:v1:<...>:backup:<uuid>`. If omitted, the database is provisioned empty.
-* `version` - The version of the database to be provisioned. If omitted, the database is created with the most recent major and minor version.
-* `disk_encryption_key_crn` - The CRN of a KMS key ([{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for disk encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
-* `backup_encryption_key_crn` - The CRN of a KMS key (for example, [[{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for backup encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
+* `backup_id` A CRN of a backup resource to restore from. The backup must be created by a database instance with the same service ID. The backup is loaded after provisioning and the new instance starts up that uses that data. A backup CRN is in the format `crn:v1:<...>:backup:<uuid>`. If omitted, the database is provisioned empty.
+* `version` The version of the database to be provisioned. If omitted, the database is created with the most recent major and minor version.
+* `disk_encryption_key_crn` The CRN of a KMS key ([{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for disk encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
+* `backup_encryption_key_crn` The CRN of a KMS key (for example, [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for backup encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
 
    To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui#key-byok).
    {: note}
 
-* `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
+* `service_endpoints` The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
 
 
 ## Step 1: Provision through Terraform
@@ -315,7 +315,7 @@ Type `yes` when prompted to confirm. The provisioning process takes approximatel
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
-{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 The `Manager` user functions as an admin-like user with full access to Redis commands and operations. The created user has comprehensive permissions for managing the Redis instance.
 
@@ -323,14 +323,14 @@ The `Manager` user functions as an admin-like user with full access to Redis com
 {: #user-management-set-manager-password-ui}
 {: ui}
 
-Changing the user password is not supported via the {{site.data.keyword.cloud_notm}} console on Gen 2.
+Changing the user password is not supported using the {{site.data.keyword.cloud_notm}} console on Gen 2.
 
 
 ## Step 2: Creating the `Manager` user via the CLI
 {: #manager_user_cli}
 {: cli}
 
-{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `Manager` user.
 
@@ -366,7 +366,7 @@ ibmcloud resource service-key-delete <service_key_name>
 {: #manager_pw_set_cli}
 {: cli}
 
-Changing a user password is not supported via the CLI on Gen 2. However, you can update a password using tools, such as `redis-cli` by executing the appropriate Redis commands.
+Changing a user password is not supported using the CLI on Gen 2. However, you can update a password using tools, such as `redis-cli` by running the appropriate Redis commands.
 
 
 ## Step 2: Creating the `Manager` user via API
@@ -375,7 +375,7 @@ Changing a user password is not supported via the CLI on Gen 2. However, you can
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
-{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 
 ## Step 2: Creating the `Manager` user via Terraform
@@ -384,7 +384,7 @@ As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can u
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
-{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 
 ## Step 3: Create a connection
@@ -397,11 +397,11 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads run.
 * [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
@@ -415,11 +415,11 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads run.
 * [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
@@ -434,11 +434,11 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads run.
 * [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
@@ -453,7 +453,7 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -609,7 +609,7 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use th
     - [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}
 
 - If you plan to use {{site.data.keyword.databases-for-redis}} for your applications, see:
- 
+
     - [Connecting an external application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-external-app)
     - [Connecting an {{site.data.keyword.cloud_notm}} application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-ibmcloud-app)
 
