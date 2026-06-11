@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-04-20"
+lastupdated: "2026-06-11"
 
 keywords: redis, databases, update, client, pub/sub
 
@@ -15,86 +15,142 @@ subcollection: databases-for-redis-gen2
 # Connecting through the command-line interface (CLI)
 {: #connecting-cli-client}
 
+[Gen 2]{: tag-purple}
+
 Access your Redis database directly from a command-line interface (CLI). The CLI allows for direct interaction and monitoring of the data structures that are created within the database. It is also useful for administering and monitoring the keyspace and performance, installing and modifying scripts, and other management activities.
 
-The `redli` client needs to be updated for the user management features introduced in [Redis](https://github.com/IBM-Cloud/redli/releases){: external}. If you try to connect to without updating the client, you see an error like: `(error) WRONGPASS invalid username-password pair`.
-{: .note}
+## Create a secure connection on a Virtual Server Instance (VSI) using a Virtual Private Endpoint gateway (VPE)
+{: #vpe-connection}
 
-## Connection strings
-{: #connection-strings-cli}
+Step-by-step guidance for building a secure, compliant network with private endpoints for database operations. Recommended for production usage.
 
-Connection strings are displayed in the _Endpoints_ panel of your deployment's _Overview_ page, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections), and the [{{site.data.keyword.databases-for}} API](/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection).
+### 1. Create an IBM Cloud Virtual Private Cloud (VPC)
+{: #create-vpc}
 
-The information the clients need to connect to your deployment is in the "CLI" section of a credential created on the *Service credentials* page. The table contains a breakdown for reference.
+Set up a [Virtual Private Cloud](https://cloud.ibm.com/infrastructure/network/vpcs){: external} in your region. Select **Allow SSH** for the Default security group setting.
 
-| Field name | Index | Description |
-| ---------- | ----- | ----------- |
-| `Bin` | | The recommended binary to create a connection; in this case it is `redli`. |
-| `Composed` | | A formatted command to establish a connection to your deployment. The command combines the `Bin` executable, `Environment` variable settings and uses `Arguments` as command-line parameters. |
-| `Environment` | | A list of key/values you set as environment variables. |
-| `Arguments` | 0... | The information that is passed as arguments to the command shown in the Bin field. |
-| `Certificate` | Base64 | A service proprietary certificate that is used to confirm that an application is connecting to the appropriate server. It is base64 encoded. |
-| `Certificate` | Name | The allocated name for the service proprietary certificate. |
-| `Type` | | The type of package that uses this connection information; in this case `cli`. |
-{: caption="redis/cli connection information" caption-side="top"}
+Keep resources in the same region as your deployment to avoid issues.
+{: note}
 
-* `0...` indicates that there might be one or more of these entries in an array.
+### 2. Create a Virtual Server Instance (VSI) in the VPC
+{: #create-vsi}
 
-## Installing `redis-cli`
-{: #installing-redis-cli}
+Create a [VSI](https://cloud.ibm.com/infrastructure/compute/vs){: external} in the same region, select your VPC, choose Ubuntu Linux (size 1GB) for operating system. (You can use the smallest profile.) Then select the SSH key you created in the previous step.
 
-`redis-cli` is the official supported command-line interface for Redis. If you want to use `redis-cli`, there are some extra configuration steps to complete.
+You must select Ubuntu Linux for this tutorial. Other images may cause errors.
+{: note}
 
-`redis-cli` comes as part of the Redis package, so first install Redis locally. On macOS, install [brew](http://brew.sh){: external} and then use `brew install redis` to get up and running. On Linux, refer to your distributions package manager for the latest Redis package or, if you prefer, [download the source](http://redis.io/download){: external} and build it yourself.
+### 3. Create an SSH key
+{: #create-ssh-key}
 
-## Installing `redli`
-{: #install-redli}
+Create an [SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys){: external} in the same region as the VPC.
 
-`redli` is an open source Redis command-line client. It is standalone, mimics the redis-cli command-line arguments, and adds support for TLS/SSL Redis connections. It recognizes the `rediss:` protocol in URIs and supports a `--tls` flag for non-URI connections. It can connect to TLS/SSL secured Redis without the need for tunnels. Download and install it from the [releases page](https://github.com/IBM-Cloud/redli/releases){: external}.
+Once your key is ready, download and move it to the `.ssh` directory on your local machine to follow best practices for secure SSH key management. Make sure you save the key with `.prv` extension.
 
-### Connecting with `redli`
-{: #connection-redli}
-
-The `ibmcloud cdb deployment-connections` command handles everything that is involved in creating the client connection. For example, to connect to a deployment named "NewRedis", use the following command.
+Next, update the key's permissions to make it read-only for the file owner. On Unix-like systems such as macOS, run the following command:
 
 ```sh
-ibmcloud cdb deployment-connections NewRedis --start
+chmod 400 <COPY_LOCAL_LOCATION_OF_THE_SSH_KEY>
 ```
 {: pre}
 
-or
+You can also create the SSH while creating the VSI - this helps to avoid unnecessary SSH key errors.
+{: note}
+
+### 4. Reserve a floating IP for your VSI
+{: #reserve-floating-ip}
+
+Reserve a [floating IP address](https://cloud.ibm.com/infrastructure/network/floatingIPs){: external} and make sure the correct region and zone is selected, and bind it to the VSI created in the previous step.
+
+### 5. Add your IP to the security group inbound rule of the VSI
+{: #add-ip-security-group}
+
+Run the below command to get the IP:
 
 ```sh
-ibmcloud cdb cxn NewRedis -s
+curl ipinfo.io/ip
 ```
 {: pre}
 
-The command prompts for the `admin` password and then runs the `redli` command-line client to connect to the database.
+Security group can be found in the VPC details. Go to your VPC details page and follow the Default security group link and navigate to **rules > Inbound rules**.
 
-If you have not installed the cloud databases plug-in, connect to your Redis databases with the `redli` command. Download and save the service proprietary certificate from your deployment. Then, use `redli` by giving it the "composed" connection string and the path to the service proprietary certificate.
+Create the rule with your IP address. Set the port range - port min 22 and port max 22. Select the source type as IP or CIDR and enter your IP. Leave other details as selected by default. Click on **Save**.
 
-```sh
-redli --uri rediss://admin:$PASSWORD@e6b2c3f8-54a6-439e-8d8a-aa6c4a78df49.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud:32371/0 --certfile /path/to/redis-cert.pem
-```
+### 6. Log in to your VSI
+{: #login-vsi}
 
-There are other connection options and parameters that are supported by `redli`. For more information, see its documentation in the [`redli` GitHub repo](https://github.com/IBM-Cloud/redli){: external}.
+In your terminal, SSH in to your VSI with the following command:
 
-## Using the service proprietary certificate
-{: #using-cert}
-
-1. Copy the certificate information from the _Endpoints_ panel or the Base64 field of the service credential connection information.
-2. If needed, decode the Base64 string into text.
-3. Save the certificate  to a file. (You can use the Name that is provided or your own file name).
-4. Provide the path to the certificate to the driver or client.
-
-## CLI plug-in support for the service proprietary certificate
-{: #cli-support-cert}
-
-You can display the decoded certificate for your deployment with the CLI plug-in with a command like:
+If you saved the private SSH key in a different directory, replace the file path in the command accordingly.
 
 ```sh
-ibmcloud cdb deployment-cacert <INSTANCE_NAME_OR_CRN>
+ssh -i ~/.ssh/<SSH_file_name>.prv ubuntu@<floating IP>
 ```
 {: pre}
 
-This command decodes the Base64 into text. Copy and save the command's output to a file and provide the file's path to the client.
+Example:
+
+```sh
+ssh -i /Users/username/Downloads/redis-ssh-key.prv ubuntu@169.63.188.229
+```
+{: pre}
+
+```text
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.8.0-1049-ibm x86_64)
+```
+{: screen}
+
+Your local terminal session should now be connected to your virtual server. Continue using this session for the next steps in this guide.
+
+If you get timeout error connecting to VSI, check for the IP `curl ipinfo.io/ip`. If the value has rotated, update your security group rule of your respective VPC.
+{: note}
+
+### 7. Install redis-cli to your VSI
+{: #install-redis-cli}
+
+Install redis-cli with the following commands:
+
+```sh
+sudo apt install redis-tools
+```
+{: pre}
+
+Next, you can verify the installation:
+
+```sh
+redis-cli --version
+redis-cli ping
+```
+{: pre}
+
+### 8. Create a Virtual Private Endpoint (VPE) gateway
+{: #create-vpe}
+
+Create a [VPE](https://cloud.ibm.com/infrastructure/network/endpointGateways){: external}, select the correct region, VPC. Then enable in the Cloud service offering dropdown **Databases for Redis**, and choose your database instance for which this private gateway is needed. Other settings can remain default.
+
+### 9. Create user in your Redis instance
+{: #create-user}
+
+Create user from service-credentials tab in the formation for Manager or Writer role. Make sure to save the service credential details in a file as the credentials are one-time view basis.
+
+### 10. Connect to the database instance with VPE
+{: #connect-vpe}
+
+You can find the hostname in the overview page > service endpoint panel.
+
+Replace the user and password placeholder with your database credentials:
+
+```sh
+redis-cli -h <hostname> -p 6379 --user <USERNAME> -a <PASSWORD> --tls --sni <hostname>
+```
+{: pre}
+
+Database instances with private endpoints are reachable from any account within the private network and access to each instance requires authentication. To restrict this access to specific IP addresses, or ranges of IP addresses, configure [Context-based restrictions](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cbr&interface=ui).
+{: note}
+
+## Next steps
+{: #next-steps-cli}
+
+* [Learn about Redis features](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-features)
+* [Connect an external application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-external-app)
+* [Connect an IBM Cloud application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-ibmcloud-app)
