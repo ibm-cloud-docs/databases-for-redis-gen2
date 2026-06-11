@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-05-11"
+lastupdated: "2026-06-11"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision redis
 
@@ -15,7 +15,9 @@ subcollection: databases-for-redis-gen2
 # Provisioning
 {: #provisioning}
 
-Provision a {{site.data.keyword.databases-for-redis_full}} deployment through the [catalog](https://cloud.ibm.com/databases/databases-for-redis/create){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5){: external}, through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}, or through pre-built, open-source, and enterprise-ready [Terraform IBM Modules (TIM)](https://registry.terraform.io/modules/terraform-ibm-modules/icd-redis/ibm/latest){: external}.
+[Gen 2]{: tag-purple}
+
+Provision a {{site.data.keyword.databases-for-redis_full}} deployment through the [catalog](https://cloud.ibm.com/databases/databases-for-redis-gen2/create){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](/apidocs/resource-controller/resource-controller#create-resource-instance){: external}, or through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 
 ## Provisioning through the {{site.data.keyword.cloud_notm}} console
 {: #catalog}
@@ -28,28 +30,22 @@ Deploy from the console by specifying the following parameters.
 {: ui}
 
 - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new deployment.
-- **The resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it at default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
+- **The resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it as default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
 - **Location** - The deployment's public cloud region.
 
 ### Hosting model
 {: #hosting_model}
 {: ui}
 
-- **Isolated:** Secure single-tenant offering for complex, highly-performant enterprise workloads.
-- **Shared:** Flexible multi-tenant offering for dynamic, fine-tuned, and decoupled capacity selections.<br>
-For more information, see [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).
+- **Isolated:** Secure single-tenant offering for complex, highly performant enterprise workloads. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).
 
 ### Resource allocation
 {: #resource_allocation}
 {: ui}
 
-Fine tune your resource allocation. The available options differ based on your selected hosting model.
+Fine tune your resource allocation.
 
-- **Isolated:** Use the table to choose the machine size for each member of your deployment, and specify the disk size.
-- **Shared:** By default, the smallest possible resource allocation is selected. This is ideal for small applications or testing. For larger allocations, select the *Custom* tile, which allows flexible resource configuration with 2+ cores.
-
-The Shared Compute hosting model supports more fine-grained resource allocations that are not shown in the UI to maintain clarity. For more information, see [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).
-{: note}
+- **Isolated:** Use the table to choose the machine size for each member of your deployment and specify the disk size.
 
 Specify the disk size depending on your requirements. It can be increased after provisioning but cannot be decreased to prevent data loss.
 {: note}
@@ -58,9 +54,9 @@ Specify the disk size depending on your requirements. It can be increased after 
 {: #service_configuration}
 {: ui}
 
-- **Database Version:** [Set only at deployment]{: tag-red} - The deployment version of your database. {{site.data.keyword.databases-for-redis}} Gen 2 supports Redis 8.2 with full protocol compatibility (RESP2/RESP3). To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database Versioning Policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
-- **Encryption** [Set only at deployment]{: tag-red} - If you use [Key Protect](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
-- **Endpoints** - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment. The default setting is *private*.
+- **Database Version:** [Set only at deployment]{: tag-red} - The deployment version of your database. {{site.data.keyword.databases-for-redis}} Gen 2 supports Redis 8.2 with full protocol compatibility (RESP2/RESP3). To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database Versioning Policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy){: external}.
+- **Encryption** [Set only at deployment]{: tag-red} - If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
+- **Endpoints** - Configure the [service endpoints](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2) on your deployment. The default setting is *private*.
 
 After you select the appropriate settings, click **Create** to start the provisioning process.
 
@@ -72,37 +68,37 @@ After you select the appropriate settings, click **Create** to start the provisi
 {: #create-service-instance-cli}
 {: cli}
 
-Before provisioning, follow the instructions provided in the documentation to install the [{{site.data.keyword.cloud_notm}} CLI tool](/docs/cli?topic=cli-install-ibmcloud-cli){: external}.
+Before provisioning, complete the instructions provided in the documentation to install the [{{site.data.keyword.cloud_notm}} CLI tool](/docs/cli?topic=cli-install-ibmcloud-cli){: external}.
 
 1. Log in to {{site.data.keyword.cloud_notm}}. If you use a federated user ID, it's important that you switch to a one-time passcode (`ibmcloud login --sso`), or use an API key (`ibmcloud --apikey key or @key_file`) to authenticate. For more information about how to log in by using the CLI, see [General CLI (ibmcloud) commands](/docs/cli?topic=cli-ibmcloud_cli#ibmcloud_login){: external} under `ibmcloud login`.
 
-    ```sh
-    ibmcloud login
-    ```
-    {: pre}
-
-2. Select the [hosting model](/docs/cloud-databases?topic=cloud-databases-hosting-models) you want your database to be provisioned on. You can change this later.
-
-3. Create a {{site.data.keyword.databases-for-redis}} Shared service instance within {{site.data.keyword.cloud_notm}} by running a command like:
-
    ```sh
-   ibmcloud resource service-instance-create <INSTANCE_NAME> <SERVICE_NAME> <SERVICE_PLAN_NAME> <LOCATION> <RESOURCE_GROUP> -p `{"members_host_flavor": "multitenant"}` --service-endpoints="<ENDPOINT>"
+   ibmcloud login
    ```
    {: pre}
 
-   For example, to provision a {{site.data.keyword.databases-for-redis}} Shared Compute hosting model instance, use a command like:
+2. Target a resource group
 
    ```sh
-   ibmcloud resource service-instance-create test-database databases-for-redis standard us-south -p '{"members_host_flavor": "multitenant", "members_memory_allocation_mb": "8192"}' --service-endpoints="private"
+   ibmcloud target -g Default
    ```
    {: pre}
 
-   Provision a {{site.data.keyword.databases-for-redis}} Isolated instance with the same `"members_host_flavor"` -p parameter, setting it to the desired Isolated size. Available hosting sizes and their `members_host_flavor value` parameters are listed in [Table 2](#members_host_flavor_table). For example, `{"members_host_flavor": "b3c.4x16.encrypted"}`. Note that since the host flavor selection includes CPU and RAM sizes (`b3c.4x16.encrypted` is 4 CPU and 16 RAM), this request does not accept both, an Isolated size selection and separate CPU and RAM allocation selections.
+3. Create a {{site.data.keyword.databases-for-redis}} service instance in {{site.data.keyword.cloud_notm}} by running a command like:
 
    ```sh
-   ibmcloud resource service-instance-create test-database databases-for-redis standard us-south -p `{"members_host_flavor": "b3c.4x16.encrypted"}` --service-endpoints="private"
+   ibmcloud resource service-instance-create <INSTANCE_NAME> <SERVICE_NAME> <SERVICE_PLAN_NAME> <LOCATION> -p '{"dataservices": {"redis": {"host_flavor":"bx3d.4x20"}}}' --user-tags test-redis,do-not-delete
    ```
    {: pre}
+
+   For example, to provision a {{site.data.keyword.databases-for-redis}} instance, use a command like:
+
+   ```sh
+   ibmcloud resource service-instance-create redis-test-database databases-for-redis standard-gen2 ca-mon -p '{"dataservices": {"redis": {"host_flavor":"bx3d.4x20"}}}' --user-tags test-redis,do-not-delete
+   ```
+   {: pre}
+
+   Available hosting sizes and their `host_flavor` value parameters are listed in [Table 1](#host-flavor-parameter-cli).
 
    The fields in the command are described in the table that follows.
 
@@ -110,130 +106,136 @@ Before provisioning, follow the instructions provided in the documentation to in
    |-------|------------|------------|
    | `INSTANCE_NAME` [Required]{: tag-red} | The instance name can be any string and is the name that is used on the web and in the CLI to identify the new deployment. |  |
    | `SERVICE_NAME` [Required]{: tag-red} | Name or ID of the service. For {{site.data.keyword.databases-for-redis}}, use `databases-for-redis`. |  |
-   | `SERVICE_PLAN_NAME` [Required]{: tag-red} | Standard plan (`standard`) |  |
-   | `LOCATION` [Required]{: tag-red} | The location where you want to deploy. To retrieve a list of regions, use the `ibmcloud regions` command. |  |
-   | `RESOURCE_GROUP` | The Resource group name. The default value is `default`. | -g |
+   | `SERVICE_PLAN_NAME` [Required]{: tag-red} | Standard gen2 plan (`standard-gen2`) |  |
+   | `LOCATION` [Required]{: tag-red} | The location where you want to deploy. To retrieve a list of regions, use the `ibmcloud regions` command. In case of API call, Location is referred as target |  |
+   | `RESOURCE_GROUP` | The resource group name. The default value is `Default`. Provide resource group ID in case of API call. | -g |
    | `--parameters` | JSON file or JSON string of parameters to create service instance | -p |
-   | `members_host_flavor` | To provision an Isolated or Shared Compute instance, use `{"members_host_flavor": "<members_host_flavor value>"}`. For Shared Compute, specify `multitenant`. For Isolated Compute, select desired CPU and RAM configuration. For more information, see the table below or [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).| |
-   | `--service-endpoints` [Required]{: tag-red} | Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) of your deployment, either `public`, `private` or `public-and-private`. |  |
-   {: caption="Basic command format fields" caption-side="top"}
+   | `host_flavor` | For Isolated Compute, select desired CPU and RAM configuration. For more information, see the following table or [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).| |
+   | `--user-tags` | Comma separated list of user tag names |  |
+   {: caption="Table 1. Basic command format fields" caption-side="bottom"}
 
-   In the CLI, `service-endpoints` is a flag, not a parameter.
-   {: note}
-
-   ### The `members host flavor` parameter
+   ### The `host flavor` parameter
    {: #host-flavor-parameter-cli}
    {: cli}
 
-   The `members_host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired size. To provision a Shared Compute instance, specify `multitenant`. To provision an Isolated Compute instance, input the appropriate value for your desired CPU and RAM configuration.
+   The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. Example:
 
-   | **Members host flavor** | **members_host_flavor value** |
+   | **Host flavor** | **host_flavor value** |
    |:-------------------------:|:---------------------:|
-   | Shared Compute            | `multitenant`    |
-   | 4 CPU x 16 RAM            | `b3c.4x16.encrypted`    |
-   | 8 CPU x 32 RAM            | `b3c.8x32.encrypted`    |
-   | 8 CPU x 64 RAM            | `m3c.8x64.encrypted`    |
-   | 16 CPU x 64 RAM           | `b3c.16x64.encrypted`   |
-   | 32 CPU x 128 RAM          | `b3c.32x128.encrypted`  |
-   | 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
-   {: caption="Members host flavor sizing parameter" caption-side="bottom"}
-   {: #members_host_flavor_table}
+   | 4 CPU x 20 RAM            | `bx3d.4x20`    |
+   | 8 CPU x 40 RAM            | `bx3d.8x40`   |
+   {: caption="Table 2. Host flavor sizing parameter" caption-side="bottom"}
 
    You will see a response like:
 
    ```text
-   Creating service instance INSTANCE_NAME in resource group default of account    USER...
+   Creating service instance redis-test-database in resource group Default of account ICD as user@ibm.com...
    OK
-   Service instance INSTANCE_NAME was created.
+   Service instance redis-test-database was created.
 
-   Name:                INSTANCE_NAME
-   ID:                  crn:v1:bluemix:public:databases-for-redis:us-east:a/   40ddc34a846383BGB5b60e:dd13152c-fe15-4bb6-af94-fde0af5303f4::
-   GUID:                dd13152c-fe15-4bb6-af94-fde0af56897
-   Location:            LOCATION
-   State:               provisioning
-   Type:                service_instance
-   Sub Type:            Public
-   Service Endpoints:   private
-   Allow Cleanup:       false
-   Locked:              false
-   Created at:          2023-06-26T19:42:07Z
-   Updated at:          2023-06-26T19:42:07Z
+   Name:                   redis-test-database
+   ID:                     crn:v1:bluemix:public:databases-for-redis:ca-mon:a/23b09aee04da4545b6e32805fa93249d:4b6b8771-b44e-4687-9393-db8a2dec1942::
+   GUID:                   4b6b8771-b44e-4687-9393-db8a2dec1942
+   Location:               ca-mon
+   State:                  provisioning
+   Type:                   service_instance
+   Sub Type:
+   Allow Cleanup:          false
+   Locked:                 false
+   One-time credentials:   false
+   Created at:             2026-06-25T12:48:00Z
+   Updated at:             2026-06-25T12:48:01Z
    Last Operation:
-                        Status    create in progress
-                        Message   Started create instance operation
+                           Status    create in progress
+                           Message   Started create instance operation
    ```
    {: codeblock}
 
-    - To check provisioning status, use the following command:
+   To check provisioning status, use the following command:
 
-     ```sh
-     ibmcloud resource service-instance <INSTANCE_NAME>
-     ```
-     {: pre}
+   ```sh
+   ibmcloud resource service-instance <INSTANCE_NAME>
+   ```
+   {: pre}
 
-     When complete, you will see a response like:
+   When complete, you will see a response like:
 
-     ```text
-     Retrieving service instance INSTANCE_NAME in resource group default under account USER's Account as USER...
-     OK
+   ```text
+   Retrieving service instance INSTANCE_NAME in resource group default under account USER's Account as USER...
+   OK
 
-     Name:                  INSTANCE_NAME
-     ID:                    crn:v1:bluemix:public:databases-for-redis:us-east:a/40ddc34a953a8c02f109835656860e:dd13152c-fe15-4bb6-af94-fde0af5303f4::
-     GUID:                  dd13152c-fe15-4bb6-af94-fde5654765
-     Location:              <LOCATION>
-     Service Name:          databases-for-redis
-     Service Plan Name:     standard
-     Resource Group Name:   default
-     State:                 active
-     Type:                  service_instance
-     Sub Type:              Public
-     Locked:                false
-     Service Endpoints:     private
-     Created at:            2023-06-26T19:42:07Z
-     Created by:            USER
-     Updated at:            2023-06-26T19:53:25Z
-     Last Operation:
-                            Status    create succeeded
-                            Message   Provisioning redis with version 12 (100%)
-     ```
-     {: codeblock}
+   Name:                  INSTANCE_NAME
+   ID:                    crn:v1:bluemix:public:databases-for-redis:ca-mon:a/23b09aee04da4545b6e32805fa93249d:4b6b8771-b44e-4687-9393-db8a2dec1942::
+   GUID:                  4b6b8771-b44e-4687-9393-db8a2dec1942
+   Location:              <LOCATION>
+   Service Name:          databases-for-redis
+   Service Plan Name:     standard-gen2
+   Resource Group Name:   default
+   State:                 active
+   Type:                  service_instance
+   Sub Type:              Public
+   Locked:                false
+   Service Endpoints:     private
+   Created at:            2026-06-25T19:42:07Z
+   Created by:            USER
+   Updated at:            2026-06-25T19:53:25Z
+   Last Operation:
+                          Status    create succeeded
+                          Message   Provisioning redis with version 8.2 (100%)
+   ```
+   {: codeblock}
 
-    - (Optional) Deleting a service instance.
-    Delete an instance by running a command like this one:
-
-     ```sh
-     ibmcloud resource service-instance-delete <INSTANCE_NAME_OR_CRN>
-     ```
-     {: pre}
-
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute. Disk autoscaling is available. If you have provisioned an Isolated instance or switched over from a deployment with autoscaling, keep an eye on your resources using [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which provides metrics for memory, disk space, and disk I/O utilization. To add resources to your instance, manually scale your deployment.
-{: note}
-
-### The `--parameters` parameter
-{: #flags-params-service-endpoints}
+### Update a service instance
+{: #update-service-instance-cli}
 {: cli}
 
-The `service-instance-create` command supports a `-p` flag, which allows JSON-formatted parameters to be passed to the provisioning process. For example, you can pass Cloud Resource Names (CRNs) as parameter values, which uniquely identify a resource in the cloud. All parameter names and values are passed as strings.
-
-For example, if a database is being provisioned from a particular backup and the new database deployment needs a total of 12 GB of memory across three members, then the command to provision 4 GBs per member looks like:
+You can update the service instance name, service-plan-id and parameters using the command like this:
 
 ```sh
-ibmcloud resource service-instance-create databases-for-redis <SERVICE_NAME> standard us-south \
--p \ '{
-  "backup_id": "crn:v1:blue:public:databases-for-redis:us-south:a/54e8ffe85dcedf470db5b5ee6ac4a8d8:1b8f53db-fc2d-4e24-8470-f82b15c71717:backup:06392e97-df90-46d8-98e8-cb67e9e0a8e6",
-  "members_memory_allocation_mb": "4096"
-}' --service-endpoints="private"
+ibmcloud resource service-instance-update service-instance-current-name --service-plan-id databases-for-redis-standard-gen2 -p '{"dataservices": {"redis": {"storage_gb":20}}}' -g Default --name NEW_NAME
 ```
-{: .pre}
+{: pre}
+
+### Deleting a service instance
+{: #delete-service-instance-cli}
+{: cli}
+
+Delete an instance by running a command like this one:
+
+```sh
+ibmcloud resource service-instance-delete <INSTANCE_NAME_OR_CRN>
+```
+{: pre}
+
+### Restore from Redis backup
+{: #restore-backup-cli}
+{: cli}
+
+You can provision a new Redis instance from a particular backup using the command like this:
+
+```sh
+ibmcloud resource service-instance-create restore-instance-name databases-for-redis standard-gen2 ca-mon -g Default  -p '{
+      "dataservices":{
+            "restore_backup_id": "<service-instance-crn>:backup:<backup-uuid>"
+      }
+}'
+```
+{: pre}
 
 ## Provisioning through the Resource Controller API
 {: #provision-controller-api}
 {: api}
 
-Follow these steps to provision using the [Resource Controller API](/apidocs/resource-controller/resource-controller){: external}.
+Follow these steps to provision using the [Resource Controller API](/apidocs/resource-controller/resource-controller#create-resource-instance){: external}.
 
-1. Obtain an [IAM token from your API token](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#authentication){: external}.
-1. You need to know the ID of the resource group that you would like to deploy to. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
+1. Obtain an IAM token using the below command
+
+   ```sh
+   IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq .iam_token -r)
+   ```
+   {: pre}
+
+2. You need to know the ID of the resource group that you would like to deploy to. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
 
    Use a command like:
    ```sh
@@ -241,9 +243,11 @@ Follow these steps to provision using the [Resource Controller API](/apidocs/res
    ```
    {: pre}
 
-1. You need to know the region you would like to deploy to.
+   Note down the desired resource group ID. In most cases we use Default resource group value.
 
-   To list all of the regions that deployments can be provisioned into from the current region, use the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}.
+3. You need to know the region you would like to deploy to.
+
+   To list all of the regions that deployments can be provisioned into from the current region, use the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases?topic=cloud-databases-cdb-reference#regions){: external}.
 
    The command looks like:
 
@@ -252,301 +256,143 @@ Follow these steps to provision using the [Resource Controller API](/apidocs/res
    ```
    {: pre}
 
-4. Select the [hosting model](/docs/cloud-databases?topic=cloud-databases-hosting-models&interface=api) you want your database to be provisioned on. You can change this later.
-
-A host flavor represents fixed sizes of guaranteed resource allocations. To see which host flavors are available in your region, call the [host flavors capability endpoint](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#capability) like this:
-
-```sh
-curl -X POST  https://api.{region}.databases.cloud.ibm.com/v5/ibm/capability/flavors  \
-  -H 'Authorization: Bearer <>' \
-  -H 'ContentType: application/json' \
-  -d '{
-    "deployment": {
-      "type": "postgresql",
-      "location": "us-south"
-    },
-  }'
-```
-{: pre}
-
-This returns:
-
-```sh
-{
-  "deployment": {
-    "type": "postgresql",
-    "location": "us-south",
-    "platform": "classic"
-  },
-  "capability": {
-    "flavors": [
-      {
-        "id": "b3c.4x16.encrypted",
-        "name": "4x16",
-        "cpu": {
-          "allocation_count": 4
-        },
-        "memory": {
-          "allocation_mb": 16384
-        },
-        "hosting_size": "xs"
-      },
-      {
-        "id": "b3c.8x32.encrypted",
-        "name": "8x32",
-        "cpu": {
-          "allocation_count": 8
-        },
-        "memory": {
-          "allocation_mb": 32768
-        },
-        "hosting_size": "s"
-      },
-      {
-        "id": "m3c.8x64.encrypted",
-        "name": "8x64",
-        "cpu": {
-          "allocation_count": 8
-        },
-        "memory": {
-          "allocation_mb": 65536
-        },
-        "hosting_size": "s+"
-      },
-      {
-        "id": "b3c.16x64.encrypted",
-        "name": "16x64",
-        "cpu": {
-          "allocation_count": 16
-        },
-        "memory": {
-          "allocation_mb": 65536
-        },
-        "hosting_size": "m"
-      },
-      {
-        "id": "b3c.32x128.encrypted",
-        "name": "32x128",
-        "cpu": {
-          "allocation_count": 32
-        },
-        "memory": {
-          "allocation_mb": 131072
-        },
-        "hosting_size": "l"
-      },
-      {
-        "id": "m3c.30x240.encrypted",
-        "name": "30x240",
-        "cpu": {
-          "allocation_count": 30
-        },
-        "memory": {
-          "allocation_mb": 245760
-        },
-        "hosting_size": "xl"
-      },
-      {
-        "id": "multitenant",
-        "name": "multitenant",
-        "cpu": {
-          "allocation_count": 0
-        },
-        "memory": {
-          "allocation_mb": 0
-        },
-        "hosting_size": ""
-      }
-    ]
-  }
-}
-
-```
-{: pre}
-
-As shown, the Isolated Compute host flavors available to a {{site.data.keyword.databases-for-postgresql}} instance in the `us-south` region are:
-
-- `b3c.4x16.encrypted`
-- `b3c.8x32.encrypted`
-- `m3c.8x64.encrypted`
-- `b3c.16x64.encrypted`
-- `b3c.32x128.encrypted`
-- `m3c.30x240.encrypted`
-
-To provision or scale your instance to 4 CPUs and `16384` megabytes or RAM, submit a scale command with a new `members_host_flavor`:
-
-```sh
-    {
-      "parameters": {
-        "members_host_flavor": "b3c.4x16.encrypted"
-      }
-    }
-    ```
-    {: pre}
-
-To scale your instance up to 8 CPUs and `32768` megabytes of RAM, submit a scale command with a new `members_host_flavor`:
-
-```sh
-{
-        "parameters": {
-            "members_host_flavor": "<members_host_flavor_value>"
-        }
-}
-```
-{: pre}
-
-5. Once you have all the information, [provision a new resource instance](/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with    the {{site.data.keyword.cloud_notm}} Resource Controller.
+4. When you have all the information, [provision a new resource instance](/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with the {{site.data.keyword.cloud_notm}} Resource Controller.
 
    ```sh
-   curl -X POST \
-     https://resource-controller.cloud.ibm.com/v2/resource_instances \
-     -H 'Authorization: Bearer <>' \
-     -H 'Content-Type: application/json' \
-       -d '{
-       "name": "my-instance",
-       "target": "<region>",
-       "resource_group": "5g9f447903254bb58972a2f3f5a4c711",
-       "resource_plan_id": "databases-for-redis-standard"
+   curl -X POST https://resource-controller.cloud.ibm.com/v2/resource_instances -H "Authorization: ${IAM_TOKEN}"   -H 'Content-Type: application/json' -d '{
+       "name": "redis-test",
+       "target": "ca-mon",
+       "resource_group": "c21a4e8564c14d1aab2a9a8b441904eb",
+       "resource_plan_id": "databases-for-redis",
        "parameters": {
-            "members_host_flavor": "<members_host_flavor_value>",
-            "service_endpoints": "<ENDPOINT>",
-            "version": "<version>"
-      }
+         "dataservices": {
+           "redis": {
+             "host_flavor": "bx3d.4x20"
+           }
+         },
+         "service_endpoints": "private",
+         "version": "8.2"
+       },
+       "tags": [
+         "redis-test",
+         "do-not-delete"
+       ]
      }'
    ```
-   {: .pre}
+   {: pre}
 
-
-    For example, to make a Shared Compute instance, follow this example:
-
-   ```sh
-   curl -X POST \
-     https://resource-controller.cloud.ibm.com/v2/resource_instances \
-     -H "Authorization: Bearer <>" \
-     -H 'Content-Type: application/json' \
-     -d '{
-       "name": "my-instance",
-       "target": "us-south",
-       "resource_group": "5g9f447903254bb58972a2f3f5a4c711",
-       "resource_plan_id": "databases-for-redis-standard"
-       "parameters": {
-          "members_host_flavor": "multitenant",
-          "service_endpoints": "private",
-          "members_memory_allocation_mb": 16384,
-          "members_cpu_allocation_count": 4
-        }
-      }'
-   ```
-   {: .pre}
-
-Provision a {{site.data.keyword.databases-for-redis}} Isolated instance with the same `"members_host_flavor"` parameter, setting it to the desired Isolated size. Available hosting sizes and their `members_host_flavor value` parameters are listed in [Table 2](#host-flavor-parameter-api). For example, `{"members_host_flavor": "b3c.4x16.encrypted"}`. Note that since the host flavor selection includes CPU and RAM sizes (`b3c.4x16.encrypted` is 4 CPU and 16 RAM), this request does not accept both, an Isolated size selection and separate CPU and RAM allocation selections.
-
-```sh
-   curl -X POST \
-     https://resource-controller.cloud.ibm.com/v2/resource_instances \
-     -H "Authorization: Bearer <>" \
-     -H 'Content-Type: application/json' \
-     -d '{
-       "name": "my-instance",
-       "target": "us-south",
-       "resource_group": "5g9f447903254bb58972a2f3f5a4c711",
-       "resource_plan_id": "databases-for-redis-standard"
-       "parameters": {
-          "member_host_flavor": "b3c.4x16.encrypted",
-          "service_endpoints":"private"
-        }
-      }'
-   ```
-   {: .pre}
-
-   The parameters `name`, `target`, `resource_group`, and `resource_plan_id` are all required.
-   {: required}
-
-The fields in the command are described in the table that follows.
+   The fields in the command are described in the table that follows.
 
    | Field | Description | Flag |
    |-------|------------|------------|
-   | `NAME` [Required]{: tag-red} | The instance name can be any string and is the name that is used on the web and in the CLI to identify the new deployment. |  |
-   | `SERVICE_NAME` [Required]{: tag-red} | Name or ID of the service. For {{site.data.keyword.databases-for-redis}}, use `databases-for-redis`. |  |
-   | `SERVICE_PLAN_NAME` [Required]{: tag-red} | Standard plan (`standard`) |  |
-   | `target` [Required]{: tag-red} | The target location where you want to deploy. To retrieve a list of regions, use the `ibmcloud regions` command. |  |
-   | `SERVICE_ENDPOINTS_TYPE` | Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) of your deployment, either `public` or `private`. The default value is `public`. |  |
-   | `RESOURCE_GROUP` | The Resource group name. The default value is `default`. | -g |
-   | `--parameters` | JSON file or JSON string of parameters to create service instance | -p |
-   | `members_host_flavor` | To provision an Isolated or Shared Compute instance, use `{"members_host_flavor": "<members_host_flavor value>"}`. For Shared Compute, specify `multitenant`. For Isolated Compute, select desired CPU and RAM configuration. For more information, see the table below, or [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).| |
-   | `service_endpoints` [Required]{: tag-red} | Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints){: external} of your deployment, either `public`, `private` or `public-and-private`. | |
-   {: caption="Basic command format fields" caption-side="top"}
+   | `name` [Required]{: tag-red} | The instance name can be any string and is the name that is used on the web and in the CLI to identify the new deployment. |  |
+   | `target` [Required]{: tag-red} | The location where you want to deploy. To retrieve a list of regions, use the `ibmcloud regions` command. |  |
+   | `resource_group` [Required]{: tag-red} | The resource group ID. The default value is `Default`. | |
+   | `resource_plan_id` [Required]{: tag-red} | Standard gen2 plan (`databases-for-redis`) |  |
+   | `parameters` | JSON object of parameters to create service instance | |
+   | `host_flavor` | For Isolated Compute, select desired CPU and RAM configuration. For more information, see the table below or [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).| |
+   | `service_endpoints` [Required]{: tag-red} | Configure the [Service endpoints](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2){: external} of your deployment, either `public`, `private` or `public-and-private`. | |
+   | `version` | The version of the database to be provisioned. If omitted, the database is created with the most recent major and minor version. | |
+   | `tags` | Array of user tag names |  |
+   {: caption="Table 3. Basic command format fields" caption-side="bottom"}
 
+   ### The `host flavor` parameter
+   {: #host-flavor-parameter-api}
+   {: api}
 
-### The `host flavor` parameter
-{: #host-flavor-parameter-api}
+   The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. Example:
+
+   | **Host flavor** | **host_flavor value** |
+   |:-------------------------:|:---------------------:|
+   | 4 CPU x 20 RAM            | `bx3d.4x20`    |
+   | 8 CPU x 40 RAM            | `bx3d.8x40`   |
+   {: caption="Table 4. Host flavor sizing parameter" caption-side="bottom"}
+
+### Get details of the service instance
+{: #get-service-instance-api}
 {: api}
 
-The `members_host_flavor` parameter defines your Compute sizing. To provision a Shared Compute instance, specify `multitenant`. To provision an Isolated Compute instance, input the appropriate value for your desired CPU and RAM configuration.
+```sh
+curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}" | jq
+```
+{: pre}
 
-| **Members host flavor** | **members_host_flavor value** |
-|:-------------------------:|:---------------------:|
-| Shared Compute            | `multitenant`    |
-| 4 CPU x 16 RAM            | `b3c.4x16.encrypted`    |
-| 8 CPU x 32 RAM            | `b3c.8x32.encrypted`    |
-| 8 CPU x 64 RAM            | `m3c.8x64.encrypted`    |
-| 16 CPU x 64 RAM           | `b3c.16x64.encrypted`   |
-| 32 CPU x 128 RAM          | `b3c.32x128.encrypted`  |
-| 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
-{: caption="Members host flavor sizing parameter" caption-side="bottom"}
-
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute. Disk autoscaling is available. If you have provisioned an Isolated instance or switched over from a deployment with autoscaling, keep an eye on your resources using [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which provides metrics for memory, disk space, and disk I/O utilization. To add resources to your instance, manually scale your deployment.
-{: note}
-
-## List of additional parameters
-{: #provisioning-parameters-api}
+### Update a service instance
+{: #update-service-instance-api}
 {: api}
 
-* `backup_id`- A CRN of a backup resource to restore from. The backup must be created by a database deployment with the same service ID. The backup is loaded after provisioning and the new deployment starts up that uses that data. A backup CRN is in the format `crn:v1:<...>:backup:<uuid>`. If omitted, the database is provisioned empty.
-* `version` - The version of the database to be provisioned. If omitted, the database is created with the most recent major and minor version.
-* `disk_encryption_key_crn` - The CRN of a KMS key (for example, [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for disk encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
-* `backup_encryption_key_crn` - The CRN of a KMS key (for example, [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for backup encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
+You can update the service instance name, service-plan-id and parameters using the command like this:
 
-   To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases?topic=cloud-databases-key-protect#key-byok).
-   {: note}
+```sh
+curl -X PATCH https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}" -H 'Content-Type: application/json' -d '{
+"name": "redis-test-testing-patch",
+"parameters":{"dataservices":{"redis":{"host_flavor":"bx3d.4x20"}}}
+}' | jq
+```
+{: pre}
 
-* `members_memory_allocation_mb` -  Total amount of memory to be shared between the database members within the database. For example, if the value is "8192", and there are two database members, then the deployment gets 8 GB of RAM total, giving 4 GB of RAM per member. If omitted, the default value is used for the database type is used. This parameter only applies to `multitenant'.
-* `members_disk_allocation_mb` - Total amount of disk to be shared between the database members within the database. For example, if the value is "30720", and there are three members, then the deployment gets 30 GB of disk total, giving 10 GB of disk per member. If omitted, the default value for the database type is used. This parameter only applies to `multitenant'.
-* `members_cpu_allocation_count` - Enables and allocates the number of specified cores to your deployment. For example, to use two dedicated cores per member, use `"members_cpu_allocation_count":"2"`. If omitted, the default Shared Compute CPU:RAM ratios will be applied. This parameter only applies to `multitenant'.
+### Deleting a service instance
+{: #delete-service-instance-api}
+{: api}
+
+Delete an instance by running a command like this one:
+
+```sh
+curl -X DELETE https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}"
+```
+{: pre}
+
+### Restore from Redis backup
+{: #restore-backup-api}
+{: api}
+
+You can provision a new Redis instance from a particular backup using the command like this:
+
+```sh
+curl -X POST   https://resource-controller.cloud.ibm.com/v2/resource_instances   -H "Authorization: ${IAM_TOKEN}"   -H 'Content-Type: application/json' -d '{
+    "name": "redis-test-restore",
+    "target": "ca-mon",
+    "resource_group": "c21a4e8564c14d1aab2a9a8b441904eb",
+    "resource_plan_id": "databases-for-redis",
+    "parameters": {
+      "dataservices": {
+        "restore_backup_id": "<service-instance-crn>:backup:<backup-uuid>"
+      }
+    },
+    "tags": [
+      "redis-test"
+    ]
+  }'
+```
+{: pre}
 
 ## Provisioning with Terraform
 {: #provisioning-terraform}
 {: terraform}
 
-Use Terraform to manage your infrastructure through the [`ibm_database` Resource for Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database) supports provisioning {{site.data.keyword.databases-for}} deployments. Alternatively, you can use Terraform IBM Modules to manage your infrastructure through [Terraform IBM Modules for {{site.data.keyword.databases-for-redis}}](https://registry.terraform.io/modules/terraform-ibm-modules/icd-redis/ibm/latest){: external}.
+Use Terraform to manage your infrastructure through the [`ibm_database` Resource for Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database) supports provisioning {{site.data.keyword.databases-for}} deployments.
 
-Select the [hosting model](/docs/cloud-databases?topic=cloud-databases-hosting-models&interface=terraform) you want your database to be provisioned on. You can change this later.
+Select the [hosting model](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute) you want your database to be provisioned on. You can change this later.
 
-Provision a {{site.data.keyword.databases-for-redis}} Shared hosting model instance with the `"host_flavor"` parameter set to `multitenant`. See the following example:
+Provision a {{site.data.keyword.databases-for-redis}} instance with the `"host_flavor"` parameter set to the desired host flavor. For example:
 
 ```terraform
 data "ibm_resource_group" "group" {
   name = "<your_group>"
 }
-resource "ibm_database" "<your_database>" {
+resource "ibm_resource_instance" "<your_database>" {
   name              = "<your_database_name>"
-  plan              = "standard"
-  location          = "eu-gb"
+  plan              = "<gen2_plan>"
+  location          = "<gen2_location>"
   service           = "databases-for-redis"
   resource_group_id = data.ibm_resource_group.group.id
-  service_endpoints = "private"
+  service_endpoints = "<ENDPOINTS>"
   tags              = ["tag1", "tag2"]
   adminpassword                = "password12"
   group {
     group_id = "member"
     host_flavor {
-      id = "multitenant"
-    },
-    cpu {
-      allocation_count = 3
-    }
-    memory {
-      allocation_mb = 8192
+      id = "bx3d.4x20"
     }
     disk {
       allocation_mb = 256000
@@ -561,70 +407,23 @@ resource "ibm_database" "<your_database>" {
     description = "desc"
   }
 }
-output "ICD Etcd database connection string" {
+output "ICD Redis database connection string" {
   value = "http://${ibm_database.test_acc.ibm_database_connection.icd_conn}"
 }
 ```
 {: codeblock}
 
-Provision a {{site.data.keyword.databases-for-redis}} Isolated instance with the same `"host_flavor"` parameter, setting it to the desired Isolated size. Available hosting sizes and their `host_flavor value` parameters are listed in [Table 1](#host-flavor-parameter-terraform). For example, `{"host_flavor": "b3c.4x16.encrypted"}`. Note that since the host flavor selection includes CPU and RAM sizes (`b3c.4x16.encrypted` is 4 CPU and 16 RAM), this request does not accept both, an Isolated size selection and separate CPU and RAM allocation selections.
-
-```terraform
-data "ibm_resource_group" "group" {
-  name = "<your_group>"
-}
-resource "ibm_database" "<your_database>" {
-  name              = "<your_database_name>"
-  plan              = "standard"
-  location          = "eu-gb"
-  service           = "databases-for-redis"
-  resource_group_id = data.ibm_resource_group.group.id
-  service_endpoints = "private"
-  tags              = ["tag1", "tag2"]
-  adminpassword                = "password12"
-  group {
-    group_id = "member"
-    host_flavor {
-      id = "b3c.8x32.encrypted"
-    }
-    disk {
-      allocation_mb = 256000
-    }
-  }
-  users {
-    name     = "user123"
-    password = "password12"
-  }
-  allowlist {
-    address     = "172.168.1.1/32"
-    description = "desc"
-  }
-}
-output "ICD Etcd database connection string" {
-  value = "http://${ibm_database.test_acc.ibm_database_connection.icd_conn}"
-}
-```
-{: codeblock}
-
-Before executing a Terraform script on an existing instance, use the `terraform plan` command to compare the current infrastructure state with the desired state defined in your Terraform files. Any alteration to the `resource_group_id`, `service plan`, `version`, `key_protect_instance`, `key_protect_key`, `backup_encryption_key_crn` attributes recreates your instance. For a list of current argument references with the `Forces new resource` specification, see the [ibm_database Terraform Registry](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
+Before running a Terraform script on an existing instance, use the `terraform plan` command to compare the current infrastructure state with the desired state defined in your Terraform files. Any alteration to the `resource_group_id`, `service plan`, `version`, `key_protect_instance`, `key_protect_key`, `backup_encryption_key_crn` attributes recreates your instance. For a list of current argument references with the `Forces new resource` specification, see the [ibm_database Terraform Registry](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 {: important}
 
 ### The `host flavor` parameter
 {: #host-flavor-parameter-terraform}
 {: terraform}
 
-The `host_flavor` parameter defines your Compute sizing. To provision a Shared Compute instance, specify `multitenant`. To provision an Isolated Compute instance, input the appropriate value for your desired CPU and RAM configuration.
+The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. For example:
 
 | **Host Flavor** | **host_flavor value** |
 |:-------------------------:|:---------------------:|
-| Shared Compute            | `multitenant`    |
-| 4 CPU x 16 RAM            | `b3c.4x16.encrypted`    |
-| 8 CPU x 32 RAM            | `b3c.8x32.encrypted`    |
-| 8 CPU x 64 RAM            | `m3c.8x64.encrypted`    |
-| 16 CPU x 64 RAM           | `b3c.16x64.encrypted`   |
-| 32 CPU x 128 RAM          | `b3c.32x128.encrypted`  |
-| 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
-{: caption="Host Flavor sizing parameter" caption-side="bottom"}
-
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute. Disk autoscaling is available. If you have provisioned an Isolated instance or switched over from a deployment with autoscaling, keep an eye on your resources using [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which provides metrics for memory, disk space, and disk I/O utilization. To add resources to your instance, manually scale your deployment.
-{: note}
+| 4 CPU x 20 RAM            | `bx3d.4x20`    |
+| 8 CPU x 40 RAM            | `bx3d.8x40`   |
+{: caption="Table 5. Host Flavor sizing parameter" caption-side="bottom"}
