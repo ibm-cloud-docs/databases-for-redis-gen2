@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-09"
+lastupdated: "2026-06-11"
 
 keywords: redis, databases, monitoring, scaling, autoscaling, resources, Redis connection limits, Gen 2
 
@@ -27,9 +27,9 @@ subcollection: databases-for-redis-gen2
 
 By default, deployments are configured with a `noeviction` policy. All data is kept in memory until the `maxmemory` limit is reached and Redis returns an error if the memory limit is exceeded. The `maxmemory` is set to 80% of a data node's available memory, so your node doesn't run out of system resources.
 
-You can scale the amount of memory to accommodate more data, and you can configure the `maxmemory` setting to tune memory usage. The [Redis documentation](https://redis.io/topics/memory-optimization#memory-allocation){: external} has some good information on memory behavior and tuning `maxmemory`.
+You can scale the amount of memory to accommodate more data and you can configure the `maxmemory` setting to tune memory usage. The [Redis documentation](https://redis.io/topics/memory-optimization#memory-allocation){: external} has some good information on memory behavior and tuning `maxmemory`.
 
-You can also configure your deployment to use [Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache), allowing Redis to evict data out of memory once the memory limit is reached.
+You can also configure your deployment to use [Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache), allowing Redis to evict data out of memory after the memory limit is reached.
 
 ## Read scaling and failover behavior
 {: #read-scaling-failover}
@@ -41,7 +41,7 @@ You can also configure your deployment to use [Redis as a cache](/docs/databases
 
 The number of input/output operations per second (IOPS) is limited by the type of storage volume. Storage volumes for {{site.data.keyword.databases-for-redis}} deployments are provisioned on [Block Storage Endurance Volumes in the 10 IOPS per GB tier](/docs/BlockStorage?topic=BlockStorage-orderingBlockStorage). By default, a deployment starts with persistence enabled. If your operational load saturates or exceeds the IOPS limit, database requests and operations are delayed until the disk can catch up. Extended periods of heavy load can cause your deployment to be unable to process queries and become effectively unavailable. If you experience delayed responses and failing operations, you might be exceeding the disk's IOPS limit. You can increase the number of IOPS available to your deployment by increasing disk space.
 
-To ensure reliable performance in production environments, we recommend provisioning a disk with a minimum size of 100 GB. Actual performance needs may vary by workload, so it's important to test and size your disk to meet the required IOPS.
+To ensure reliable performance in production environments, we recommend provisioning a disk with a minimum size of 100 GB. Actual performance needs can vary by workload, so it's important to test and size your disk to meet the required IOPS.
 {: .tip}
 
 ## Performance tuning considerations

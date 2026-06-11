@@ -1,9 +1,9 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-04-20"
+lastupdated: "2026-06-11"
 
-keywords: redis, databases, pricing, resources, scaling
+keywords: redis gen 2, pricing
 
 subcollection: databases-for-redis-gen2
 
@@ -14,43 +14,71 @@ subcollection: databases-for-redis-gen2
 # Pricing
 {: #pricing}
 
-A {{site.data.keyword.databases-for-redis}} Standard plan deploys as one highly available Redis cluster with two data members. Your data is replicated on both members. The Standard plan is priced based on the total amount of disk storage, RAM, dedicated cores, and backup storage that is allocated to deployments, prorated hourly. {{site.data.keyword.databases-for-redis}} deployments have a minimum of 1 GB of disk and 1 GB of RAM per data member.
+[Gen 2]{: tag-purple}
 
-## Using the Pricing Calculator
+A {{site.data.keyword.databases-for-redis}} deployment consists of a highly available Redis cluster with two data members, ensuring your data is replicated across both. Pricing is based on the total resources allocated to the deployment-disk storage, RAM, virtual CPU cores, and backup storage—calculated on an hourly prorated basis. Gen 2 instances require at least 10 GB of disk space, and the smallest configuration profile offers 4 vCPU cores.
+
+## Using the pricing calculator
 {: #pricing-calc}
 
-Templates are provided for ease of use and provide balanced resource allocations appropriate for general purpose workloads. The **Custom** tab can be used to configure Disk, RAM, and vCPU, as desired.
+For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-redis}} catalog page](https://cloud.ibm.com/catalog/databases-for-redis-gen2). Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 10 GB of disk on a 4 vCPU x 16 GB RAM profile would have a total bill for 20 GB of disk and the total cost of 2 members.
 
-For pricing estimation, use the **Add to Estimate** button on the [{{site.data.keyword.databases-for-redis}} catalog page](https://cloud.ibm.com/databases/databases-for-redis/create?catalog_query=aHR0cHM6Ly9jbG91ZC5pYm0uY29tL2NhdGFsb2c%2Fc2VhcmNoPXJlZGlzI3NlYXJjaF9yZXN1bHRz). Input your total consumption across two data members into the calculator. This is roughly double the size of your data because your data is replicated to both members. For example, 1 GB of disk and 1 GB of RAM across two data members would be priced at 2 GB of disk and 2 GB of RAM respectively. 
-
-## Backups Pricing
+## Gen 2 backups pricing
 {: #pricing-backup}
 
-You receive your total disk space purchased, per database, in free backup storage. For example, in a given month, if you have a {{site.data.keyword.databases-for-redis}} deployment that has 20 GB of disk per member, and has three data members, you receive 60 GB of backup storage free for that month. If your backup storage utilization is greater than 60 GB for the month (in this scenario), you are charged an overage of $0.03/month per gigabyte. 
+Gen 2 {{site.data.keyword.databases-for}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
 
-By default, {{site.data.keyword.databases-for}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
+By default, {{site.data.keyword.databases-for-redis}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
 
-In the above example, if your database contains 2 GB of data and you have not taken any on-demand backups, then your total backup size is 2 GB x 30 = 60 GB. Your backup costs are nil.
+Backup storage included:
 
-If your database contains 15 GB of data and you have not taken any on-demand backups, then your total backup size is 15 GB x 30 = 450 GB. In this scenario, your backup costs are (450 GB - 60 GB) * 0.03 = $11.7 per month.
+* You receive free backup storage equal to the total provisioned disk size of your deployment.
+* This includes both automated daily backups and manual (on-demand) snapshots.
+* Example: If your 2 member {{site.data.keyword.databases-for-redis}} deployment is provisioned with 20 GB of disk per member, you get 40 GB of backup storage included at no cost.
 
-Most deployments will not ever go over the allotted credit.
+Overage charges:
 
-## Dedicated Cores Pricing
+* The overage is billed monthly.
+* Total snapshot storage = Day 1 full + (Daily change × 29 days x number of members)
+* Overage is charged at $0.03 per GB per month.
+
+Worked example, for a 2-member Redis deployment with 20 GB of data per member:
+
+* Day 1: A full snapshot is taken from the current primary. This consumes 20 GB of snapshot storage.
+
+This models the worst case scenario where the full snapshot is equal to the file system size. In practice, especially for new databases that grow over time, snapshot sizes are typically smaller, which helps reduce backup costs.
+{: note}
+
+* Day 2-16: You write 2 GB of new data per day. Snapshots are incremental and only store changes. Over 15 days, this adds 30 GB, bringing total snapshot usage to 20 GB + 30 GB = 50 GB.
+
+* Your backup storage utilization is now greater than the free allocation of 40 GB for the month (in this scenario). Billing incurs for an overage at a rate of $0.03/month per gigabyte.
+
+* Day 17: A failover occurs, and one secondary member becomes the new primary. A full snapshot is taken from this new primary, consuming another 20 GB.
+
+* Day 18-30: You continue writing 2 GB per day, adding 26 GB over 13 days.
+  
+Total snapshot = 20 GB (initial) + 30 GB (incremental) + 20 GB (failover snapshot) + 26 GB (post-failover incremental) = 96 GB
+Free allocation = 20 GB x 2 members = 40 GB
+Overage = 96 GB - 40 GB = 56 GB
+Monthly charge = (96 GB - 40 GB) x $0.03 = $1.68
+
+With large deployments and frequent writes, you may exceed the free tier after the first snapshot.
+
+* Cross-region copies: If you choose to copy snapshots to another region, {{site.data.keyword.cloud}} charges for the full size of the snapshot in the destination region (not incremental) and continued incremental growth in the original region as new snapshots are taken.
+
+## Dedicated cores pricing
 {: #cores-pricing}
 
-You have the option of selecting the CPU allocation for your deployment. With dedicated cores, your resource group is given a single-tenant host with a guaranteed minimum reserve of cpu shares. Your deployments are then allocated the number of CPUs you specify. The cost of dedicated cores is $30 per core per month, and each member gets the selected number of cores. For example, if you provision a deployment with 3 dedicated cores per member, that is a total of 6 cores, and billed at $180 per month. 
+You have the option of selecting the CPU allocation for your deployment. With dedicated cores, your resource group is given a single-tenant host with a guaranteed minimum reserve of CPU shares. Your deployments are then allocated with the number of dedicated CPUs. For example, if the cost of dedicated cores is $30 per core per month, and if you provision a deployment with 4 dedicated cores per member, that is a total of 8 cores from 2 member pods. This is billed at $240 per month.
 
-Dedicated cores are an optional feature. The default `Shared CPU` setting provisions your deployment on hosts with shared compute resources and incurs no additional charge.
+## Scaling per member
+{: #scaling-member}
 
-## Scaling per Member
-{: #scaling}
+{{site.data.keyword.databases-for-redis}} instances have minimum and maximum allocation for disk and RAM as shown. Scaling instances through the API and CLI provides more granularity and also allows you to scale a database instance up to 4 TB of disk per member. Minimum and maximum CPU and RAM combinations vary per region and as per the host flavor, see [Isolated Compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=cli).
 
-{{site.data.keyword.databases-for-redis}} deployments have minimum and maximum allocation for disk and RAM. Scaling deployments through the API/CLI provides more granularity and also allows a user to scale a database instance up to 4 TB of disk per member.
-
-| Resource | Minimum | Maximum | Scaling Granularity (API/CLI) |
+| Resource | Minimum | Maximum | Scaling granularity (API/CLI) |
 | ---------- | ----- | ----- | ------- |
-| Disk | 1 GB per member | 4 TB per member | 1024 MB per member |
-| RAM | 1 GB per member | 112 GB per member | 128 MB per member |
-| CPU (if enabled) | 3 CPUs per member | 28 CPUs per member| 1 CPU per member |
-{: caption="Per Member Scaling Limits" caption-side="top"}
+| Disk | 10 GB per member | 4 TB per member | 1024 MB per member |
+| RAM | 16 GB | 40 GB | Isolated Compute – Resource scaling via T-shirt sizes |
+| CPU | 4 vCPU | 8 vCPU| Isolated Compute – Resource scaling via T-shirt sizes |
+{: caption="Scaling limits" caption-side="top"}
