@@ -17,13 +17,13 @@ subcollection: databases-for-redis-gen2
 
 [Gen 2]{: tag-purple}
 
-[Data Portability](#x2113280){: term} involves a set of tools, and procedures that enable customers to export the digital artifacts that would be needed to implement similar workload and data processing on different service providers or on-prem software. It includes procedures for copying and storing the service customer's content, including the related configuration used by the service to store and process the data, on the customer's own location.
+[Data Portability](#x2113280){: term} involves a set of tools and procedures that enable customers to export the digital artifacts that would be needed to implement similar workload and data processing on different service providers or on-prem software. It includes procedures for copying and storing the service customer's content, including the related configuration used by the service to store and process the data, on the customer's own location.
 {: shortdesc}
 
 ## Responsibilities
 {: #data-portability-responsibilities}
 
-IBM Cloud services provide interfaces and instructions to guide the customer to copy and store the service customer content, including the related configuration, on their own selected location.
+{{site.data.keyword.cloud_notm}} services provide interfaces and instructions to guide the customer to copy and store the service customer content, including the related configuration, on their own selected location.
 
 The customer is then responsible for the use of the exported data and configuration for the purpose of data portability to other infrastructures.
 
@@ -66,4 +66,4 @@ The format of the data exported from {{site.data.keyword.databases-for-redis}} d
 ## Data ownership
 {: #data-ownership}
 
-All exported data are classified as Customer content and therefore apply to them the full customer ownership and licensing rights, as stated in [IBM Cloud Service Agreement](https://www.ibm.com/support/customer/csol/terms/?id=Z126-6304_WS){: external}.
+All exported data are classified as customer content and therefore the full customer ownership and licensing rights apply to them, as stated in [IBM Cloud Service Agreement](https://www.ibm.com/support/customer/csol/terms/?id=Z126-6304_WS){: external}.

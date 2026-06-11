@@ -19,14 +19,14 @@ Redis is recognized for its high-performance key-value database, notable for sto
 ## Persistence modes in Redis
 {: #persistence-modes}
 
-There are two primary persistence modes available: RDB (snapshot mode) and AOF (append-only logging). Each mode entails distinct trade-offs in terms of performance and durability. Hence, selecting the appropriate persistence mode in Redis necessitates a strategic decision.
+There are two primary persistence modes available: RDB (snapshot mode) and AOF (append-only logging). Each mode entails distinct tradeoffs in terms of performance and durability. Hence, selecting the appropriate persistence mode in Redis necessitates a strategic decision.
 
 For production workloads, {{site.data.keyword.databases-for-redis}} uses a hybrid persistence model that combines RDB snapshots with AOF. This approach balances restart speed, operational efficiency, and durability.
 
 ### RDB snapshot
 {: #rdb-snapshot}
 
-Redis saves snapshots of the dataset on disk in a binary file called dump.rdb. The dataset is saved every N seconds if there are at least M changes.
+Redis saves snapshots of the dataset on disk in a binary file called `dump.rdb`. The dataset is saved every N seconds if there are at least M changes.
 
 - Save 3600 1: Every hour if at least one key has changed.
 - Save 300 100: Every 5 minutes if at least 100 keys have changed.
@@ -61,7 +61,7 @@ AOF can be turned off if you want to use Redis as a cache. This can also reduce 
 ## Backup durability and retention
 {: #backup-durability-retention}
 
-In addition to on-node persistence, {{site.data.keyword.databases-for-redis}} backups are stored in [{{site.data.keyword.cos_full_notm}}](/docs/cloud-object-storage?topic=cloud-object-storage-about-cloud-object-storage). Backups are encrypted at rest, and deployments can use customer-managed keys through [Key Protect integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-key-protect&interface=ui).
+In addition to on-node persistence, {{site.data.keyword.databases-for-redis}} backups are stored in [{{site.data.keyword.cos_full_notm}}](/docs/cloud-object-storage?topic=cloud-object-storage-about-cloud-object-storage). Backups are encrypted at rest and deployments can use customer-managed keys through [Key Protect integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-key-protect&interface=ui).
 
 For backup management, restore workflows, and retention details that apply to your deployment, see [Managing backups](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-dashboard-backups).
 
