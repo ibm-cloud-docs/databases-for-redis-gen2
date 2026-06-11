@@ -43,11 +43,11 @@ Deploy from the console by specifying the following parameters.
 {: #resource_allocation}
 {: ui}
 
-Fine tune your resource allocation.
+Fine tune your resource allocation by choosing the required host size for your deployment and specify the required disk size. Host size and disk allocation is per member.
 
-- **Isolated:** Use the table to choose the machine size for each member of your deployment and specify the disk size.
+- **Isolated:** Use the table to choose the machine size for each member of your deployment, and specify the disk size.
 
-Specify the disk size depending on your requirements. It can be increased after provisioning but cannot be decreased to prevent data loss.
+Disk size can be increased after provisioning but cannot be decreased to prevent data loss.
 {: note}
 
 ### Service configuration
