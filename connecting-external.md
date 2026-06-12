@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-12"
 
 keywords: redis, databases
 
@@ -16,9 +16,9 @@ subcollection: databases-for-redis-gen2
 
 [Gen 2]{: tag-purple}
 
-Your applications and drivers use connection strings to make a connection to {{site.data.keyword.databases-for-redis_full}}. The service provides connection strings specifically for drivers and applications. Connection strings are displayed in the *Endpoints* panel of your deployment's *Overview* page, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), and the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
+Your applications and drivers use connection strings to make a connection to {{site.data.keyword.databases-for-redis_full}}. The service provides connection strings specifically for drivers and applications. Connection strings are displayed in the *Endpoints* panel of your deployment's *Overview* page, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) and the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
 
-{{site.data.keyword.databases-for-redis}} deployments no longer include a default admin user. Instead, customers create users with 'Manager' or 'Writer' roles through the {{site.data.keyword.cloud}} service credential interface — available via the UI or CLI. This process generates credentials for connecting to the deployment. While these credentials can be used across multiple connections and applications, it is strongly recommended to create dedicated users for each application, tailored to their specific access requirements. For more information, see [Getting connection strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings).
+{{site.data.keyword.databases-for-redis}} deployments no longer include a default admin user. Instead, customers create users with 'Manager' or 'Writer' roles using the {{site.data.keyword.cloud}} service credential interface, which is available from the UI or CLI. This process generates credentials for connecting to the deployment. Although these credentials can be used across multiple connections and applications, you are strongly recommended to create dedicated users for each application that are tailored to their specific access requirements. For more information, see [Getting connection strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings).
 
 ## Connection strings for applications
 {: #connection-strings-application}
@@ -27,11 +27,11 @@ All the information a driver needs to make a connection to your deployment is in
 
 | Field name | Index | Description |
 | ---------- | ----- | ----------- |
-| `Type` | | Type of connection - for Redis, it is "URI". |
-| `Scheme` | | Scheme for a URI - for Redis, it is "rediss". |
-| `Path` | | Path for a URI - for Redis, it is the database number. |
+| `Type` | | Type of connection. For Redis, it is "URI". |
+| `Scheme` | | Scheme for a URI. For Redis, it is "rediss". |
+| `Path` | | Path for a URI. For Redis, it is the database number. |
 | `Authentication` | `Username` | The username that you use to connect. |
-| `Authentication` | `Password` | A password for the user - might be shown as `$PASSWORD`. |
+| `Authentication` | `Password` | A password for the user (might be shown as `$PASSWORD`). |
 | `Authentication` | `Method` | How authentication takes place; "direct" authentication is handled by the driver. |
 | `Hosts` | `0...` | A hostname and port to connect to. |
 | `Composed` | `0...` | A URI combining scheme, authentication, host, and path. |
@@ -81,7 +81,7 @@ r = redis.StrictRedis(
 ```
 {: pre}
 
-Redis has an array of clients for applications to use. A fairly [comprehensive list is maintained on the Redis site](https://redis.io/clients){: external}. Some useful things to keep in mind when choosing a client are features that allow you to easily design your application for the cloud, like configuring [high-availability](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-ha-dr), security, and service proprietary certificate support.
+Redis has an array of clients for applications to use. A fairly [comprehensive list is maintained on the Redis site](https://redis.io/clients){: external}. Some useful things to keep in mind when choosing a client are features that allow you to easily design your application for the Cloud, like configuring [high-availability](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-ha-dr), security, and service proprietary certificate support.
 
 ## Sentinel-aware connections
 {: #sentinel-aware-connections}
@@ -93,11 +93,11 @@ Redis has an array of clients for applications to use. A fairly [comprehensive l
 
 The following client libraries provide robust Sentinel support:
 
-- **Node.js**: [ioredis](https://github.com/redis/ioredis){: external} - Full Sentinel support with automatic failover handling
-- **Node.js**: [node-redis](https://github.com/redis/node-redis){: external} - Native Sentinel support (v4+)
-- **Python**: [redis-py](https://github.com/redis/redis-py){: external} - Built-in Sentinel client
-- **Java**: [Jedis](https://github.com/redis/jedis){: external} or [Lettuce](https://github.com/lettuce-io/lettuce-core){: external} - Both support Sentinel
-- **Go**: [go-redis](https://github.com/redis/go-redis){: external} - Sentinel support included
+- Node.js: [ioredis](https://github.com/redis/ioredis){: external}. Full Sentinel support with automatic failover handling
+- Node.js: [node-redis](https://github.com/redis/node-redis){: external}. Native Sentinel support (v4+)
+- Python: [redis-py](https://github.com/redis/redis-py){: external}. Built-in Sentinel client
+- Java: [Jedis](https://github.com/redis/jedis){: external} or [Lettuce](https://github.com/lettuce-io/lettuce-core){: external}. Both support Sentinel
+- Go: [go-redis](https://github.com/redis/go-redis){: external}. Sentinel support included
 
 ### Connecting with Sentinel support (Node.js example)
 {: #sentinel-connection-example}
@@ -143,11 +143,11 @@ For applications requiring maximum availability, implementing connection retry l
 ## TLS and service proprietary certificate support
 {: #tls-cert-support}
 
-All connections to {{site.data.keyword.databases-for-redis}} are TLS 1.2 enabled, so the driver you use to connect need to be able to support TLS encryption.
+All connections to {{site.data.keyword.databases-for-redis}} are TLS 1.2 enabled, so the driver you use to connect needs to be able to support TLS encryption.
 
-If your driver does not support the `rediss:` protocol or TLS/SSL connections, it is still possible to tunnel connections to the Redis database endpoint by using a TLS/SSL tunnel application such as Stunnel. An example of using Stunnel can be found on the [Connecting with a command-line client](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connecting-cli-client) page, where it is used to connect the `redis-cli` application.
+If your driver does not support the `rediss:` protocol or TLS/SSL connections, it is still possible to tunnel connections to the Redis database endpoint by using a TLS/SSL tunnel application such as Stunnel. You can find an example of using Stunnel on the [Connecting with a command-line client](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connecting-cli-client) page, where it is used to connect the `redis-cli` application.
 
-Deployments also come with a service proprietary certificate so you can verify the server upon starting a connection. While not required, it is an additional security step that is recommended if your client supports it.
+Deployments also come with a service proprietary certificate so you can verify the server on starting a connection. Although it's not required, it is an additional security step that is recommended if your client supports it.
 
 For more information, see [{{site.data.keyword.databases-for}} Certificates FAQ](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-faq-cert){: external}.
 

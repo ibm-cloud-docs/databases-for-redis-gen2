@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-12"
 
 keywords: redis, databases, pub/sub, application
 
@@ -22,17 +22,17 @@ Applications running in {{site.data.keyword.cloud_notm}} can be bound to your {{
 ## Connecting a Kubernetes service application
 {: #ibmcloud-app-connect-kubernetes}
 
-There are two steps to connecting a Cloud databases deployment to a Kubernetes Service application. First, your deployment needs to be bound to your cluster and its connection strings stored in a secret. The second step is configuring your application to use the connection strings.
+There are two steps to connecting a Cloud databases deployment to a Kubernetes Service application. First, your deployment needs to be bound to your cluster and its connection strings stored in a secret. The second step is to configure your application to use the connection strings.
 
 The sample app in the [Connecting a Kubernetes service tutorial](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-tutorial-k8s-app) provides a sample application that uses Node.js and demonstrates how to bind the sample application to a {{site.data.keyword.databases-for}} deployment.
 {: .tip}
 
-Before connecting your Kubernetes Service application to a deployment, make sure that the deployment and cluster are both in the same region and resource group.
+Before connecting your Kubernetes Service application to a deployment, ensure that the deployment and cluster are both in the same region and resource group.
 
 ### Binding your deployment
 {: #ibmcloud-app-bind-deployment}
 
-1. **Private endpoints** - {{site.data.keyword.databases-for-redis}} Gen 2 uses private endpoints by default. First, create a service key for your database so Kubernetes can use it when binding to the database.
+1. {{site.data.keyword.databases-for-redis}} Gen 2 uses private endpoints by default. First, create a service key for your database so Kubernetes can use it when binding to the database.
 
     ```sh
     ibmcloud resource service-key-create <YOUR-PRIVATE-KEY> --instance-name <INSTANCE_NAME_OR_CRN> --service-endpoint private
@@ -46,7 +46,7 @@ Before connecting your Kubernetes Service application to a deployment, make sure
     ```
     {: pre}
 
-2. **Verify** - Verify that the Kubernetes secret was created in your cluster namespace. By running the following command, you get the API key for accessing the instance of your deployment in your account.
+2. Verify that the Kubernetes secret was created in your cluster namespace. By running the following command, you get the API key for accessing the instance of your deployment in your account.
 
     ```sh
     kubectl get secrets --namespace=default
@@ -60,9 +60,9 @@ Before connecting your Kubernetes Service application to a deployment, make sure
 
 When you bind your application to Kubernetes Service, it creates an environment variable from the cluster's secrets. Your deployment's connection information lives in `BINDING` as a JSON object. Load and parse the JSON object into your application to retrieve the information your application's driver needs to make a connection to the database.
 
-The [Connection Strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings#connection-string-breakdown) page contains a reference of the JSON fields.
+The [Connection strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings#connection-string-breakdown) page contains a reference of the JSON fields.
 
-For more information, see the [Kubernetes Service docs](/docs/containers?topic=containers-service-binding#reference_secret).
+For more information, see the [Kubernetes service docs](/docs/containers?topic=containers-service-binding#reference_secret).
 
 ## Pub/Sub
 {: #ibmcloud-app-pubsub}

@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-12"
 
 keywords: redis, databases, redis cache
 
@@ -17,12 +17,12 @@ subcollection: databases-for-redis-gen2
 
 [Gen 2]{: tag-purple}
 
-{{site.data.keyword.databases-for-redis_full}} supports changing the [Redis database configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli), and you can use it to configure [Redis as a cache](https://redis.io/topics/lru-cache){: .external}. When configured as a cache, Redis evicts old data in favor of new data according to the cache settings you define. Even when configured as a cache, {{site.data.keyword.databases-for-redis}} deployments still take a daily backup snapshot. It is not possible to disable backups on your deployment. Redis writes data to disk for high-availability through RDB snapshots and/or AOF files. By default, Redis uses disk-backed replication where the master creates an RDB file on disk and transfers it to replicas during full synchronization.
+{{site.data.keyword.databases-for-redis_full}} supports changing the [Redis database configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli) and you can use it to configure [Redis as a cache](https://redis.io/topics/lru-cache){: .external}. When configured as a cache, Redis evicts old data in favor of new data according to the cache settings you define. Even when configured as a cache, {{site.data.keyword.databases-for-redis}} deployments still take a daily backup snapshot. It is not possible to disable backups on your deployment. Redis writes data to disk for high-availability using RDB snapshots and AOF files. By default, Redis uses disk-backed replication where the master creates an RDB file on disk and transfers it to replicas during full synchronization.
 
 ## Cache settings
 {: #redis-cache-settings}
 
-To configure Redis as a cache, you adjust the `maxmemory` and `maxmemory-policy` settings of your deployment. `maxmemory` defines the maximum amount of memory the cache can use, while `maxmemory-policy` defines the eviction policy applied when the `maxmemory` limit is reached. In addition, other settings can be configured for persistence, database operations, and performance tuning.
+To configure Redis as a cache, you adjust the `maxmemory` and `maxmemory-policy` settings of your deployment. `maxmemory` defines the maximum amount of memory that the cache can use and `maxmemory-policy` defines the eviction policy applied when the `maxmemory` limit is reached. In addition, you can configure other settings for persistence, database operations, and performance tuning.
 
 ### `maxmemory`
 {: #redis-cache-maxmemory}
@@ -52,9 +52,9 @@ With an `allkeys-*` policy, the algorithm chooses keys to evict from the entire 
 
 | Policy | Behavior | Notes |
 | ---------|---------|------------ |
-| `appendonly` | Default value, `yes`. Enables Redis data to be written to disk. | If you are caching data, you want to set this value to `no`. |
+| `appendonly` | Default value, `yes`. Enables Redis data to be written to disk. | If you are caching data, set this value to `no`. |
 | `stop-writes-on-bgsave-error` | Default value, `yes`. Redis stops accepting writes if it detects an unsuccessful backup snapshot.| For caching, you can set to `no`. |
-| `maxmemory-samples` | Tunes the LRU algorithm, default value `5`. | [Approximated LRU algorithm](https://redis.io/topics/lru-cache#approximated-lru-algorithm){: .external} |
+| `maxmemory-samples` | Tunes the LRU algorithm.  Default value `5`. | [Approximated LRU algorithm](https://redis.io/topics/lru-cache#approximated-lru-algorithm){: .external} |
 {: caption="Redis cache settings " caption-side="top"}
 
 ## Setting an example cache
@@ -62,12 +62,15 @@ With an `allkeys-*` policy, the algorithm chooses keys to evict from the entire 
 
 To adjust the configuration of your deployment, send a JSON object with the settings that you want to change and their new values.
 
-You can use `CONFIG SET` directly from a Redis CLI client, but any changes made this way are temporary and are not persisted on restarts. Use the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases?topic=cloud-databases-cdb-reference) or [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#updatedatabaseconfiguration) to change your deployment's configuration file. More information is in [Changing Your Redis Configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli).
+You can use `CONFIG SET` directly from a Redis CLI client, but any changes made this way are temporary and are not persisted on restarts. Use the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases?topic=cloud-databases-cdb-reference) or [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#updatedatabaseconfiguration) to change your deployment's configuration file. For more information, see [Changing your Redis configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli).
 {: .tip}
 
 For example, the Redis documentation recommends the `allkeys-lru` setting as a good starting place for a general-use cache. It's also fine to leave the `maxmemory` and `maxmemory-samples` at their default values.
 
-To configure the cache **from the CLI**, you can use the following:
+### Configuring the cache using the CLI
+{: #redis-cache-example-cache-cli}
+
+To configure the cache from the CLI, you can use the following example:
 
 ```sh
 ibmcloud resource service-instance-update <INSTANCE_NAME_OR_CRN> \
@@ -81,7 +84,10 @@ ibmcloud resource service-instance-update <INSTANCE_NAME_OR_CRN> \
 ```
 {: pre}
 
-To set up the same configuration **through the API**, you can use the following:
+### Configuring the cache using the API
+{: #redis-cache-example-cache-api}
+
+To configure the cache using the API, you can use the following example:
 
 ```sh
 IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq .iam_token -r)
@@ -107,8 +113,8 @@ curl -X PATCH \
 
 Redis offers excellent cache performance with several advantages:
 
-- **I/O threading support**: Redis can leverage multiple CPU cores for network operations, improving throughput for cache workloads
-- **Efficient memory management**: Optimized memory allocation reduces overhead
-- **Active community**: Regular performance enhancements from the open source community
+- **I/O threading support**: Redis can leverage multiple CPU cores for network operations, which improves throughput for cache workloads.
+- **Efficient memory management**: uses optimized memory allocation to reduce overhead.
+- **Active community**: regular performance enhancements from the open-source community.
 
 For more information on optimizing Redis cache performance, see [Performance tuning](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-performance).

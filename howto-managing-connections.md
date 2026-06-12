@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-12"
 
 keywords: redis, databases, connection limits, terminating connections, connection pooling, managing connections
 
@@ -23,9 +23,9 @@ Connections to your {{site.data.keyword.databases-for-redis_full}} deployment us
 ## Redis connection limits
 {: #managing-redis-connection-limits}
 
-At provision, {{site.data.keyword.databases-for-redis_full}} sets the maximum number of connections to your Redis deployment to **10,000**. Leave some connections available, as a number of them are reserved internally to maintain the state and integrity of your database.
+At provision, {{site.data.keyword.databases-for-redis_full}} sets the maximum number of connections to your Redis deployment to **10,000**. Leave some connections available because a number of them are reserved internally to maintain the state and integrity of your database.
 
-Exceeding the connection limit for your deployment can make your database unreachable by your applications. If your connection limit is reached, you see the following error.
+Exceeding the connection limit for your deployment can make your database unreachable by your applications. If your connection limit is reached, you see the following error:
 
 ```sh
 ERR max number of clients reached
@@ -58,14 +58,14 @@ Because of Redis's single-threaded command execution model, a client connection 
 
 The `CLIENT KILL` command closes a client connection but with a limitation that it processes the kill request only after the running command finishes. For more information, see [Redis CLIENT KILL documentation](https://redis.io/commands/client-kill/){: external}.
 
-The real solution is avoid commands that block the server for a long time, such as `KEYS *`, expensive Lua scripts, huge `SORT` commands, and large blocking module operations. Instead you should use incremental and non-blocking alternatives.
+The real solution is avoid commands that block the server for a long time, such as `KEYS *`, expensive Lua scripts, huge `SORT` commands, and large blocking module operations. Instead use incremental and non-blocking alternatives.
 
 If the server is completely stuck on an expensive command, the only immediate way to interrupt is to terminate the Redis process itself or restart the service. However, this is disruptive and can affect all clients.
 
 ## Redis connection pooling
 {: #managing-redis-connection-pooling}
 
-One way to prevent exceeding the connection limit and ensure that connections from your applications are being handled efficiently is through connection pooling. Connection pooling minimizes the number of active connections against your deployment. For more information, see [The Pooling of Connections in Redis](https://medium.com/geekculture/the-pooling-of-connections-in-redis-e8188335bf64){: .external}.
+One way to prevent exceeding the connection limit and ensure that connections from your applications are being handled efficiently is to use connection pooling. Connection pooling minimizes the number of active connections against your deployment. For more information, see [The Pooling of Connections in Redis](https://medium.com/geekculture/the-pooling-of-connections-in-redis-e8188335bf64){: .external}.
 
 ## Redis context-based restrictions and allowlisting
 {: #managing-redis-allowlisting}
