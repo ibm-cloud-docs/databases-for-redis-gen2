@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-09"
+lastupdated: "2026-06-15"
 
 keywords: redis gui, redis, redis cloud database, redis getting started, Gen 2, sentinel
 
@@ -28,8 +28,8 @@ This tutorial guides you through the steps to quickly start using {{site.data.ke
 Follow these steps to complete the tutorial: {: ui}
 
 * [Before you begin](#prereqs)
-* [Step 1: Provision through the console](#provision_instance_ui)
-* [Step 2: Creating the `Manager` user via the console](#manager_user_ui)
+* [Step 1: Provision using the console](#provision_instance_ui)
+* [Step 2: Creating the `Manager` user using the console](#manager_user_ui)
 * [Step 3: Create a connection](#private_connect_setup_ui)
 * [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
@@ -39,8 +39,8 @@ Follow these steps to complete the tutorial: {: ui}
 Follow these steps to complete the tutorial: {: cli}
 
 * [Before you begin](#prereqs)
-* [Step 1: Provision through the CLI](#provision_instance_cli)
-* [Step 2: Creating the `Manager` user via CLI](#manager_user_cli)
+* [Step 1: Provision using the CLI](#provision_instance_cli)
+* [Step 2: Creating the `Manager` user using the CLI](#manager_user_cli)
 * [Step 3: Create a connection](#private_connect_setup_cli)
 * [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_cli)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_cli)
@@ -50,8 +50,8 @@ Follow these steps to complete the tutorial: {: cli}
 Follow these steps to complete the tutorial: {: api}
 
 * [Before you begin](#prereqs)
-* [Step 1: Provision through the API](#provision_instance_api)
-* [Step 2: Creating the `Manager` user via API](#manager_user_api)
+* [Step 1: Provision using the API](#provision_instance_api)
+* [Step 2: Creating the `Manager` user using the API](#manager_user_api)
 * [Step 3: Create a connection](#private_connect_setup_api)
 * [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_api)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_api)
@@ -61,8 +61,8 @@ Follow these steps to complete the tutorial: {: api}
 Follow these steps to complete the tutorial: {: terraform}
 
 * [Before you begin](#prereqs)
-* [Step 1: Provision through Terraform](#provision_instance_tf)
-* [Step 2: Creating the `Manager` user via Terraform](#manager_user_tf)
+* [Step 1: Provision using Terraform](#provision_instance_tf)
+* [Step 2: Creating the `Manager` user using Terraform](#manager_user_tf)
 * [Step 3: Create a connection](#private_connect_setup_tf)
 * [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_tf)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_tf)
@@ -76,7 +76,7 @@ Follow these steps to complete the tutorial: {: terraform}
 * You need an [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration){: external}.
 
 
-## Step 1: Provision through the console
+## Step 1: Provision using the console
 {: #provision_instance_ui}
 {: ui}
 
@@ -86,9 +86,9 @@ Follow these steps to complete the tutorial: {: terraform}
 1. In **Service details**, configure the following:
     - **Location** Select a location that supports Gen 2.
     - **Service name** The name can be any string and is the name that is used on the web and in the CLI to identify the new instance.
-    - **Resource group** If you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
+    - **Resource group** Required if you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
 
-1. **Resource allocation** Select an isolated compute instance with a certain amount of RAM and CPU cores. Changing resource allocation requires selecting a different host size. *After provisioning, disk cannot be scaled down.*
+1. **Resource allocation** Select an isolated compute instance with a defined amount of RAM and CPU cores. Changing resource allocation requires selecting a different host size. *After provisioning, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
     - **Database version** [Set only at deployment]{: tag-red} The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy&interface=ui){: external}.
     - **Encryption** If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the instance's disk. If you do not use your own key, the instance automatically creates and manages its own disk encryption key.
@@ -103,11 +103,11 @@ As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can u
 {{site.data.keyword.databases-for-redis}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 
-## Step 1: Provision through the CLI
+## Step 1: Provision using the CLI
 {: #provision_instance_cli}
 {: cli}
 
-You can provision a {{site.data.keyword.databases-for-redis}} instance through the CLI. If you don't already have it, you need to install the [{{site.data.keyword.cloud_notm}} CLI](https://www.ibm.com/cloud/cli){: external}.
+You can provision a {{site.data.keyword.databases-for-redis}} instance using the CLI. If you don't already have it, you need to install the [{{site.data.keyword.cloud_notm}} CLI](https://www.ibm.com/cloud/cli){: external}.
 
 1. Log in to {{site.data.keyword.cloud_notm}} with the following command:
 {: #step2_login_qsg}
@@ -142,7 +142,7 @@ You can provision a {{site.data.keyword.databases-for-redis}} instance through t
 
       This will provision a Redis instance with 3 members and 40 GB of storage per member running on hosts of flavor bx3d.8x40.
 
-      If you pass in unsupported values, the ** create ** command fails with a message indicating which values are invalid.
+      If you pass in unsupported values, the **create** command fails with a message indicating which values are invalid.
 
       Supported parameters:
 
@@ -204,14 +204,14 @@ ibmcloud resource service-instance-create databases-for-redis <SERVICE_NAME> sta
 {: .pre}
 
 
-## Step 1: Provision through the resource controller API
+## Step 1: Provision using the resource controller API
 {: #provision_instance_api}
 {: api}
 
 Complete these steps to provision by using the [resource controller API](https://cloud.ibm.com/apidocs/resource-controller/resource-controller){: external}.
 
 1. Obtain an [IAM token from your API token](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#authentication){: external}.
-1. You need to know the ID of the resource group you want to deploy to. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
+1. You need to know the ID of the resource group you want to deploy to. This information is available using the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
 
    Use a command like:
 
@@ -277,7 +277,7 @@ Supported parameters:
 * `service_endpoints` The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
 
 
-## Step 1: Provision through Terraform
+## Step 1: Provision using Terraform
 {: #provision_instance_tf}
 {: terraform}
 
@@ -307,7 +307,7 @@ terraform apply
 Type `yes` when prompted to confirm. The provisioning process takes approximately 15-20 minutes.
 
 
-## Step 2: Creating the `Manager` user via console
+## Step 2: Creating the `Manager` user using  console
 {: #manager_user_ui}
 {: ui}
 
@@ -326,7 +326,7 @@ The `Manager` user functions as an admin-like user with full access to Redis com
 Changing the user password is not supported using the {{site.data.keyword.cloud_notm}} console on Gen 2.
 
 
-## Step 2: Creating the `Manager` user via the CLI
+## Step 2: Creating the `Manager` user using the CLI
 {: #manager_user_cli}
 {: cli}
 
@@ -369,7 +369,7 @@ ibmcloud resource service-key-delete <service_key_name>
 Changing a user password is not supported using the CLI on Gen 2. However, you can update a password using tools, such as `redis-cli` by running the appropriate Redis commands.
 
 
-## Step 2: Creating the `Manager` user via API
+## Step 2: Creating the `Manager` user using  API
 {: #manager_user_api}
 {: api}
 
@@ -378,7 +378,7 @@ As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can u
 {{site.data.keyword.databases-for-redis}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface using the UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 
-## Step 2: Creating the `Manager` user via Terraform
+## Step 2: Creating the `Manager` user using Terraform
 {: #manager_user_tf}
 {: terraform}
 
@@ -397,7 +397,7 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
+The following links provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -415,7 +415,7 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
+Also, the following linked sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -434,7 +434,7 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
+Also, the following linked sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -453,7 +453,7 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-Also, the following sections provide a clear overview of how a connection is established within the VPC environment.
+Also, the following linked sections provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -466,7 +466,7 @@ Also, the following sections provide a clear overview of how a connection is est
 {: #tf_connect_redis}
 {: terraform}
 
-Ensure you have Redis client tools installed. Check your `redis-cli` version:
+Ensure that you have Redis client tools installed. Check your `redis-cli` version:
 
 ```sh
 redis-cli --version
@@ -476,7 +476,7 @@ redis-cli --version
 Connect to your database using the connection string from your Terraform outputs.
 
 
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} using the console
 {: #connect_monitoring_ui}
 {: ui}
 
@@ -488,7 +488,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 {: note}
 
 
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the CLI
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} using the CLI
 {: #connect_monitoring_cli}
 {: cli}
 
@@ -500,7 +500,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 {: note}
 
 
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the API
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} using the API
 {: #connect_monitoring_api}
 {: api}
 
@@ -512,7 +512,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 {: note}
 
 
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through Terraform
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} using Terraform
 {: #connect_monitoring_tf}
 {: terraform}
 
@@ -542,11 +542,11 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use th
 {: note}
 
 
-## Step 5: Connect {{site.data.keyword.atracker_full_notm}} through the CLI
+## Step 5: Connect {{site.data.keyword.atracker_full_notm}} using the CLI
 {: #activity_tracker_cli}
 {: cli}
 
-{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
+{{site.data.keyword.atracker_full}} allows you to view and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
 
 To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}](/docs/atracker?topic=atracker-getting-started){: external}.
 
@@ -560,11 +560,11 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use th
 {: note}
 
 
-## Step 5: Connect {{site.data.keyword.atracker_full}} through the API
+## Step 5: Connect {{site.data.keyword.atracker_full}} using the API
 {: #activity_tracker_api}
 {: api}
 
-{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
+{{site.data.keyword.atracker_full}} allows you to view and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
 
 To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}](/docs/atracker?topic=atracker-getting-started){: external}.
 
@@ -578,11 +578,11 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use th
 {: note}
 
 
-## Step 5: Connect {{site.data.keyword.atracker_full_notm}} through Terraform
+## Step 5: Connect {{site.data.keyword.atracker_full_notm}} using Terraform
 {: #activity_tracker_tf}
 {: terraform}
 
-{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
+{{site.data.keyword.atracker_full}} allows you to view and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
 
 To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}](/docs/atracker?topic=atracker-getting-started){: external}.
 

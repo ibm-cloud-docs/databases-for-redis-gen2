@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-15"
 
 keywords: redis, databases, monitoring, scaling, autoscaling, resources, Redis connection limits, Gen 2
 
@@ -15,12 +15,12 @@ subcollection: databases-for-redis-gen2
 # Performance
 {: #performance}
 
-{{site.data.keyword.databases-for-redis_full}} deployments can be both manually [scaled to your usage](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-resources-scaling), or configured to [autoscale](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-autoscaling) under certain resource conditions. There are several factors to consider when tuning the performance of your deployment.
+{{site.data.keyword.databases-for-redis_full}} deployments can be both manually [scaled to your usage](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-resources-scaling) or configured to [autoscale](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-autoscaling) under certain resource conditions. There are several factors to consider when tuning the performance of your deployment.
 
 ## Monitoring your deployment
 {: #monitoring-deployment}
 
-{{site.data.keyword.databases-for-redis}} deployments offer an integration with the [{{site.data.keyword.monitoringfull}} service](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-monitoring) for basic monitoring of resource usage on your deployment. Many of the available metrics, like memory usage, disk usage, and IOPS, are presented to help you configure [autoscaling](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-autoscaling) on your deployment. Observing trends in your usage and configuring the autoscaling to respond to them can help alleviate performance problems before your databases become unstable due to resource exhaustion.
+{{site.data.keyword.databases-for-redis}} deployments offer an integration with the [{{site.data.keyword.monitoringfull}} service](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-monitoring) for basic monitoring of resource usage on your deployment. Many of the available metrics, like memory usage, disk usage, and IOPS are presented to help you configure [autoscaling](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-autoscaling) on your deployment. Observing trends in your usage and configuring the autoscaling to respond to them can help alleviate performance problems before your databases become unstable because of resource exhaustion.
 
 ## Memory policies
 {: #mem-policies}
@@ -34,7 +34,7 @@ You can also configure your deployment to use [Redis as a cache](/docs/databases
 ## Read scaling and failover behavior
 {: #read-scaling-failover}
 
-{{site.data.keyword.databases-for-redis}} uses a primary and replica topology. Write traffic is directed to the primary member, while the replica supports high availability and can help absorb read-heavy workloads where your application design supports read distribution. During failover, the replica is promoted to primary, so client applications must tolerate a brief interruption and reconnect to the new primary.
+{{site.data.keyword.databases-for-redis}} uses a primary and replica topology. Write traffic is directed to the primary member and the replica supports high availability and can help absorb read-heavy workloads where your application design supports read distribution. During failover, the replica is promoted to primary, so client applications must tolerate a brief interruption and reconnect to the new primary.
 
 ## Disk IOPS
 {: #disk-iops}
@@ -50,6 +50,6 @@ To ensure reliable performance in production environments, we recommend provisio
 When you evaluate performance, consider the following service characteristics:
 
 - Memory pressure can affect latency, especially when eviction, fragmentation, or background persistence activity increases CPU and disk usage.
-- Persistence settings can affect write performance and restart behavior. AOF generally improves durability, while cache-oriented configurations can reduce IOPS demand.
+- Persistence settings can affect write performance and restart behavior. AOF generally improves durability and cache-oriented configurations can reduce IOPS demand.
 - Replica lag can increase during write-heavy bursts, which can affect read-after-write expectations on replica-based read patterns.
 - Scaling CPU, memory, and disk together with monitoring data is the most effective way to maintain predictable performance over time.
