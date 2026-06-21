@@ -20,7 +20,7 @@ subcollection: databases-for-redis-gen2
 ## Monitoring your deployment
 {: #monitoring-deployment}
 
-{{site.data.keyword.databases-for-redis}} deployments offer an integration with the [{{site.data.keyword.monitoringfull}} service](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-monitoring) for basic monitoring of resource usage on your deployment.  Observing trends in your usage and configuring the autoscaling to respond to them can help alleviate performance problems before your databases become unstable because of resource exhaustion.
+{{site.data.keyword.databases-for-redis}} deployments offer an integration with the [{{site.data.keyword.monitoringfull}} service](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-monitoring) for basic monitoring of resource usage on your deployment.  Observing trends in your usagecan help alleviate performance problems before your databases become unstable because of resource exhaustion.
 
 ## Memory policies
 {: #mem-policies}

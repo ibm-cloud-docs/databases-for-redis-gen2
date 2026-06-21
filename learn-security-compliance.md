@@ -47,7 +47,6 @@ Dedicated CPU Cores
 :   Allocating dedicated cores to your deployment introduces hypervisor-level isolation to your database instance, using isolated virtual machines to ensure your data processing remains separated from other customers. It also provides a guaranteed minimum number of CPUs to your deployment. Deployments with dedicated cores in the same resource group and {{site.data.keyword.cloud_notm}} region can share a virtual machine.
 
 
-
 ## Data resilience
 {: #data-resilience}
 

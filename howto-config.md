@@ -45,7 +45,7 @@ For more information, see the [API reference](/apidocs/cloud-databases-api/cloud
 
 To check the current value of a setting, use [`CONFIG GET`](https://redis.io/commands/config-get){: external} from a [CLI client](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connecting-cli-client&interface=api). You can check all of the settings by using `CONFIG GET *`.
 
-Many of the settings are used to configure Redis as a cache. For more information, see the [Configuring Redis as a Cache](/docs-draft/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache) page.
+Many of the settings are used to configure Redis as a cache. For more information, see the [Configuring Redis as a cache](/docs-draft/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache) page.
 
 | Setting | Default | Notes |
 | ---------- | ----- | ----------- |
