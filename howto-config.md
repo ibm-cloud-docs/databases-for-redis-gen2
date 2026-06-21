@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-06-21"
 
 keywords: redis, databases, configs
 
@@ -19,7 +19,7 @@ In {{site.data.keyword.databases-for-redis_full}}, you can change some of the Re
 In Redis 6 and above versions, only `CONFIG GET` and `CONFIG RESETSTAT` are exposed.
 {: note}
 
-To make permanent changes to the database configuration, use the {{site.data.keyword.databases-for}} [CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-configuration) or [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#updatedatabaseconfiguration) to write the changes to the configuration file for your deployment.
+To make permanent changes to the database configuration, use the {{site.data.keyword.databases-for}} [CLI plug-in](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-cdb-reference&interface=api) or [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#updatedatabaseconfiguration) to write the changes to the configuration file for your deployment.
 
 To make a change, you send a JSON object with the settings that you want to change and their new values. For example, to set the `maxmemory-policy` setting, you would supply the following either to the CLI or to the API.
 
@@ -43,9 +43,9 @@ For more information, see the [API reference](/apidocs/cloud-databases-api/cloud
 ## Available configuration settings
 {: # config-settings}
 
-To check the current value of a setting, use [`CONFIG GET`](https://redis.io/commands/config-get){: external} from a [CLI client](/docs/databases-for-redis-gen2?topic=databases-for-redis-connecting-cli-client). You can check all of the settings by using `CONFIG GET *`.
+To check the current value of a setting, use [`CONFIG GET`](https://redis.io/commands/config-get){: external} from a [CLI client](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connecting-cli-client&interface=api). You can check all of the settings by using `CONFIG GET *`.
 
-Many of the settings are used to configure Redis as a cache. For more information, see the [Configuring Redis as a Cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache) page.
+Many of the settings are used to configure Redis as a cache. For more information, see the [Configuring Redis as a Cache](/docs-draft/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache) page.
 
 | Setting | Default | Notes |
 | ---------- | ----- | ----------- |

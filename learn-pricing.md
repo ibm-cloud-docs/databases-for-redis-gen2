@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-06-21"
 
 keywords: redis gen 2, pricing
 
@@ -21,7 +21,7 @@ A {{site.data.keyword.databases-for-redis}} deployment consists of a highly avai
 ## Using the pricing calculator
 {: #pricing-calc}
 
-For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-redis}} catalog page](https://cloud.ibm.com/catalog/databases-for-redis-gen2). Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 10 GB of disk on a 4 vCPU x 16 GB RAM profile has a total bill for 20 GB of disk and the total cost of 2 members.
+For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-redis}} catalog page](https://cloud.ibm.com/databases/databases-for-redis/create). Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 10 GB of disk on a 4 vCPU x 16 GB RAM profile has a total bill for 20 GB of disk and the total cost of 2 members.
 
 ## Gen 2 backups pricing
 {: #pricing-backup}

@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-21"
 
 subcollection: databases-for-redis-gen2
 
@@ -63,7 +63,7 @@ AOF can be turned off if you want to use Redis as a cache. This can also reduce 
 
 In addition to on-node persistence, {{site.data.keyword.databases-for-redis}} backups are stored in [{{site.data.keyword.cos_full_notm}}](/docs/cloud-object-storage?topic=cloud-object-storage-about-cloud-object-storage). Backups are encrypted at rest and deployments can use customer-managed keys through [Key Protect integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-key-protect&interface=ui).
 
-For backup management, restore workflows, and retention details that apply to your deployment, see [Managing backups](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-dashboard-backups).
+For backup management, restore workflows, and retention details that apply to your deployment, see [Managing backups](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-comparison-backups).
 
 ## Reconfigure persistence settings for {{site.data.keyword.databases-for-redis}}
 {: #reconfigure-redis-as-persistent}

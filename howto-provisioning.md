@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-06-21"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision redis
 
@@ -402,10 +402,6 @@ resource "ibm_resource_instance" "<your_database>" {
   users {
     name     = "user123"
     password = "password12"
-  }
-  allowlist {
-    address     = "172.168.1.1/32"
-    description = "desc"
   }
 }
 output "ICD Redis database connection string" {

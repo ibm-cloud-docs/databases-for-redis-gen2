@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-21"
 
 keywords: redis, databases, soc, hipaa, gdpr, terms
 
@@ -41,13 +41,12 @@ Isolated Compute
 :   Isolated Compute is a secure single-tenant offering for complex, highly-performant enterprise workloads. By placing your deployment and all associated user-data management agents on an isolated machine, Cloud Databases Isolated Compute provides dedicated computing resources, dedicated storage bandwidth, and hypervisor-level isolation.
 
 Private networking
-:   {{site.data.keyword.databases-for-redis}} is integrated with [Service Endpoints](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-service-endpoints&interface=ui) and offered only with private endpoints.
+:   {{site.data.keyword.databases-for-redis}} is offered only with [private endpoints](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2).
 
 Dedicated CPU Cores
 :   Allocating dedicated cores to your deployment introduces hypervisor-level isolation to your database instance, using isolated virtual machines to ensure your data processing remains separated from other customers. It also provides a guaranteed minimum number of CPUs to your deployment. Deployments with dedicated cores in the same resource group and {{site.data.keyword.cloud_notm}} region can share a virtual machine.
 
-IP allowlisting (deprecated)
-:   All deployments support [allowlisting IP addresses](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-allowlisting&interface=ui) to restrict access to the service.
+
 
 ## Data resilience
 {: #data-resilience}

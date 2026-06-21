@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-05-12"
+lastupdated: "2026-06-21"
 
 keywords: redis gen 2, faq, frequently asked questions, sentinel, failover, migration, redis 8.2
 
@@ -109,7 +109,7 @@ Redis Gen 2 includes comprehensive security features:
 * Mandatory TLS 1.2+ encryption for all connections with automatic certificate rotation
 * AES-256 encryption at rest for storage volumes and backups
 * BYOK support via Key Protect or Hyper Protect Crypto Services
-* VPC deployment with IP allowlisting and private service endpoints
+* VPC deployment with private service endpoints
 * Compliance certifications including SOC 2 Type II, ISO 27001/27017/27018, GDPR, HIPAA, and PCI DSS.
 
 For more information, see [Security and compliance](/docs/databases-for-redis-gen2?topic=databases-for-redis-security-compliance).

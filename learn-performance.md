@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-06-21"
 
 keywords: redis, databases, monitoring, scaling, autoscaling, resources, Redis connection limits, Gen 2
 
@@ -15,12 +15,12 @@ subcollection: databases-for-redis-gen2
 # Performance
 {: #performance}
 
-{{site.data.keyword.databases-for-redis_full}} deployments can be both manually [scaled to your usage](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-resources-scaling) or configured to [autoscale](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-autoscaling) under certain resource conditions. There are several factors to consider when tuning the performance of your deployment.
+{{site.data.keyword.databases-for-redis_full}} deployments can be manually [scaled to your usage](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-resources-scaling) under certain resource conditions. There are several factors to consider when tuning the performance of your deployment.
 
 ## Monitoring your deployment
 {: #monitoring-deployment}
 
-{{site.data.keyword.databases-for-redis}} deployments offer an integration with the [{{site.data.keyword.monitoringfull}} service](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-monitoring) for basic monitoring of resource usage on your deployment. Many of the available metrics, like memory usage, disk usage, and IOPS are presented to help you configure [autoscaling](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-autoscaling) on your deployment. Observing trends in your usage and configuring the autoscaling to respond to them can help alleviate performance problems before your databases become unstable because of resource exhaustion.
+{{site.data.keyword.databases-for-redis}} deployments offer an integration with the [{{site.data.keyword.monitoringfull}} service](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-monitoring) for basic monitoring of resource usage on your deployment.  Observing trends in your usage and configuring the autoscaling to respond to them can help alleviate performance problems before your databases become unstable because of resource exhaustion.
 
 ## Memory policies
 {: #mem-policies}

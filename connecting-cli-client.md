@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-06-21"
 
 keywords: redis, databases, update, client, pub/sub
 
@@ -151,6 +151,6 @@ Database instances with private endpoints are reachable from any account within 
 ## Next steps
 {: #next-steps-cli}
 
-* [Learn about Redis features](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-features)
+* [Learn about Redis features](https://redis.io/docs/latest/develop/whats-new/redis-feature-sets/)
 * [Connect an external application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-external-app)
 * [Connect an IBM Cloud application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-ibmcloud-app)
