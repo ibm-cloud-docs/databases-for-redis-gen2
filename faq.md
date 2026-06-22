@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-06-22"
 
 keywords: redis gen 2, faq, frequently asked questions, sentinel, failover, migration, redis 8.2
 
@@ -54,13 +54,13 @@ Yes, you can migrate from Gen 1 to Gen 2 using the backup and restore method wit
 {: #faq-rto-rpo}
 {: faq}
 
-The Recovery Time Objective (RTO) for Redis Gen 2 is 30-90 seconds for automatic Sentinel failover. The Recovery Point Objective (RPO) depends on your persistence configuration. With the default hybrid persistence (RDB + AOF with fsync every second), you may lose up to 1 second of data during a failover because of asynchronous replication. For workloads requiring stricter durability, you can configure AOF with the "always" fsync policy, though this impacts performance. For more information, see [High availability and disaster recovery](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-ha-dr).
+The Recovery Time Objective (RTO) for Redis Gen 2 is 30-90 seconds for automatic Sentinel failover. The Recovery Point Objective (RPO) depends on your persistence configuration. With the default hybrid persistence (RDB + AOF with fsync every second), you may lose up to 1 second of data during a failover because of asynchronous replication. For workloads requiring stricter durability, you can configure AOF with the "always" fsync policy, though this impacts performance. For more information, see [High availability and disaster recovery](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-ha-dr).
 
 ## How do I connect to Redis Gen 2 with Sentinel support?
 {: #faq-sentinel-connection}
 {: faq}
 
-For optimal resilience, use Sentinel-aware client libraries that automatically discover the current primary node and handle failover events. Recommended libraries include ioredis and node-redis for Node.js, redis-py for Python, Jedis or Lettuce for Java, and go-redis for Go. Configure your client with the Sentinel endpoints rather than connecting directly to Redis nodes. For code examples and detailed instructions, see [Connecting an external application](/docs/databases-for-redis-gen2?topic=databases-for-redis-external-app).
+For optimal resilience, use Sentinel-aware client libraries that automatically discover the current primary node and handle failover events. Recommended libraries include ioredis and node-redis for Node.js, redis-py for Python, Jedis or Lettuce for Java, and go-redis for Go. Configure your client with the Sentinel endpoints rather than connecting directly to Redis nodes. For code examples and detailed instructions, see [Connecting an external application](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-external-app&interface=ui).
 
 ## What data structures does Redis Gen 2 support?
 {: #faq-data-structures}
@@ -83,7 +83,7 @@ Each structure is optimized for specific use cases.
 {: #faq-persistence}
 {: faq}
 
-Redis Gen 2 offers three persistence options: RDB snapshots (point-in-time snapshots in compact binary format), AOF (Append-Only File with configurable fsync policies), and Hybrid persistence (RDB + AOF, recommended for production). By default, Gen 2 uses hybrid persistence with AOF fsync every second, balancing durability and performance. You can also configure Redis as a cache by disabling AOF. For more information, see [Configuring persistence](/docs/databases-for-redis-gen2?topic=databases-for-redis-configuring-persistence).
+Redis Gen 2 offers three persistence options: RDB snapshots (point-in-time snapshots in compact binary format), AOF (Append-Only File with configurable fsync policies), and Hybrid persistence (RDB + AOF, recommended for production). By default, Gen 2 uses hybrid persistence with AOF fsync every second, balancing durability and performance. You can also configure Redis as a cache by disabling AOF. For more information, see [Configuring persistence](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-configuring-persistence&interface=ui).
 
 ## What are the performance characteristics of Redis Gen 2?
 {: #faq-performance}
@@ -91,13 +91,13 @@ Redis Gen 2 offers three persistence options: RDB snapshots (point-in-time snaps
 
 Redis Gen 2 delivers sub-millisecond response times with p99 latency under 1ms for simple commands and under 5ms SLA overall. Throughput exceeds 100,000 operations per second per node with I/O threading enabled. The service uses jemalloc allocator for memory optimization, active defragmentation, and efficient encodings.
 
-Performance can be scaled vertically by adjusting CPU and memory, or horizontally through read replicas. For more information, see [Performance](/docs/databases-for-redis-gen2?topic=databases-for-redis-performance).
+Performance can be scaled vertically by adjusting CPU and memory, or horizontally through read replicas. For more information, see [Performance](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-performance).
 
 ## How are backups handled in Redis Gen 2?
 {: #faq-backups}
 {: faq}
 
-Redis Gen 2 provides daily automated backups to IBM Cloud Object Storage with configurable retention periods (7, 14, or 30 days). Backups are encrypted with AES-256 and support cross-region replication. You can bring your own encryption key (BYOK) via Key Protect. Backups are taken even when Redis is configured as a cache. For more information about managing backups, see [Managing backups](/docs/databases-for-redis-gen2?topic=databases-for-redis-dashboard-backups).
+Redis Gen 2 provides daily automated backups to IBM Cloud Object Storage with configurable retention periods (7, 14, or 30 days). Backups are encrypted with AES-256 and support cross-region replication. You can bring your own encryption key (BYOK) via Key Protect. Backups are taken even when Redis is configured as a cache. For more information about managing backups, see [Managing backups](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-comparison-backups).
 
 ## What security features does Redis Gen 2 provide?
 {: #faq-security}
@@ -112,7 +112,7 @@ Redis Gen 2 includes comprehensive security features:
 * VPC deployment with private service endpoints
 * Compliance certifications including SOC 2 Type II, ISO 27001/27017/27018, GDPR, HIPAA, and PCI DSS.
 
-For more information, see [Security and compliance](/docs/databases-for-redis-gen2?topic=databases-for-redis-security-compliance).
+For more information, see [Security and compliance](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-security-compliance).
 
 ## Can I use Redis Gen 2 as a cache?
 {: #faq-redis-cache}
@@ -120,7 +120,7 @@ For more information, see [Security and compliance](/docs/databases-for-redis-ge
 
 Yes, Redis Gen 2 can be configured as a cache by disabling AOF persistence and setting an appropriate maxmemory-policy for key eviction. Common policies include allkeys-lru (evicts least recently used keys), allkeys-lfu (evicts least frequently used keys), and volatile-ttl (evicts keys with shorter TTL first).
 
-Configuring Redis as a cache reduces IOPS load and improves performance. Daily backups are still taken even in cache mode. For detailed configuration instructions, see [Configuring Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-redis-cache).
+Configuring Redis as a cache reduces IOPS load and improves performance. Daily backups are still taken even in cache mode. For detailed configuration instructions, see [Configuring Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache).
 
 ## What hosting models are available?
 {: #faq-hosting-models}
@@ -138,7 +138,7 @@ For Shared Compute instances, you can configure autoscaling to automatically adj
 
 For Isolated Compute instances, CPU and RAM autoscaling is not supported, but disk autoscaling is available.
 
-Scaling operations are performed with minimal disruption. Monitor your resources using IBM Cloud Monitoring integration to determine when scaling is needed. For more information, see [Scaling resources](/docs/databases-for-redis-gen2?topic=databases-for-redis-resources-scaling).
+Scaling operations are performed with minimal disruption. Monitor your resources using IBM Cloud Monitoring integration to determine when scaling is needed. For more information, see [Scaling resources](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-resources-scaling&interface=ui).
 
 ## What monitoring and observability options are available?
 {: #faq-monitoring}
@@ -149,4 +149,4 @@ Redis Gen 2 integrates with IBM Cloud's observability services:
 * IBM Cloud Logs for application and system logs
 * IBM Cloud Activity Tracker for audit logging of administrative actions.
 
-These integrations help you monitor performance, troubleshoot issues, and maintain compliance. For more information, see [Monitoring](/docs/databases-for-redis-gen2?topic=databases-for-redis-monitoring).
+These integrations help you monitor performance, troubleshoot issues, and maintain compliance. For more information, see [Monitoring](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-performance).
