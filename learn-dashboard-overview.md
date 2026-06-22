@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-06-22"
 
 keywords: deployment, crn, task, gui, api endpoint, connection strings, recent tasks, observability
 
@@ -34,7 +34,7 @@ The resources tile contains information and configuration options on the size an
 ### Recent tasks
 {: #dashboard-overview-recent-tasks}
 
-Every time that you make administrative changes to your service (such as scaling, or taking a manual backup), a task starts up. The _Recent Tasks_ panel shows the task name and progress bar for any running tasks, and a list of the most recent completed tasks. Depending on how busy your deployment is, successful tasks can be shown for 24-48 hours. Unsuccessful tasks can show for 7-8 days. Tasks can also be retrieved from the [Cloud Databases API](/apidocs/cloud-databases-api/cloud-databases-api-v5#listdeploymenttasks) and [CLI plug-in](https://cloud.ibm.com/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-tasks-list). A historical record of tasks from any time period is available through the [{{site.data.keyword.atracker_full}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-at_events).
+Every time that you make administrative changes to your service (such as scaling, or taking a manual backup), a task starts up. The _Recent Tasks_ panel shows the task name and progress bar for any running tasks, and a list of the most recent completed tasks. Depending on how busy your deployment is, successful tasks can be shown for 24-48 hours. Unsuccessful tasks can show for 7-8 days. Tasks can also be retrieved from the [Cloud Databases API](/apidocs/cloud-databases-api/cloud-databases-api-v5#listdeploymenttasks) and [CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference&interface=ui). A historical record of tasks from any time period is available through the [{{site.data.keyword.atracker_full}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-at_events).
 
 ### Observability
 {: #dashboard-overview-observability}

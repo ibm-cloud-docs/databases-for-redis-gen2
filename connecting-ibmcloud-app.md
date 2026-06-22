@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-06-22"
 
 keywords: redis, databases, pub/sub, application
 
@@ -24,8 +24,7 @@ Applications running in {{site.data.keyword.cloud_notm}} can be bound to your {{
 
 There are two steps to connecting a Cloud databases deployment to a Kubernetes Service application. First, your deployment needs to be bound to your cluster and its connection strings stored in a secret. The second step is to configure your application to use the connection strings.
 
-The sample app in the [Connecting a Kubernetes service tutorial](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-tutorial-k8s-app) provides a sample application that uses Node.js and demonstrates how to bind the sample application to a {{site.data.keyword.databases-for}} deployment.
-{: .tip}
+
 
 Before connecting your Kubernetes Service application to a deployment, ensure that the deployment and cluster are both in the same region and resource group.
 
