@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-11"
+lastupdated: "2026-06-22"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, redis
 
@@ -132,7 +132,7 @@ A recovered database might also need the same customer-created dependencies of t
 
 - {{site.data.keyword.keymanagementservicefull}}
 
-Remember that deleting a database also deletes its associated backups. However, deleted databases might be recoverable within a limited timeframe. For more information, see [Backups FAQ](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-faq-backups).
+Remember that deleting a database also deletes its associated backups. However, deleted databases might be recoverable within a limited timeframe. For more information, see [Gen 2 backups](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-comparison-backups).
 
 It is not possible to copy backups off the {{site.data.keyword.cloud_notm}}, so consider using the database-specific tools for additional backups. It might be required to recover from malicious database deletion followed by a reclamation-delete of a database. Careful management of IAM access to databases can help reduce exposure to this problem.
 
