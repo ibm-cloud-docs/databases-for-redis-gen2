@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-06-22"
 
 keywords: redis, databases, connection limits, terminating connections, connection pooling, managing connections
 
@@ -67,7 +67,4 @@ If the server is completely stuck on an expensive command, the only immediate wa
 
 One way to prevent exceeding the connection limit and ensure that connections from your applications are being handled efficiently is to use connection pooling. Connection pooling minimizes the number of active connections against your deployment. For more information, see [The Pooling of Connections in Redis](https://medium.com/geekculture/the-pooling-of-connections-in-redis-e8188335bf64){: .external}.
 
-## Redis context-based restrictions 
-{: #managing-redis-allowlisting}
-
-You can also use context-based restrictions  to manage and limit connections to your Redis deployment. For more information, see [Context-based restrictions](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-cbr&interface=ui).
+.

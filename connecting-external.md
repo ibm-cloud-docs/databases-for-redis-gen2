@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-06-22"
 
 keywords: redis, databases
 
@@ -149,7 +149,7 @@ If your driver does not support the `rediss:` protocol or TLS/SSL connections, i
 
 Deployments also come with a service proprietary certificate so you can verify the server on starting a connection. Although it's not required, it is an additional security step that is recommended if your client supports it.
 
-For more information, see [{{site.data.keyword.databases-for}} Certificates FAQ](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-faq-cert){: external}.
+For more information, see [Gen 2 FAQ](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-faq).
 
 ### Using the service proprietary certificate
 {: #using-cert}

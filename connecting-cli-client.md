@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-06-22"
 
 keywords: redis, databases, update, client, pub/sub
 
@@ -145,7 +145,7 @@ redis-cli -h <hostname> -p 6379 --user <USERNAME> -a <PASSWORD> --tls --sni <hos
 ```
 {: pre}
 
-Database instances with private endpoints are reachable from any account within the private network and access to each instance requires authentication. To restrict this access to specific IP addresses or ranges of IP addresses, configure [Context-based restrictions](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cbr&interface=ui).
+Database instances with private endpoints are reachable from any account within the private network and access to each instance requires authentication. 
 {: note}
 
 ## Next steps
