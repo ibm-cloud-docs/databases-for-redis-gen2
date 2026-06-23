@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-22"
+lastupdated: "2026-06-23"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, redis
 
@@ -150,7 +150,7 @@ To find out more about responsibility ownership between the customer and {{site.
 ## Stay informed: {{site.data.keyword.IBM_notm}} notifications
 {: #ibm-service-notifications}
 
-Updates affecting customer workloads are communicated through {{site.data.keyword.cloud_notm}} notifications. To stay informed about planned maintenance, announcements, and release notes related to this service, see [Monitoring notifications and status](/docs/account?topic=account-viewing-cloud-status) page. In addition, regularly review the [Version policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy) page for the latest updates on End-of-Life versions and dates.
+Updates affecting customer workloads are communicated through {{site.data.keyword.cloud_notm}} notifications. To stay informed about planned maintenance, announcements, and release notes related to this service, see [Monitoring notifications and status](/docs/account?topic=account-best-practices) page. In addition, regularly review the [Version policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy) page for the latest updates on End-of-Life versions and dates.
 
 ## Additional guidance
 {: #ha_dr-guidance}
