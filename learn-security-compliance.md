@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-22"
+lastupdated: "2026-06-23"
 
 keywords: redis, databases, soc, hipaa, gdpr, terms
 
@@ -33,8 +33,6 @@ Database access controls
 
 Encryption at rest
 :   All {{site.data.keyword.databases-for-redis}} storage is provided on storage encrypted with LUKS using AES-256. The default keys are managed by [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about). Bring-your-own-key (BYOK) for encryption is also available through [Key Protect Integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-key-protect&interface=ui).
-
-
 
 Isolated Compute
 :   Isolated Compute is a secure single-tenant offering for complex, highly-performant enterprise workloads. By placing your deployment and all associated user-data management agents on an isolated machine, Cloud Databases Isolated Compute provides dedicated computing resources, dedicated storage bandwidth, and hypervisor-level isolation.
