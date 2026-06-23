@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-06-23"
 
 keywords: manager, roles, service credentials, redis users, redis service credentials, connection strings, manager password, new user, Gen 2
 
@@ -154,11 +154,11 @@ There are five reserved users on your instance. Modifying these users causes you
 
 - **default** Redis's built-in default user account
 - **ibm-user** An internal user for managing the instance, exposing metrics, and API operations
-- **admin** The initial customer admin user (password can be changed by customers)
+
 - **replication-user** The user account that is used for replication between member nodes
 - **sentinel-user** The user account for sentinels to handle monitoring and failovers
 
 Important notes:
-- The `admin` user is reserved but customers can change its password (it's the initial customer-facing admin account)
-- The other four users (`default`, `ibm-user`, `replication-user`, and`sentinel-user`) are strictly internal and cannot be modified
+
+- The four users (`default`, `ibm-user`, `replication-user`, and`sentinel-user`) are strictly internal and cannot be modified
 - Attempting to create, delete, or modify these reserved users through the API will result in an error
