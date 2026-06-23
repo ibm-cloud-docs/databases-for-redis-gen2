@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-22"
+lastupdated: "2026-06-23"
 
 keywords: redis gen 2, faq, frequently asked questions, sentinel, failover, migration, redis 8.2
 
@@ -126,7 +126,7 @@ Configuring Redis as a cache reduces IOPS load and improves performance. Daily b
 {: #faq-hosting-models}
 {: faq}
 
-Redis Gen 2 offers two hosting models: Shared Compute (flexible multi-tenant offering for dynamic workloads with fine-grained resource allocation) and Isolated Compute (secure single-tenant offering for enterprise workloads with dedicated resources and hypervisor-level isolation). You can choose your hosting model during provisioning and switch between models later if needed. For more information, see [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).
+Redis Gen 2 offers two hosting models: Shared Compute (flexible multi-tenant offering for dynamic workloads with fine-grained resource allocation) and Isolated Compute (secure single-tenant offering for enterprise workloads with dedicated resources and hypervisor-level isolation). You can choose your hosting model during provisioning and switch between models later if needed. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=ui).
 
 ## How do I scale my Redis Gen 2 instance?
 {: #faq-scaling}
