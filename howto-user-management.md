@@ -154,11 +154,10 @@ There are five reserved users on your instance. Modifying these users causes you
 
 - **default** Redis's built-in default user account
 - **ibm-user** An internal user for managing the instance, exposing metrics, and API operations
-
 - **replication-user** The user account that is used for replication between member nodes
 - **sentinel-user** The user account for sentinels to handle monitoring and failovers
 
-Important notes:
 
-- The four users (`default`, `ibm-user`, `replication-user`, and`sentinel-user`) are strictly internal and cannot be modified
-- Attempting to create, delete, or modify these reserved users through the API will result in an error
+Important notes:
+- The four users (`default`, `ibm-user`, `replication-user`, and`sentinel-user`) are strictly internal and cannot be modified.
+- Attempting to create, delete, or modify these reserved users through the API will result in an error.
