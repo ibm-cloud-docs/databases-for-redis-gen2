@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-06-25"
 
 keywords: redis gen 2, pricing
 
@@ -60,10 +60,13 @@ For a 2-member Redis deployment with 20 GB of data per member:
 
 * Day 18-30: you continue writing 2 GB per day, adding 26 GB over 13 days.
 
-Total snapshot = 20 GB (initial) + 30 GB (incremental) + 20 GB (failover snapshot) + 26 GB (post-failover incremental) = 96 GB
-Free allocation = 20 GB x 2 members = 40 GB
-Overage = 96 GB - 40 GB = 56 GB
-Monthly charge = (96 GB - 40 GB) x $0.03 = $1.68
+    Total snapshot = 20 GB (initial) + 30 GB (incremental) + 20 GB (failover snapshot) + 26 GB (post-failover incremental) = 96 GB
+
+    Free allocation = 20 GB x 2 members = 40 GB
+
+    Overage = 96 GB - 40 GB = 56 GB
+
+    Monthly charge = (96 GB - 40 GB) x $0.03 = $1.68
 
 With large deployments and frequent writes, you might exceed the free tier after the first snapshot.
 
@@ -83,5 +86,5 @@ You have the option of selecting the CPU allocation for your deployment. With de
 | ---------- | ----- | ----- | ------- |
 | Disk | 10 GB per member | 4 TB per member | 1024 MB per member |
 | RAM | 16 GB | 40 GB | Isolated Compute. Resource scaling using t-shirt sizes |
-| CPU | 4 vCPU | 8 vCPU| Isolated Compute. Resource scaling using t-shirt sizes |
+| CPU | 4 vCPU | 48 vCPU| Isolated Compute. Resource scaling using t-shirt sizes |
 {: caption="Scaling limits" caption-side="top"}
