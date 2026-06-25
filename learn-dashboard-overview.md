@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-22"
+lastupdated: "2026-06-25"
 
 keywords: deployment, crn, task, gui, api endpoint, connection strings, recent tasks, observability
 
@@ -52,7 +52,6 @@ The _Endpoints_ pane within the _Overview_ page contains connection strings for 
 
 Reference tables for the different connection types are available on the [Getting connection strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings&interface=ui) page.
 
-Connection strings reflect whether your deployment uses public endpoints, private endpoints or both. You can configure which endpoints are available on your deployment. For more information, see [Service endpoints integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2).
 
 You can manage your {{site.data.keyword.databases-for-redis}} service through the {{site.data.keyword.databases-for}} API. For more information, see [API reference](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction).
 
