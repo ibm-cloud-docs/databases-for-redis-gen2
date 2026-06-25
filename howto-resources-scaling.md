@@ -191,7 +191,7 @@ ibmcloud resource service-instance-update <INSTANCE_NAME_OR_CRN> --service-plan-
 {: #available-hostflavors-cli}
 {: cli}
 
-For information about available host flavors, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=cli).
+For information about available host flavors and flex and fixed profiles, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=cli).
 
 **Disk storage range**
 
@@ -275,7 +275,7 @@ curl -X PATCH resource-controller.cloud.ibm.com/v2/resource_instances/<INSTANCE_
 {: #available-hostflavors-api}
 {: api}
 
-For information about available host flavors, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=api).
+For information about available host flavors and flex and fixed profiles, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=api).
 
 **Disk storage range**
 
@@ -348,7 +348,7 @@ Before running a Terraform script on an existing instance, use the `terraform pl
 {: #available-hostflavors-terraform}
 {: terraform}
 
-For information about available host flavors, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=terraform).
+For information about available host flavors and flex and fixed profiles, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=terraform).
 
 **Disk storage range**
 
