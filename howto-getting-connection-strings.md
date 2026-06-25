@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-06-25"
 
 keywords: redis, databases, connection strings
 
@@ -79,7 +79,7 @@ For more information about user creation, see [Managing users and roles](/docs/d
 
 ```sh
 IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq .iam_token -r)
-curl -X GET resource-controller.cloud.ibm.com/v2/resource_instances/<SERVICE-INSTANCE-GUID> -H "Authorization: ${IAM_TOKEN}" | jq
+curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<SERVICE-INSTANCE-GUID> -H "Authorization: ${IAM_TOKEN}" | jq
 ```
 {: pre}
 
