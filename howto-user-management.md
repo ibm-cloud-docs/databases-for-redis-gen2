@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-23"
+lastupdated: "2026-06-25"
 
 keywords: manager, roles, service credentials, redis users, redis service credentials, connection strings, manager password, new user, Gen 2
 
@@ -150,7 +150,7 @@ curl -X DELETE resource-controller.cloud.ibm.com/v2/resource_keys/<SERVICE-INSTA
 ## Internal-use users
 {: #internal-users}
 
-There are five reserved users on your instance. Modifying these users causes your instance to become unstable or unusable.
+There are four reserved users on your instance. Modifying these users causes your instance to become unstable or unusable.
 
 - **default** Redis's built-in default user account
 - **ibm-user** An internal user for managing the instance, exposing metrics, and API operations
