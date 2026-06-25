@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-06-25"
 
 keywords: redis, databases, scaling, manual scaling, disk I/O, memory, CPU
 
@@ -191,16 +191,7 @@ ibmcloud resource service-instance-update <INSTANCE_NAME_OR_CRN> --service-plan-
 {: #available-hostflavors-cli}
 {: cli}
 
-**Isolated Compute profiles (bx3d.\*)**
-
-| Host Flavor | vCPU | RAM |
-|-------------|------|-----|
-| bx3d.4x20 | 4 | 20 GB |
-| bx3d.8x40 | 8 | 40 GB |
-| bx3d.16x80 | 16 | 80 GB |
-| bx3d.32x160 | 32 | 160 GB |
-| bx3d.48x240 | 48 | 240 GB |
-{: caption="Isolated Compute host flavors" caption-side="bottom"}
+For information about available host flavors, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=cli).
 
 **Disk storage range**
 
@@ -284,16 +275,7 @@ curl -X PATCH resource-controller.cloud.ibm.com/v2/resource_instances/<INSTANCE_
 {: #available-hostflavors-api}
 {: api}
 
-**Isolated Compute profiles (bx3d.\*)**
-
-| Host Flavor | vCPU | RAM |
-|-------------|------|-----|
-| bx3d.4x20 | 4 | 20 GB |
-| bx3d.8x40 | 8 | 40 GB |
-| bx3d.16x80 | 16 | 80 GB |
-| bx3d.32x160 | 32 | 160 GB |
-| bx3d.48x240 | 48 | 240 GB |
-{: caption="Isolated Compute host flavors" caption-side="bottom"}
+For information about available host flavors, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=api).
 
 **Disk storage range**
 
@@ -366,16 +348,7 @@ Before running a Terraform script on an existing instance, use the `terraform pl
 {: #available-hostflavors-terraform}
 {: terraform}
 
-**Isolated Compute profiles (bx3d.\*)**
-
-| Host Flavor | vCPU | RAM |
-|-------------|------|-----|
-| bx3d.4x20 | 4 | 20 GB |
-| bx3d.8x40 | 8 | 40 GB |
-| bx3d.16x80 | 16 | 80 GB |
-| bx3d.32x160 | 32 | 160 GB |
-| bx3d.48x240 | 48 | 240 GB |
-{: caption="Isolated Compute host flavors" caption-side="bottom"}
+For information about available host flavors, see [Gen 2 isolated compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=terraform).
 
 **Disk storage range**
 
