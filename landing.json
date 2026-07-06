@@ -1,0 +1,74 @@
+{
+  "version": 2,
+  "title": "IBM Cloud® Databases for Redis Gen 2",
+  "introduction": "Redis is a blazingly fast, in-memory data structure store. IBM Cloud Databases for Redis Gen 2 delivers Redis 8.2 with Sentinel-based high availability, providing automatic failover and enterprise-grade reliability.",
+  "product_page": "https://www.ibm.com/products/databases-for-redis",
+  "console_page": "/databases/databases-for-redis/create",
+  "section_topics": {
+    "links": [
+      {
+        "title": "Getting started",
+        "href": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-getting-started"
+      },
+      {
+        "title": "Overview of Gen 1 and Gen 2",
+        "href": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-overview-gen1-gen2"
+      },
+      {
+        "title": "Gen 2 isolated compute",
+        "href": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute"
+      },
+      {
+        "title": "Provisioning",
+        "href": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-provisioning"
+      },
+      {
+        "title": "Comparison of Gen 1 and Gen 2 backups",
+        "href": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-comparison-backups"
+      },
+      {
+        "title": "Connecting an external application to your Redis deployment",
+        "href": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-external-app"
+      },
+      {
+        "title": "Gen 1 docs",
+        "href": "/docs/databases-for-redis"
+      }
+    ]
+  },
+  "section_highlights": [
+    {
+      "title": "IBM named a leader for cloud database management systems",
+      "description": "Gartner named IBM a leader in Gartner Magic Quadrant for 2021 Cloud Database Management Systems.",
+      "href": "https://www.ibm.com/blog/ibm-is-named-a-leader-in-the-2021-gartner-magic-quadrant-for-cloud-database-management-systems-dbms/",
+      "type": "blog"
+    },
+    {
+      "title": "IBM Training - Cloud",
+      "description": "Includes Power Virtual Server, SAP, VMware, Advocate, Architect, Developer, and Site Reliability Engineer, and more",
+      "href": "https://www.ibm.com/training/cloud",
+      "type": "training"
+    }
+  ],
+  "section_devtools": {
+    "cli": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-cdb-reference",
+    "terraform": "https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database"
+  },
+  "section_updates": {
+    "view_more": "/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-relnotes",
+    "tiles": [
+      {
+        "date": "March 2026",
+        "title": "Databases for Redis Gen 2 available in Chennai"
+      },
+      {
+        "date": "February 2026",
+        "title": "GA of Databases for Redis Gen 2"
+      },
+      {
+        "date": "December 2025",
+        "title": "Introducing the Beta of Databases for Redis Gen 2"
+      }
+    ]
+  }
+}
