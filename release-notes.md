@@ -20,7 +20,7 @@ content-type: release-note
 [Gen 2]{: tag-purple}
 
 ## 6 July 2026
-{: #databases-for-redis-06july2026}
+{: #databases-for-redis-06jul2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-redis}} Gen 2 is now generally available (GA)
