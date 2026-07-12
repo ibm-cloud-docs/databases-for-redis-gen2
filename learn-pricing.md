@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-07-09"
+lastupdated: "2026-07-12"
 
 keywords: redis gen 2, pricing
 
@@ -21,14 +21,14 @@ A {{site.data.keyword.databases-for-redis}} deployment consists of a highly avai
 ## Using the pricing calculator
 {: #pricing-calc}
 
-Templates are provided for ease of use and to provide balanced resource allocations appropriate for general purpose workloads. Resource allocation can be configured according to your requirements.
+Templates are provided for ease of use and to provide balanced resource allocations appropriate for general purpose workloads. You can configure resource allocation according to your requirements.
 
 For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-redis}}](https://cloud.ibm.com/databases/databases-for-redis/create) create page. Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 10 GB of disk on a 4 vCPU x 16 GB RAM profile has a total bill for 20 GB of disk and the total cost of 2 members.
 
 ## Gen 2 backups pricing
 {: #pricing-backup}
 
-Gen 2 {{site.data.keyword.databases-for}} uses a snapshot-based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies. Therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
+Gen 2 {{site.data.keyword.databases-for}} uses a snapshot-based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups because they are block-level incremental copies. Therefore, you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
 
 By default, {{site.data.keyword.databases-for-redis}} provides a daily backup that is stored for 30 days. These backups and any on-demand backups you make all count toward the above allocation.
 
