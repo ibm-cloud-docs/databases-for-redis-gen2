@@ -299,20 +299,21 @@ data "ibm_resource_instance" "<your_instance_name>" {
   name              = "<your_instance_name>"
   location          = "us-east"
   resource_group_id = data.ibm_resource_group.group.id
-  service = "databases-for-redis" 
+  service = "databases-for-redis"
 }
 output "<your_instance_name>_output" {
   value ={
-    id = data.ibm_resource_instance.<your_instance_name>.id 
+    id = data.ibm_resource_instance.<your_instance_name>.id
     name = data.ibm_resource_instance.<your_instance_name>.name
-    extensions = data.ibm_resource_instance.<your_instance_name>.extensions 
+    extensions = data.ibm_resource_instance.<your_instance_name>.extensions
     group_id = data.ibm_resource_instance.<your_instance_name>.resource_group_id
   }
 }
 ```
 {: codeblock}
 
-Check for these values in the output:
+Check for the following values in the output:
+
 ```terraform
 "dataservices.redis.cpu_count" = "4"
 "dataservices.redis.host_flavor" = "bx2.4x16"
@@ -323,6 +324,7 @@ Check for these values in the output:
 {: codeblock}
 
 Example output:
+
 ```terraform
 <your_instance_name>_output = {
   "extensions" = tomap({
@@ -378,7 +380,7 @@ Example output:
 {: #scaling-hostflavor-disk-terraform}
 {: terraform}
 
-Choose the required host flavor and disk value for your deployment. Use the below configuration to scale the host flavor and disk storage:
+Choose the required host flavor and disk value for your deployment. Use the following configuration to scale the host flavor and disk storage:
 
 ```terraform
 data "ibm_resource_group" "group" {
@@ -386,14 +388,14 @@ data "ibm_resource_group" "group" {
 }
 
 resource "ibm_resource_instance" "<your-instance-name>" {
-  name = "<your-instance-name>" 
+  name = "<your-instance-name>"
   plan = "databases-for-redis-gen2-standard"
   service = "databases-for-redis"
   location = "us-east"
   tags              = ["scaling","tf"]
   resource_group_id = data.ibm_resource_group.group.id
 
-  parameters_json = jsonencode({             
+  parameters_json = jsonencode({
   "dataservices": {
       "redis": {
         "host_flavor": "bx2.8x32",
