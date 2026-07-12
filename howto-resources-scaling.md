@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-25"
+lastupdated: "2026-07-12"
 
 keywords: redis, databases, scaling, manual scaling, disk I/O, memory, CPU
 
@@ -293,13 +293,83 @@ Use the following command to review the resources on your deployment:
 
 ```terraform
 data "ibm_resource_group" "group" {
-  name = "<your_group>"
+  name = "<your_resource_group>"
 }
+data "ibm_resource_instance" "<your_instance_name>" {
+  name              = "<your_instance_name>"
+  location          = "us-east"
+  resource_group_id = data.ibm_resource_group.group.id
+  service = "databases-for-redis" 
+}
+output "<your_instance_name>_output" {
+  value ={
+    id = data.ibm_resource_instance.<your_instance_name>.id 
+    name = data.ibm_resource_instance.<your_instance_name>.name
+    extensions = data.ibm_resource_instance.<your_instance_name>.extensions 
+    group_id = data.ibm_resource_instance.<your_instance_name>.resource_group_id
+  }
+}
+```
+{: codeblock}
 
-resource "ibm_resource_instance" "<your_database>" {
-  name = "<your_database_name>"
-  plan = "databases-for-redis-gen2-standard"
-  service = "databases-for-redis"
+Check for these values in the output:
+```terraform
+"dataservices.redis.cpu_count" = "4"
+"dataservices.redis.host_flavor" = "bx2.4x16"
+"dataservices.redis.members" = "3"
+"dataservices.redis.memory_gb" = "16"
+"dataservices.redis.storage_gb" = "10"
+```
+{: codeblock}
+
+Example output:
+```terraform
+<your_instance_name>_output = {
+  "extensions" = tomap({
+    "dataservices.$schema.version" = "1.0.0"
+    "dataservices.connection.cli.arguments.#" = "1"
+    "dataservices.connection.cli.arguments.0" = "-h redis-m-0.423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud -p 6379 -a $PASSWORD --tls"
+    "dataservices.connection.cli.bin" = "redis-cli"
+    "dataservices.connection.cli.composed.#" = "1"
+    "dataservices.connection.cli.composed.0" = "redis-cli -h redis-m-0.423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud -p 6379 -a $PASSWORD --tls"
+    "dataservices.connection.cli.type" = "cli"
+    "dataservices.connection.redis.composed.#" = "1"
+    "dataservices.connection.redis.composed.0" = "rediss://$redisUSER:$REDISPASS@redis-m-0.423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud:6379/0"
+    "dataservices.connection.redis.database" = "0"
+    "dataservices.connection.redis.hosts.#" = "3"
+    "dataservices.connection.redis.hosts.0.hostname" = "redis-m-0.423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud"
+    "dataservices.connection.redis.hosts.0.port" = "6379"
+    "dataservices.connection.redis.hosts.1.hostname" = "redis-m-1.423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud"
+    "dataservices.connection.redis.hosts.1.port" = "6379"
+    "dataservices.connection.redis.hosts.2.hostname" = "redis-m-2.423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud"
+    "dataservices.connection.redis.hosts.2.port" = "6379"
+    "dataservices.connection.redis.path" = "/0"
+    "dataservices.connection.redis.port" = "6379"
+    "dataservices.connection.redis.query_options.tls" = "true"
+    "dataservices.connection.redis.scheme" = "rediss"
+    "dataservices.connection.redis.type" = "uri"
+    "dataservices.redis.cpu_count" = "4"
+    "dataservices.redis.host_flavor" = "bx2.4x16"
+    "dataservices.redis.members" = "3"
+    "dataservices.redis.memory_gb" = "16"
+    "dataservices.redis.storage_gb" = "10"
+    "dataservices.redis.version" = "8.0"
+    "virtual_private_endpoints.dns_domain" = "423bda91-f6df-4f4b-9c82-73117d8ee717.private.axd.us-east.redis.dataservices.dev.appdomain.cloud"
+    "virtual_private_endpoints.dns_hosts.#" = "2"
+    "virtual_private_endpoints.dns_hosts.0" = ""
+    "virtual_private_endpoints.dns_hosts.1" = "*"
+    "virtual_private_endpoints.endpoints.#" = "3"
+    "virtual_private_endpoints.endpoints.0.ip_address" = "10.12.131.102"
+    "virtual_private_endpoints.endpoints.0.zone" = "us-east-1"
+    "virtual_private_endpoints.endpoints.1.ip_address" = "10.12.132.101"
+    "virtual_private_endpoints.endpoints.1.zone" = "us-east-2"
+    "virtual_private_endpoints.endpoints.2.ip_address" = "10.51.221.7"
+    "virtual_private_endpoints.endpoints.2.zone" = "us-east-3"
+    "virtual_private_endpoints.origin_type" = "vpc"
+    "virtual_private_endpoints.ports.#" = "1"
+    "virtual_private_endpoints.ports.0.port_max" = "6379"
+    "virtual_private_endpoints.ports.0.port_min" = "6379"
+  })
 }
 ```
 {: codeblock}
@@ -308,30 +378,29 @@ resource "ibm_resource_instance" "<your_database>" {
 {: #scaling-hostflavor-disk-terraform}
 {: terraform}
 
-Choose the required host flavor and disk value for your deployment. Use the following configuration to scale the host flavor and disk storage:
+Choose the required host flavor and disk value for your deployment. Use the below configuration to scale the host flavor and disk storage:
 
 ```terraform
 data "ibm_resource_group" "group" {
-  name = "<your_group>"
+  name = "<your_resource_group>"
 }
 
-resource "ibm_resource_instance" "<your_database>" {
-  name = "<your_database_name>"
+resource "ibm_resource_instance" "<your-instance-name>" {
+  name = "<your-instance-name>" 
   plan = "databases-for-redis-gen2-standard"
   service = "databases-for-redis"
   location = "us-east"
-  tags = ["tag1","tag2"]
+  tags              = ["scaling","tf"]
   resource_group_id = data.ibm_resource_group.group.id
 
-  parameters_json = jsonencode({
-    "dataservices": {
+  parameters_json = jsonencode({             
+  "dataservices": {
       "redis": {
         "host_flavor": "bx2.8x32",
         "storage_gb": 60
       }
-    }
-  })
-
+  }
+})
   timeouts {
     create = "120m"
     update = "120m"
