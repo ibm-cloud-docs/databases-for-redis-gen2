@@ -147,11 +147,11 @@ curl -X DELETE resource-controller.cloud.ibm.com/v2/resource_keys/<SERVICE-INSTA
 ```
 {: pre}
 
-## Creating users in the Terraform
+## Creating users in Terraform
 {: #user-management-creating-users-terraform}
 {: terraform}
 
-Use the following command to create users through the terraform:
+Use the following command to create users through Terraform:
 
 ```terraform
 data "ibm_resource_group" "group" {
@@ -160,27 +160,27 @@ data "ibm_resource_group" "group" {
 resource "ibm_resource_key" "resourceKey" {
   name                 = "<user-name>"
   role                 = "<ROLE_NAME>"
-  resource_instance_id = "<SERVICE_INSTANCE_ID>" 
+  resource_instance_id = "<SERVICE_INSTANCE_ID>"
 }
 ```
 {: codeblock}
 
-Where:
+where:
 - **user-name**: a descriptive user name
 - **ROLE_NAME**: can be either Manager or Writer
 - **SERVICE_INSTANCE_ID**: GUID of the service instance
 
-## Deleting the user in the Terraform
+## Deleting the user in Terraform
 {: #user-management-delete-user-terraform}
 {: terraform}
 
-To delete resources managed by Terraform, run: `terraform destroy`
+To delete resources managed by Terraform, run the command `terraform destroy`:
 
 - When Terraform creates a user, it automatically creates a **state file (terraform.tfstate)** and the details get added in the resources of the state file. This file tracks all managed resources and is used by Terraform to identify what to destroy during deletion.
 
-- Terraform can only delete resources that it created. Resources provisioned through UI/CLI/API cannot be destroyed by Terraform **unless they have first been imported into the Terraform state**.
+- Terraform can only delete resources that it created. Resources provisioned through the UI, CLI, or API cannot be destroyed by Terraform **unless they have first been imported into the Terraform state**.
 
-- All entries present in the resources of the state file will get deleted when you run destroy. Hence, make sure the resources which you want to delete are the only ones in the resources list before running `terraform destroy`
+- All entries present in the resources of the state file will get deleted when you run destroy. Therefore ensure the resources that you want to delete are the only ones in the resources list before running the `terraform destroy` command.
 
 ## Internal-use users
 {: #internal-users}
