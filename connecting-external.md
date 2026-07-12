@@ -20,9 +20,9 @@ Your applications and drivers use connection strings to make a connection to {{s
 
 {{site.data.keyword.databases-for-redis}} deployments no longer include a default admin user. Instead, customers create users with 'Manager' or 'Writer' roles using the {{site.data.keyword.cloud}} service credential interface, which is available from the UI or CLI. This process generates credentials for connecting to the deployment. Although these credentials can be used across multiple connections and applications, you are strongly recommended to create dedicated users for each application that are tailored to their specific access requirements. For more information, see [Getting connection strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings).
 
-Redis has an array of clients for applications to use. For a comprehensive list of clients, see the [Redis clients page]( https://redis.io/docs/latest/integrate/){: external}.
+Redis has an array of clients for applications to use. For a comprehensive list of clients, see [Redis clients page](https://redis.io/docs/latest/integrate/){: external}.
 
-When choosing a client, consider features that allow you to easily design your application for the cloud, such as:
+When choosing a client, consider features that allow you to easily design your application for the cloud. For example:
 - Connection pooling
 - Automatic reconnection and failover handling
 - TLS/SSL support
@@ -32,7 +32,7 @@ When choosing a client, consider features that allow you to easily design your a
 ## TLS and certificate support
 {: #tls-cert-support}
 
-All connections to {{site.data.keyword.databases-for-redis}} are TLS 1.2 enabled and required. The driver you use to connect needs to be able to support TLS encryption and the rediss: protocol.
+All connections to {{site.data.keyword.databases-for-redis}} are TLS 1.2 enabled and required. The driver that you use to connect needs to be able to support TLS encryption and the rediss: protocol.
 
 Redis deployments use **Let's Encrypt certificates** for TLS encryption. These certificates are publicly trusted and automatically validated by system CA certificate stores: no custom CA certificate is needed.
 
@@ -44,19 +44,22 @@ Redis deployments use **Let's Encrypt certificates** for TLS encryption. These c
 * **Certificate validation**: Enabled (validates against Let's Encrypt CA)
 * **SNI (Server Name Indication)**: Required. Must match the VPE domain
 
-**Example connection (valkey-cli):**
 
-```
+#### Example connection (valkey-cli)
+{: #connection-valkey}
+
+```sh
 redis-cli -h <vpe-domain> -p 6379 \
   --user <username> -a <password> \
   --tls --sni <vpe-domain>
 ```
 {: pre}
 
-**Example connection using Node client with iovalkey:**
 
+#### Example connection using Node client with iovalkey
+{: #connection-iovalkey}
 
-```
+```sh
 export REDIS_URL=rediss://$username:$PASSWORD@<hostname>:6379/0
 ```
 {: codeblock}
@@ -88,13 +91,15 @@ client.on('error', (err) => {
 ```
 {: codeblock}
 
-You may need to install ioredis by running: **npm install ioredis** in your VSI before ruuning the script with **node nodeScript.js**
+You might need to install ioredis by running: **npm install ioredis** in your VSI before running the script with **node nodeScript.js**
 {: note}
 
-**Example connection using Python client with redis-py:**
+
+#### Example connection using Python client with redis-py
+{: #connection-redis-py}
 
 pythonScript.py
-```
+```sh
 #!/usr/bin/env python3
 import redis
 import ssl
@@ -117,7 +122,9 @@ print("Connected to Valkey")
 You need to install redis-py package by running: **pip3 install redis** in your VSI before running the script with **python3 pythonScript.py**
 {: note}
 
-**Example connection using Go client with go-redis:**
+
+#### Example connection using Go client with go-redis
+{: #connection-go-redis}
 
 gosScript.go
 ```
