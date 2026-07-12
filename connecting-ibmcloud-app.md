@@ -22,9 +22,9 @@ Applications running in {{site.data.keyword.cloud_notm}} can be bound to your {{
 ## Connecting a Kubernetes service application
 {: #ibmcloud-app-connect-kubernetes}
 
-There are two steps to connecting a Cloud databases deployment to a Kubernetes Service application. First, your deployment needs to be bound to your cluster and its connection strings stored in a secret. The second step is to configure your application to use the connection strings.
+There are two steps to connecting a {{site.data.keyword.databases-for}} deployment to a Kubernetes Service application. First, your deployment needs to be bound to your cluster and its connection strings stored in a secret. The second step is to configure your application to use the connection strings.
 
-The sample app in the [Connecting a Kubernetes service tutorial](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-tutorial-k8s-app) provides a sample application that uses Node.js and demonstrates how to bind the sample application to a Cloud Databases deployment.
+The sample app in the [Connecting a Kubernetes service tutorial](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-tutorial-k8s-app) provides a sample application that uses Node.js and demonstrates how to bind the sample application to a {{site.data.keyword.databases-for}} deployment.
 {: .tip}
 
 Before connecting your Kubernetes Service application to a deployment, ensure that the deployment and cluster are both in the same region and resource group.
@@ -62,4 +62,4 @@ When you bind your application to Kubernetes Service, it creates an environment 
 
 The [Connection strings](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-connection-strings#connection-string-breakdown) page contains a reference of the JSON fields.
 
-For more information, see the [Kubernetes service docs](/docs/containers?topic=containers-service-binding#reference_secret).
+For more information, see [Kubernetes service docs](/docs/containers?topic=containers-service-binding#reference_secret).
