@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-07-09"
+lastupdated: "2026-07-12"
 
 keywords: redis gui, redis, redis cloud database, redis getting started, Gen 2, sentinel
 
@@ -43,18 +43,18 @@ This tutorial guides you through the steps to quickly start using {{site.data.ke
 
 1. Log in to the [{{site.data.keyword.cloud_notm}} console](https://cloud.ibm.com/login){: external}.
 2. Click the [**{{site.data.keyword.databases-for-redis}} service**](https://cloud.ibm.com/databases/databases-for-redis/create){: external} in the [**catalog**](https://cloud.ibm.com/catalog){: external}.
-Complete [these steps](docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-provisioning&interface=ui) to provision a {{site.data.keyword.databases-for-redis}} instance.
+Complete [these steps](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-provisioning&interface=ui) to provision a {{site.data.keyword.databases-for-redis}} instance.
 4. When your instance is provisioned, click the instance name to view more information.
 
 
 ## Step 2: Creating the `Manager` or `Writer` user
 {: #redis_user}
 
-As part of provisioning a new instance in {{site.data.keyword.cloud_notm}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
+As part of provisioning a new instance in {{site.data.keyword.cloud_notm}}, you can use the service credential console page to create a user with different roles (`Manager` and `Writer`).
 
-Create a user with the Manager or Writer role using the {{site.data.keyword.cloud_notm}} service credential interface using the UI or CLI. These users come with the necessary credentials to connect to and manage the instance.
+Create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface using the UI or CLI. These users come with the necessary credentials to connect to and manage the instance.
 
-For more information, see [Manage users, roles and privileges]().
+For more information, see [Manage users, roles and privileges](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-user-management&interface=ui).
 
 
 ## Step 3: Create a connection
@@ -66,7 +66,7 @@ Because Gen 2 supports **private endpoints only**, all connections are establish
 
 This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
 
-The following links provide a clear overview of how a connection is established within the VPC environment.
+The following links provide a clear overview of how a connection is established within the VPC environment:
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -125,7 +125,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 ## Step 6: Connect {{site.data.keyword.atracker_full_notm}}
 {: #activity_tracker}
 
-{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
+{{site.data.keyword.atracker_full}} allows you to view and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-redis}} service.
 
 To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}](/docs/atracker?topic=atracker-getting-started){: external}.
 
@@ -133,7 +133,7 @@ To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Gettin
 
 For more information about events specific to {{site.data.keyword.databases-for-redis}}, see [{{site.data.keyword.atracker_short}} events](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-at_events&interface=api).
 
-Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
+Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For more information about what they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
 
 You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-at_events&interface=api).
 {: note}
