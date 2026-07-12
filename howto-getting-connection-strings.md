@@ -21,7 +21,7 @@ The {{site.data.keyword.databases-for-redis_full}} service is provisioned with a
 
 Connection strings for your deployment are displayed on the **Endpoints** panel on the **Overview page**.
 
-Each user on your deployment receives their own connection credentials (username/password) with role-based permissions. All users connect through the same private endpoint, but access is controlled assigned role (Manager or Writer). For more information about user creation, see [Managing users and roles](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-user-management&interface=ui).
+Each user in your deployment receives their own connection credentials (username and password) with role-based permissions. All users connect through the same private endpoint, but access is controlled using an assigned role (Manager or Writer). For more information about user creation, see [Managing users and roles](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-user-management&interface=ui).
 
 Your connection string defaults to database `0`. However, modifying your connection to connect to a database other than `0` is supported.
 {: .note}
@@ -68,11 +68,12 @@ curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<SER
 
 The connection string is in `extensions` > `dataservices` > `connection` part of the output.
 
-## Getting connection strings from the Terraform
+## Getting connection strings from Terraform
 {: #connection-strings-terraform}
 {: terraform}
 
 To get the connection string for your deployment, use the following command:
+
 ```terraform
 data "ibm_resource_group" "group" {
   name = "<your_resource_group>"
@@ -81,7 +82,7 @@ data "ibm_resource_instance" "<your_instance_name>" {
   name              = "<your_instance_name>"
   location          = "us-east"
   resource_group_id = data.ibm_resource_group.group.id
-  service = "databases-for-redis" 
+  service = "databases-for-redis"
 }
 output "<your_instance_name>_output" {
   value ={
@@ -91,7 +92,7 @@ output "<your_instance_name>_output" {
 ```
 {: codeblock}
 
-`data.ibm_resource_instance.<your_instance_name>.extensions` provides the connection string details for that instance. Refer example output below:
+`data.ibm_resource_instance.<your_instance_name>.extensions` provides the connection string details for that instance. See the following example output:
 
 ```terraform
 <your_instance_name>_output = {
