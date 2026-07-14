@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-12"
+lastupdated: "2026-07-14"
 
 keywords: redis, databases, redis cache
 
@@ -17,7 +17,7 @@ subcollection: databases-for-redis-gen2
 
 [Gen 2]{: tag-purple}
 
-{{site.data.keyword.databases-for-redis_full}} supports changing the [Redis database configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli) and you can use it to configure [Redis as a cache](https://redis.io/topics/lru-cache){: .external}. When configured as a cache, Redis evicts old data in favor of new data according to the cache settings you define. Even when configured as a cache, {{site.data.keyword.databases-for-redis}} deployments still take a daily backup snapshot. It is not possible to disable backups on your deployment. Redis writes data to disk for high-availability using RDB snapshots and AOF files. By default, Redis uses disk-backed replication where the master creates an RDB file on disk and transfers it to replicas during full synchronization.
+{{site.data.keyword.databases-for-redis_full}} supports changing the [Redis database configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli) and you can use it to configure [Redis as a cache](https://redis.io/topics/lru-cache){: .external}. When configured as a cache, Redis evicts old data in favor of new data according to the cache settings you define. Even when configured as a cache, {{site.data.keyword.databases-for-redis}} deployments still take a daily backup snapshot. It is not possible to disable backups on your deployment.
 
 ## Cache settings
 {: #redis-cache-settings}
@@ -47,20 +47,20 @@ By default, `maxmemory` is set to 80% of a data node's available memory, so your
 With an `allkeys-*` policy, the algorithm chooses keys to evict from the entire keyspace. With a `volatile-*` policy, the algorithm chooses keys only from those that have an expiration (a TTL) set. In `volatile-*` policies, if no keys with TTL exist, no eviction occurs.
 {: .tip}
 
-### Other settings
+### Redis cache settings
 {: #redis-cache-other-settings}
 
-| Policy | Behavior | Notes |
-| ---------|---------|------------ |
-| `appendonly` | Default value, `yes`. Enables Redis data to be written to disk. | If you are caching data, set this value to `no`. |
-| `stop-writes-on-bgsave-error` | Default value, `yes`. Redis stops accepting writes if it detects an unsuccessful backup snapshot.| For caching, you can set to `no`. |
-| `maxmemory-samples` | Tunes the LRU algorithm.  Default value `5`. | [Approximated LRU algorithm](https://redis.io/topics/lru-cache#approximated-lru-algorithm){: .external} |
+| Setting | Recommended value | Description |
+| ---------|-------------------|------------ |
+| `maxmemory` | 80% of host memory(Default) | Prevent redis from consuming all host memory |
+| `maxmemory-policy` | allkeys-lru | Evict keys when full instead of failing writes |
+| `maxmemory-samples` | 5(Default) | Number of random keys to sample for eviction |
+| `appendonly` | No | Disable AOF overhead for cache |
+| `stop-writes-on-bgsave-error` | No (if RDB enabled) | Prevent cache writes stopping due to snapshot failure |
 {: caption="Redis cache settings " caption-side="top"}
 
 ## Setting an example cache
 {: #redis-cache-example-cache}
-
-To adjust the configuration of your deployment, send a JSON object with the settings that you want to change and their new values.
 
 You can use `CONFIG SET` directly from a Redis CLI client, but any changes made this way are temporary and are not persisted on restarts. Use the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases?topic=cloud-databases-cdb-reference) or [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#updatedatabaseconfiguration) to change your deployment's configuration file. For more information, see [Changing your Redis configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli).
 {: .tip}
@@ -70,43 +70,49 @@ For example, the Redis documentation recommends the `allkeys-lru` setting as a g
 ### Configuring the cache using the CLI
 {: #redis-cache-example-cache-cli}
 
-To configure the cache from the CLI, you can use the following example:
-
 ```sh
-ibmcloud resource service-instance-update <INSTANCE_NAME_OR_CRN> \
-  --parameters '{
-    "configuration": {
-      "maxmemory-policy": "allkeys-lru",
-      "appendonly": "no",
-      "stop-writes-on-bgsave-error": "no"
-    }
-  }'
+ibmcloud login --sso
+
+ibmcloud resource service-instance-update <NAME | GUID> \
+  -g <Resource group> -p '{
+    "dataservices": {
+      "redis": {
+        "configuration":{
+          "maxmemory-policy": "allkeys-lru",
+          "appendonly": "no",
+          "stop-writes-on-bgsave-error": "no"
+          }
+        }
+      }
+    }'
 ```
-{: pre}
+{: codeblock}
 
 ### Configuring the cache using the API
 {: #redis-cache-example-cache-api}
-
-To configure the cache using the API, you can use the following example:
 
 ```sh
 IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq .iam_token -r)
 
 curl -X PATCH \
-  'https://resource-controller.cloud.ibm.com/v2/resource_instances/<INSTANCE_ID>' \
-  -H "Authorization: $IAM_TOKEN" \
-  -H "Content-Type: application/json" \
+  https://resource-controller.cloud.ibm.com/v2/resource_instances/<SERVICE_INSTANCE_GUID> \
+  -H "Authorization: ${IAM_TOKEN}" \
+  -H 'Content-Type: application/json' \
   -d '{
-    "parameters": {
-      "configuration": {
-        "maxmemory-policy": "allkeys-lru",
-        "appendonly": "no",
-        "stop-writes-on-bgsave-error": "no"
+    "parameters":{
+      "dataservices":{
+        "redis":{
+          "configuration":{
+            "maxmemory-policy":"allkeys-lru",
+            "appendonly":"no",
+            "stop-writes-on-bgsave-error": "no"
+          }
+        }
       }
     }
   }'
 ```
-{: pre}
+{: codeblock}
 
 ## Redis cache performance
 {: #redis-cache-performance}

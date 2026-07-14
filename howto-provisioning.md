@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-07-14"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision redis
 
@@ -25,47 +25,24 @@ Provision a {{site.data.keyword.databases-for-redis_full}} deployment through th
 
 Deploy from the console by specifying the following parameters.
 
-### Service details
-{: #service_details}
-{: ui}
+1. In **Service details**, configure the following:
+    * **Location** Select a location that supports Gen 2.
+    * **Service name** The name can be any string and is the name that is used on the web and in the CLI to identify the new instance.
+    * **Resource group** If you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs&interface=ui).
+2. **Hosting model: Isolated** is a secure single-tenant offering for complex, highly performant enterprise workloads. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).
+3. **Resource allocation** Fine tune your resource allocation by choosing the required host size for your deployment and specify the required disk size. Host size and disk allocation is per member.
 
-- **Service name**. The name can be any string and is the name that is used on the web and in the CLI to identify the new deployment.
-- **The resource group**. If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it as default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
-- **Location**. The deployment's public cloud region.
-
-### Hosting model
-{: #hosting_model}
-{: ui}
-
-- **Isolated:** Secure single-tenant offering for complex, highly performant enterprise workloads. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).
-
-### Resource allocation
-{: #resource_allocation}
-{: ui}
-
-Fine tune your resource allocation by choosing the required host size for your deployment and specify the required disk size. Host size and disk allocation is per member.
-
-- **Isolated:** Use the table to choose the machine size for each member of your deployment and specify the disk size.
-
-Disk size can be increased after provisioning but cannot be decreased to prevent data loss.
-{: note}
-
-### Service configuration
-{: #service_configuration}
-{: ui}
-
-- **Database Version:** [Set only at deployment]{: tag-red} The deployment version of your database. {{site.data.keyword.databases-for-redis}} Gen 2 supports Redis 8.2 with full protocol compatibility (RESP2/RESP3). To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database Versioning Policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy){: external}.
-- **Encryption** [Set only at deployment]{: tag-red} If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
-- **Endpoints** Configure the [service endpoints](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2) on your deployment. The default setting is *private*.
-
-After you select the appropriate settings, click **Create** to start the provisioning process.
+    Disk size can be increased after provisioning but cannot be decreased to prevent data loss.
+    {: note}
+3. In **Service configuration**, configure the following:
+    * **Database version** The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy&interface=ui).
+    * **Encryption** If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the instance's disk. If you do not use your own key, the instance automatically creates and manages its own disk encryption key.
+    * **Endpoints** Configure the [service endpoints](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2) on your deployment. The default setting is _private_.
+4. Click **Create**. The Cloud Databases **Resource list** page opens.
+5. When your instance has been provisioned, click the instance name to view more information.
 
 ## Provisioning through the CLI
 {: #use-cli}
-{: cli}
-
-### Create a service instance using the CLI
-{: #create-service-instance-cli}
 {: cli}
 
 Before provisioning, complete the instructions provided in the documentation to install the [{{site.data.keyword.cloud_notm}} CLI tool](/docs/cli?topic=cli-install-ibmcloud-cli){: external}.
@@ -94,11 +71,11 @@ Before provisioning, complete the instructions provided in the documentation to 
    For example, to provision a {{site.data.keyword.databases-for-redis}} instance, use a command like:
 
    ```sh
-   ibmcloud resource service-instance-create redis-test-database databases-for-redis standard-gen2 ca-mon -p '{"dataservices": {"redis": {"host_flavor":"bx3d.4x20"}}}' --user-tags test-redis,do-not-delete
+   ibmcloud resource service-instance-create redis-test-database databases-for-redis databases-for-redis-gen2-standard ca-mon -p '{"dataservices": {"redis": {"host_flavor":"bx3d.4x20"}}}' --user-tags test-redis,do-not-delete
    ```
    {: pre}
 
-   Available hosting sizes and their `host_flavor` value parameters are listed in [Table 1](#host-flavor-parameter-cli).
+   The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. For available host flavor values, see [host flavor size selection](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=cli).
 
    The fields in the command are described in the table that follows.
 
@@ -113,18 +90,6 @@ Before provisioning, complete the instructions provided in the documentation to 
    | `host_flavor` | For Isolated Compute, select desired CPU and RAM configuration. For more information, see the following table or [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).| |
    | `--user-tags` | Comma separated list of user tag names |  |
    {: caption="Table 1. Basic command format fields" caption-side="bottom"}
-
-   ### The `host flavor` parameter
-   {: #host-flavor-parameter-cli}
-   {: cli}
-
-   The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. For example:
-
-   | **Host flavor** | **host_flavor value** |
-   |:-------------------------:|:---------------------:|
-   | 4 CPU x 20 RAM            | `bx3d.4x20`    |
-   | 8 CPU x 40 RAM            | `bx3d.8x40`   |
-   {: caption="Table 2. Host flavor sizing parameter" caption-side="bottom"}
 
    You will see a response like the following:
 
@@ -192,7 +157,7 @@ Before provisioning, complete the instructions provided in the documentation to 
 You can update the service instance name, service-plan-id, and parameters using the command like the following:
 
 ```sh
-ibmcloud resource service-instance-update service-instance-current-name --service-plan-id databases-for-redis-standard-gen2 -p '{"dataservices": {"redis": {"storage_gb":20}}}' -g Default --name NEW_NAME
+ibmcloud resource service-instance-update service-instance-current-name --service-plan-id databases-for-redis-gen2-standard -p '{"dataservices": {"redis": {"storage_gb":20}}}' -g Default --name NEW_NAME
 ```
 {: pre}
 
@@ -257,14 +222,16 @@ Complete these steps to provision using the [Resource Controller API](/apidocs/r
    ```
    {: pre}
 
-4. When you have all the information, [provision a new resource instance](/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with the {{site.data.keyword.cloud_notm}} Resource Controller.
+4. The `host_flavor` parameter defines your Compute sizing. Choose the appropriate value for your deployment. For available host flavor values, see [Gen 2 isolated compute](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=api).
+
+5. When you have all the information, [provision a new resource instance](/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with the {{site.data.keyword.cloud_notm}} Resource Controller.
 
    ```sh
    curl -X POST https://resource-controller.cloud.ibm.com/v2/resource_instances -H "Authorization: ${IAM_TOKEN}"   -H 'Content-Type: application/json' -d '{
        "name": "redis-test",
        "target": "ca-mon",
        "resource_group": "c21a4e8564c14d1aab2a9a8b441904eb",
-       "resource_plan_id": "databases-for-redis",
+       "resource_plan_id": "databases-for-redis-gen2-standard",
        "parameters": {
          "dataservices": {
            "redis": {
@@ -297,18 +264,6 @@ Complete these steps to provision using the [Resource Controller API](/apidocs/r
    | `tags` | Array of user tag names |  |
    {: caption="Table 3. Basic command format fields" caption-side="bottom"}
 
-   ### The `host flavor` parameter
-   {: #host-flavor-parameter-api}
-   {: api}
-
-   The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. For example:
-
-   | **Host flavor** | **host_flavor value** |
-   |:-------------------------:|:---------------------:|
-   | 4 CPU x 20 RAM            | `bx3d.4x20`    |
-   | 8 CPU x 40 RAM            | `bx3d.8x40`   |
-   {: caption="Table 4. Host flavor sizing parameter" caption-side="bottom"}
-
 ### Get details of the service instance
 {: #get-service-instance-api}
 {: api}
@@ -322,12 +277,12 @@ curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<ser
 {: #update-service-instance-api}
 {: api}
 
-You can update the service instance name, service-plan-id, and parameters using the command like this:
+You can update the service instance name and parameters using the command as shown below:
 
 ```sh
 curl -X PATCH https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}" -H 'Content-Type: application/json' -d '{
 "name": "redis-test-testing-patch",
-"parameters":{"dataservices":{"redis":{"host_flavor":"bx3d.4x20"}}}
+"parameters":{"dataservices":{"redis":{"host_flavor":"bx3d.8x40"}}}
 }' | jq
 ```
 {: pre}
@@ -336,7 +291,7 @@ curl -X PATCH https://resource-controller.cloud.ibm.com/v2/resource_instances/<s
 {: #delete-service-instance-api}
 {: api}
 
-Delete an instance by running a command like the following:
+Delete an instance by running a command as shown below:
 
 ```sh
 curl -X DELETE https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}"
@@ -347,14 +302,14 @@ curl -X DELETE https://resource-controller.cloud.ibm.com/v2/resource_instances/<
 {: #restore-backup-api}
 {: api}
 
-You can provision a new Redis instance from a particular backup using a command like this:
+You can provision a new Redis instance from a particular backup using the command as shown below:
 
 ```sh
 curl -X POST   https://resource-controller.cloud.ibm.com/v2/resource_instances   -H "Authorization: ${IAM_TOKEN}"   -H 'Content-Type: application/json' -d '{
     "name": "redis-test-restore",
     "target": "ca-mon",
     "resource_group": "c21a4e8564c14d1aab2a9a8b441904eb",
-    "resource_plan_id": "databases-for-redis",
+    "resource_plan_id": "databases-for-redis-gen2-standard",
     "parameters": {
       "dataservices": {
         "restore_backup_id": "<service-instance-crn>:backup:<backup-uuid>"
@@ -379,48 +334,123 @@ Provision a {{site.data.keyword.databases-for-redis}} instance with the `"host_f
 
 ```terraform
 data "ibm_resource_group" "group" {
-  name = "<your_group>"
+  name = "<your_resource_group>"
 }
-resource "ibm_resource_instance" "<your_database>" {
-  name              = "<your_database_name>"
-  plan              = "<gen2_plan>"
-  location          = "<gen2_location>"
-  service           = "databases-for-redis"
+
+resource "ibm_resource_instance" "<your_instance_name>" {
+  name = "your_instance_name" 
+  plan = "databases-for-redis-gen2-standard"
+  service = "databases-for-redis" 
+  location = "us-east"
+  tags              = ["terraform", "redis"]
   resource_group_id = data.ibm_resource_group.group.id
-  service_endpoints = "<ENDPOINTS>"
-  tags              = ["tag1", "tag2"]
-  adminpassword                = "password12"
-  group {
-    group_id = "member"
-    host_flavor {
-      id = "bx3d.4x20"
-    }
-    disk {
-      allocation_mb = 256000
-    }
+
+  timeouts {
+    create = "120m"
+    update = "120m"
+    delete = "15m"
   }
-  users {
-    name     = "user123"
-    password = "password12"
-  }
-}
-output "ICD Redis database connection string" {
-  value = "http://${ibm_database.test_acc.ibm_database_connection.icd_conn}"
 }
 ```
 {: codeblock}
 
-Before running a Terraform script on an existing instance, use the `terraform plan` command to compare the current infrastructure state with the desired state defined in your Terraform files. Any alteration to the `resource_group_id`, `service plan`, `version`, `key_protect_instance`, `key_protect_key`, and`backup_encryption_key_crn` attributes recreates your instance. For a list of current argument references with the `Forces new resource` specification, see the [ibm_database Terraform Registry](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
+Before executing a Terraform script on an existing instance, use the `terraform plan` command to compare the current infrastructure state with the desired state defined in your Terraform files. Any alteration to the `resource_group_id`, `service plan`, `version`, `key_protect_instance`, `key_protect_key`, `backup_encryption_key_crn` attributes recreates your instance. For a list of current argument references with the `Forces new resource` specification, see the [ibm_database Terraform Registry](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 {: important}
 
-### The `host flavor` parameter
-{: #host-flavor-parameter-terraform}
+### Get details of the service instance
+{: #get-service-instance-api}
 {: terraform}
 
-The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. For example:
+```terraform
+data "ibm_resource_group" "group" {
+  name = "<your_resource_group>"
+}
 
-| **Host Flavor** | **host_flavor value** |
-|:-------------------------:|:---------------------:|
-| 4 CPU x 20 RAM            | `bx3d.4x20`    |
-| 8 CPU x 40 RAM            | `bx3d.8x40`   |
-{: caption="Table 5. Host Flavor sizing parameter" caption-side="bottom"}
+data "ibm_resource_instance" "<your_instance_name>" {
+  name              = "<your_instance_name>"
+  location          = "us-east"
+  resource_group_id = data.ibm_resource_group.group.id
+  service = "databases-for-redis" 
+}
+
+
+output "<your_instance_name>_output" {
+  value ={
+    id = data.ibm_resource_instance.<your_instance_name>.id 
+    name = data.ibm_resource_instance.<your_instance_name>.name
+    extensions = data.ibm_resource_instance.<your_instance_name>.extensions 
+    group_id = data.ibm_resource_instance.<your_instance_name>.resource_group_id
+  }
+}
+```
+{: codeblock}
+
+### Update a service instance
+{: #update-service-instance-api}
+{: terraform}
+
+You can update the host flavor parameter using the command as shown below:
+
+```terraform
+data "ibm_resource_group" "group" {
+  name = "your_resource_group"
+}
+
+resource "ibm_resource_instance" "<your_instance_name>" {
+  name = "<your_instance_name>" 
+  plan = "databases-for-redis-gen2-standard"
+  service = "databases-for-redis" 
+  location = "us-east"
+  tags              = ["scaling","tf"]
+  resource_group_id = data.ibm_resource_group.group.id
+
+  parameters_json = jsonencode({             
+  "dataservices": {
+      "redis": {
+        "host_flavor": "bx2.8x32"
+      }
+  }
+})
+  timeouts {
+    create = "120m"
+    update = "120m"
+    delete = "15m"
+  }
+}
+```
+{: codeblock}
+
+### Deleting a service instance
+{: #delete-service-instance-terraform}
+{: terraform}
+
+To delete resources managed by Terraform, run: `terraform destroy`
+
+- When Terraform creates a user, it automatically creates a **state file (terraform.tfstate)** and the details get added in the resources of the state file. This file tracks all managed resources and is used by Terraform to identify what to destroy during deletion.
+
+- Terraform can only delete resources that it created. Resources provisioned through UI/CLI/API cannot be destroyed by Terraform **unless they have first been imported into the Terraform state**.
+
+- All entries present in the resources of the state file will get deleted when you run destroy. Hence, make sure the resources which you want to delete are the only ones in the resources list before running `terraform destroy`
+
+### Restore from Redis backup
+{: #restore-backup-api}
+{: terraform}
+
+You can provision a new redis instance from a particular backup using the command as shown below:
+
+```terraform
+resource "ibm_resource_instance" "<your_instance_name>" {
+  name = "<your_instance_name>" 
+  plan = "databases-for-redis-gen2-standard"
+  service = "databases-for-redis" 
+  location = "us-east"
+  tags      = ["terraform", "redis"]
+  
+    parameters_json = jsonencode({
+      "dataservices": {
+        "restore_backup_id": "<service-instance-crn>:backup:<backup-uuid>"
+      }
+    })
+}
+```
+{: codeblock}
