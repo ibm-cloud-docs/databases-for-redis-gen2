@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-25"
+lastupdated: "2026-07-14"
 
 keywords: deployment, crn, task, gui, api endpoint, connection strings, recent tasks, observability
 
@@ -14,6 +14,8 @@ subcollection: databases-for-redis-gen2
 
 # Dashboard overview
 {: #dashboard-overview}
+
+[Gen 2]{: tag-purple}
 
 ## Overview
 {: #dashboard-overview-overview}

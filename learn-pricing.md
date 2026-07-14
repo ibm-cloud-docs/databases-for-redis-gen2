@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-07-12"
+lastupdated: "2026-07-14"
 
 keywords: redis gen 2, pricing
 
@@ -13,6 +13,8 @@ subcollection: databases-for-redis-gen2
 
 # Pricing
 {: #pricing}
+
+[Gen 2]{: tag-purple}
 
 [Gen 2]{: tag-purple}
 

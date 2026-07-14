@@ -20,6 +20,7 @@ content-type: troubleshoot
 {: troubleshoot}
 {: support}
 
+[Gen 2]{: tag-purple}
 
 {{site.data.keyword.databases-for-redis}} is an in-memory database. It differs from traditional persistent databases in how it accepts, processes, and stores data. The following information highlights common errors that you might experience, some reasons for those errors, and the solutions that you can apply to fix those errors.
 
@@ -139,9 +140,3 @@ b. Certain clients have retry and reconnect logic built in. You can make use of 
 c. Retry and reconnect logic is strongly recommended for any cloud services.
 
  
-
-
-
-
-
-

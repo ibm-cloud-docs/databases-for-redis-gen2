@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-07-12"
+lastupdated: "2026-07-14"
 
 keywords: redis gui, redis, redis cloud database, redis getting started, Gen 2, sentinel
 
@@ -21,6 +21,8 @@ completion-time: 30m
 {: #getting-started}
 {: toc-content-type="tutorial"}
 {: toc-completion-time="30m"}
+
+[Gen 2]{: tag-purple}
 
 This tutorial guides you through the steps to quickly start using {{site.data.keyword.databases-for-redis}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
 

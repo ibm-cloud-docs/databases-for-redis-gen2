@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-23"
+lastupdated: "2026-07-14"
 
 keywords: redis gen 2, faq, frequently asked questions, sentinel, failover, migration, redis 8.2
 
@@ -16,6 +16,8 @@ content-type: faq
 
 # FAQ for {{site.data.keyword.databases-for-redis}}
 {: #redis-faq}
+
+[Gen 2]{: tag-purple}
 
 Frequently asked questions about {{site.data.keyword.databases-for-redis_full}}. To find all FAQs for {{site.data.keyword.cloud}}, see our [FAQ library](/docs/faqs).
 {: shortdesc}

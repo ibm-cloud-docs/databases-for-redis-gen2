@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-07-14"
 
 keywords: redis, databases, monitoring, scaling, autoscaling, resources, Redis connection limits, Gen 2
 
@@ -14,6 +14,8 @@ subcollection: databases-for-redis-gen2
 
 # Performance
 {: #performance}
+
+[Gen 2]{: tag-purple}
 
 {{site.data.keyword.databases-for-redis_full}} deployments can be manually [scaled to your usage](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-resources-scaling) under certain resource conditions. There are several factors to consider when tuning the performance of your deployment.
 

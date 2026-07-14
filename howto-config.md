@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-07-14"
 
 keywords: redis, databases, configs
 
@@ -13,6 +13,8 @@ subcollection: databases-for-redis-gen2
 
 # Changing the Redis configuration
 {: #changing-configuration}
+
+[Gen 2]{: tag-purple}
 
 In {{site.data.keyword.databases-for-redis_full}}, you can change some of the Redis configuration settings to tune your databases to your use-case. In a typical Redis setting, you can change the configuration from the command line by using [`CONFIG SET`](https://redis.io/commands/config-set){: external}. You can still use `CONFIG SET` on your deployment but the changes do NOT persist if there is a failover, node restart, or other event on your deployment. Changing the configuration with `CONFIG SET` can be used for testing, evaluation, and tuning purposes.
 

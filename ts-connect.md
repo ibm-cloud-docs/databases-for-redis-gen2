@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-06-22"
+lastupdated: "2026-07-14"
 
 keywords: troubleshooting for Redis
 
@@ -18,6 +18,8 @@ content-type: troubleshoot
 {: #troubleshoot-connect}
 {: troubleshoot}
 {: support}
+
+[Gen 2]{: tag-purple}
 
 If you encounter errors when connecting to your {{site.data.keyword.databases-for-redis_full}} deployment, review these common causes and resolutions.
 {: shortdesc}
