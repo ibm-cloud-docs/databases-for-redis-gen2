@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-21"
+lastupdated: "2026-07-14"
 
 subcollection: databases-for-redis-gen2
 
@@ -26,87 +26,141 @@ For production workloads, {{site.data.keyword.databases-for-redis}} uses a hybri
 ### RDB snapshot
 {: #rdb-snapshot}
 
-Redis saves snapshots of the dataset on disk in a binary file called `dump.rdb`. The dataset is saved every N seconds if there are at least M changes.
+Redis saves snapshots of the dataset on disk in a binary file called `dump.rdb`. A snapshot is created if at least M key changes have occurred within the last N seconds, according to the configured save rules.
 
-- Save 3600 1: Every hour if at least one key has changed.
-- Save 300 100: Every 5 minutes if at least 100 keys have changed.
-- Save 60 10000: Every minute if at least 10,000 keys have changed.
+For example:
+
+- **Save 3600 1**: Save a snapshot if at least 1 key has changed during the last 3600 seconds (1 hour).
+- **Save 300 100**: Save a snapshot every 300 seconds (5 minutes) if at least 100 keys have changed.
+- **Save 60 10000**: Save a snapshot every minute if at least 10 000 keys have changed.
+
+To configure redis as RDB only (snapshot persistence), the required settings are:
+
+```sh
+appendonly no
+
+save 3600 1
+save 300 100
+save 60 10000
+
+stop-writes-on-bgsave-error yes
+```
+{: codeblock}
 
 ### AOF (Append only File)
 {: #aof}
 
-With AOF enabled, Redis persists data by logging every write operation received by the service. AOF is configured by fsync policy, ensuring data durability.
+AOF is a persistence mechanism in redis that stores data by recording every write operation (such as `SET`, `DEL`, and `INCR`) in a log file. When redis restarts, it can rebuild the dataset by replaying the operations stored in the AOF file.
 
-- Always: Safest but with lowest performance.
-- Everysec (default): Safe with better performance.
-- No: Typically relies on the operating system to decide when to perform fsync, which is usually around 30 seconds (unsafe but provides the best performance).
+The durability and performance of AOF depend on the fsync policy, which controls how often data is flushed from memory to disk:
+
+- **Always** Data is written and synchronized to disk after every write operation. This provides the highest level of data safety but has the greatest performance impact.
+- **Everysec (default)** Data is synchronized to disk once per second. This offers a good balance between durability and performance and is the default setting.
+- **No** redis does not explicitly synchronize data to disk. Instead, it relies on the operating system to perform synchronization, typically every 30 seconds. This provides the best performance but carries the highest risk of data loss if a failure occurs.
+
+To configure redis as AOF only, the required settings are:
+
+```
+appendonly yes
+appendfsync everysec
+
+save ""
+```
+{: codeblock}
+
+
+### RDB+AOF (Default persistence mode)
+{: #aof_rdb}
+
+By default, {{site.data.keyword.databases-for-redis}} uses AOF persistence with fsync every second in a hybrid format: an RDB snapshot serves as the preamble, followed by incremental AOF commands. This configuration provides both durability and fast restart times. RDB snapshots are generated on demand for backups and replication only, not at scheduled intervals.
+
+To configure redis as RDB+AOF, the required settings are:
+
+```sh
+appendonly yes
+appendfsync everysec
+
+save 3600 1
+save 300 100
+save 60 10000
+
+stop-writes-on-bgsave-error yes
+```
+{: codeblock}
+
+### Redis persistence settings
+{: #persistence-settings}
+
+| Setting | Recommended value | Description |
+| ---------|-------------------|------------ |
+| `maxmemory` | 80% of host memory(Default) | Prevent redis from consuming all host memory |
+| `maxmemory-policy` | allkeys-lru | Evict keys when full instead of failing writes |
+| `maxmemory-samples` | 5(Default) | Number of random keys to sample for eviction |
+| `appendonly` | No | Disable AOF overhead for cache |
+| `stop-writes-on-bgsave-error` | No (if RDB enabled) | Prevent cache writes stopping due to snapshot failure |
+| `save` | 3600 1 300 100 60 10000(Default - [non-configurable]{: tag-red}) | Enables periodic RDB snapshots |
+| `appendfsync` | everysec (Default - [non-configurable]{: tag-red}) | Controls how often AOF data is flushed to disk. Applies only when `appendonly` is set to `yes`|
+{: caption="redis persistence settings" caption-side="top"}
 
 For more information, see [Redis persistence](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/){: external}.
 
-## Set up persistence in {{site.data.keyword.databases-for-redis}}
-{: #set-up-persistence}
+## Setting an example persistence:
+{: #persistence-example}
 
-In a {{site.data.keyword.databases-for-redis_full}} deployment, both RDB snapshots and AOF are enabled by default when the deployment is provisioned, and data is written to disk. Users can [disable AOF](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache) to use {{site.data.keyword.databases-for-redis}} as a cache, which can reduce IOPS demand and improve performance for cache-oriented workloads.
+To configure changes to a {{site.data.keyword.databases-for-redis}} instance, you must use either the IBM Cloud CLI or API for configuring persistence, as in the following example. The default/recommended persistence mode is **RDB+AOF (both enabled)**.
 
-{{site.data.keyword.databases-for-redis}} operates in a high-availability configuration, so RDB snapshots cannot be disabled.
+Leave the **appendfsync** and **save** configuration setting to default(also non-configurable) for setting the RDB+AOF persistence.
 {: note}
 
-1. Complete [these steps](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-provisioning&interface=ui) to provision a {{site.data.keyword.databases-for-redis}} instance.
-2. Check the persistence setting by verifying {{site.data.keyword.databases-for-redis}} configuration. Access the Redis instance using Redis CLI.
-
-By default, AOF is enabled with the `everysec` fsync policy. This means that {{site.data.keyword.databases-for-redis}} uses AOF persistence with fsync every second together with RDB snapshots.
-
-AOF can be turned off if you want to use Redis as a cache. This can also reduce restart time after a failover because the Redis process does not need to replay append-only logs. For more information, see [Configuring Redis as a cache](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-redis-cache).
-
-## Backup durability and retention
-{: #backup-durability-retention}
-
-In addition to on-node persistence, {{site.data.keyword.databases-for-redis}} backups are stored in [{{site.data.keyword.cos_full_notm}}](/docs/cloud-object-storage?topic=cloud-object-storage-about-cloud-object-storage). Backups are encrypted at rest and deployments can use customer-managed keys through [Key Protect integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-key-protect&interface=ui).
-
-For backup management, restore workflows, and retention details that apply to your deployment, see [Managing backups](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-comparison-backups).
-
-## Reconfigure persistence settings for {{site.data.keyword.databases-for-redis}}
-{: #reconfigure-redis-as-persistent}
-
-To configure persistence-related changes for a {{site.data.keyword.databases-for-redis}} deployment, use either the {{site.data.keyword.cloud_notm}} CLI or the API.
-
-Adjust the following settings as needed:
-
-- Set `appendonly` to `yes` to enable AOF persistence.
-- Ensure `maxmemory-policy` is set to `noeviction` to prevent key eviction for persistent workloads.
-- Set `stop-writes-on-bgsave-error` to `yes` to halt writes if background persistence fails.
-
-CLI example:
+### Configuring the RDB+AOF persistence using the CLI
+{: #redis-persistence-example-cli}
 
 ```sh
-ibmcloud resource service-instance-update <INSTANCE_NAME_OR_CRN> \
-  --parameters '{
-    "configuration": {
-      "maxmemory-policy": "noeviction",
-      "appendonly": "yes",
-      "stop-writes-on-bgsave-error": "yes"
+ibmcloud login --sso
+
+ibmcloud resource service-instance-update <NAME | GUID> \
+  -g <RESOURCE GROUP> -p '{
+    "dataservices": {
+      "redis": {
+        "configuration":{
+          "appendonly": "yes",
+          "stop-writes-on-bgsave-error": "yes"
+        }
+      }
     }
   }'
 ```
-{: pre}
+{: codeblock}
 
-API example:
+### Configuring the RDB+AOF persistence using the API
+{: #redis-persistence-example-api}
 
 ```sh
 IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq .iam_token -r)
 
 curl -X PATCH \
-  'https://resource-controller.cloud.ibm.com/v2/resource_instances/<INSTANCE_ID>' \
-  -H "Authorization: $IAM_TOKEN" \
-  -H "Content-Type: application/json" \
+  https://resource-controller.cloud.ibm.com/v2/resource_instances/<SERVICE_INSTANCE_GUID> \
+  -H "Authorization: ${IAM_TOKEN}" \
+  -H 'Content-Type: application/json' \
   -d '{
-    "parameters": {
-      "configuration": {
-        "maxmemory-policy": "noeviction",
-        "appendonly": "yes",
-        "stop-writes-on-bgsave-error": "yes"
+    "parameters":{
+      "dataservices":{
+        "redis":{
+          "configuration":{
+            "appendonly":"yes",
+            "stop-writes-on-bgsave-error": "yes"
+          }
+        }
       }
     }
   }'
 ```
-{: pre}
+{: codeblock}
+
+## redis persistence advantages
+{: #redis-persistence-advantages}
+
+- **Improved AOF performance** Optimized write operations reduce the performance impact of AOF.
+- **Efficient RDB snapshots** Faster snapshot generation with lower memory overhead.
+- **Hybrid persistence** Seamlessly combines RDB and AOF for optimal durability and performance.
+- **Community-driven improvements** Regular enhancements to persistence mechanisms from the open source community.

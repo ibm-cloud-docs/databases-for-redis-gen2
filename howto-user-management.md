@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-25"
+lastupdated: "2026-07-12"
 
 keywords: manager, roles, service credentials, redis users, redis service credentials, connection strings, manager password, new user, Gen 2
 
@@ -147,6 +147,41 @@ curl -X DELETE resource-controller.cloud.ibm.com/v2/resource_keys/<SERVICE-INSTA
 ```
 {: pre}
 
+## Creating users in Terraform
+{: #user-management-creating-users-terraform}
+{: terraform}
+
+Use the following command to create users through Terraform:
+
+```terraform
+data "ibm_resource_group" "group" {
+  name = "<your_resource_group>"
+}
+resource "ibm_resource_key" "resourceKey" {
+  name                 = "<user-name>"
+  role                 = "<ROLE_NAME>"
+  resource_instance_id = "<SERVICE_INSTANCE_ID>"
+}
+```
+{: codeblock}
+
+where:
+- **user-name**: a descriptive user name
+- **ROLE_NAME**: can be either Manager or Writer
+- **SERVICE_INSTANCE_ID**: GUID of the service instance
+
+## Deleting the user in Terraform
+{: #user-management-delete-user-terraform}
+{: terraform}
+
+To delete resources managed by Terraform, run the command `terraform destroy`:
+
+- When Terraform creates a user, it automatically creates a **state file (terraform.tfstate)** and the details get added in the resources of the state file. This file tracks all managed resources and is used by Terraform to identify what to destroy during deletion.
+
+- Terraform can only delete resources that it created. Resources provisioned through the UI, CLI, or API cannot be destroyed by Terraform **unless they have first been imported into the Terraform state**.
+
+- All entries present in the resources of the state file will get deleted when you run destroy. Therefore ensure the resources that you want to delete are the only ones in the resources list before running the `terraform destroy` command.
+
 ## Internal-use users
 {: #internal-users}
 
@@ -156,7 +191,6 @@ There are four reserved users on your instance. Modifying these users causes you
 - **ibm-user** An internal user for managing the instance, exposing metrics, and API operations
 - **replication-user** The user account that is used for replication between member nodes
 - **sentinel-user** The user account for sentinels to handle monitoring and failovers
-
 
 Important notes:
 - The four users (`default`, `ibm-user`, `replication-user`, and`sentinel-user`) are strictly internal and cannot be modified.

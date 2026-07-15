@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-06-25"
+lastupdated: "2026-07-14"
 
 keywords: redis gen 2, pricing
 
@@ -16,17 +16,21 @@ subcollection: databases-for-redis-gen2
 
 [Gen 2]{: tag-purple}
 
+[Gen 2]{: tag-purple}
+
 A {{site.data.keyword.databases-for-redis}} deployment consists of a highly available Redis cluster with two data members, ensuring your data is replicated across both. Pricing is based on the total resources allocated to the deployment-disk storage, RAM, virtual CPU cores, and backup storage that is calculated on an hourly prorated basis. Gen 2 instances require at least 10 GB of disk space and the smallest configuration profile offers 4 vCPU cores.
 
 ## Using the pricing calculator
 {: #pricing-calc}
 
-For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-redis}} catalog page](https://cloud.ibm.com/databases/databases-for-redis/create). Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 10 GB of disk on a 4 vCPU x 16 GB RAM profile has a total bill for 20 GB of disk and the total cost of 2 members.
+Templates are provided for ease of use and to provide balanced resource allocations appropriate for general purpose workloads. You can configure resource allocation according to your requirements.
+
+For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-redis}}](https://cloud.ibm.com/databases/databases-for-redis/create) create page. Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 10 GB of disk on a 4 vCPU x 16 GB RAM profile has a total bill for 20 GB of disk and the total cost of 2 members.
 
 ## Gen 2 backups pricing
 {: #pricing-backup}
 
-Gen 2 {{site.data.keyword.databases-for}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies. Therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
+Gen 2 {{site.data.keyword.databases-for}} uses a snapshot-based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups because they are block-level incremental copies. Therefore, you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
 
 By default, {{site.data.keyword.databases-for-redis}} provides a daily backup that is stored for 30 days. These backups and any on-demand backups you make all count toward the above allocation.
 
@@ -72,6 +76,8 @@ With large deployments and frequent writes, you might exceed the free tier after
 
 * Cross-region copies: if you choose to copy snapshots to another region, {{site.data.keyword.cloud}} charges for the full size of the snapshot in the destination region (not incremental) and continued incremental growth in the original region as new snapshots are taken.
 
+    Most deployments will not ever go over the allotted credit.
+
 ## Dedicated cores pricing
 {: #cores-pricing}
 
@@ -82,9 +88,18 @@ You have the option of selecting the CPU allocation for your deployment. With de
 
 {{site.data.keyword.databases-for-redis}} instances have minimum and maximum allocation for disk and RAM as shown. Scaling instances through the API and CLI provides more granularity and also allows you to scale a database instance up to 4 TB of disk per member. Minimum and maximum CPU and RAM combinations vary per region and according to the host flavor, see [Isolated Compute](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-isolated-compute&interface=cli).
 
+Each GB of disk provides 10 IOPS.
+{: note}
+
 | Resource | Minimum | Maximum | Scaling granularity (API/CLI) |
 | ---------- | ----- | ----- | ------- |
 | Disk | 10 GB per member | 4 TB per member | 1024 MB per member |
-| RAM | 16 GB | 40 GB | Isolated Compute. Resource scaling using t-shirt sizes |
-| CPU | 4 vCPU | 48 vCPU| Isolated Compute. Resource scaling using t-shirt sizes |
 {: caption="Scaling limits" caption-side="top"}
+
+The CPU and RAM are determined by the selected host flavor, not configured independently. Host size and disk allocation is for per member.
+
+| Host Flavor | CPU Cores | RAM (GB) |
+| ---------- | ----- | ----- |
+| bx3d.4x20 | 4 | 20 |
+| bx3d.8x40 | 8 | 40 |
+{: caption="Host flavor options" caption-side="top"}
