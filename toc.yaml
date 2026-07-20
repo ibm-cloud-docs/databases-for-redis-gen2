@@ -14,8 +14,8 @@ toc:
       id: learn
       topics:
       - link:
-          label: IBM Cloud Databases
-          href: https://cloud.ibm.com/docs/cloud-databases
+          label: IBM Cloud Databases Gen 2
+          href: https://cloud.ibm.com/docs/cloud-databases-gen2
       - link:
           label: What is Databases for Redis?
           href: https://www.ibm.com/products/databases-for-redis
@@ -33,11 +33,17 @@ toc:
       id: howto
       topics:
       - howto-provisioning.md
-      - include: ../cloud-databases-gen2/backup-restore.md
-      - include: ../cloud-databases-gen2/coupled-backups.md
+      - topicgroup:
+          label: Managing backups
+          topics:
+          - include: ../cloud-databases-gen2/backup-restore.md
+          - include: ../cloud-databases-gen2/coupled-backups.md
+      - howto-upgrading.md
       - howto-user-management.md
       - howto-getting-connection-strings.md
-      - include: ../cloud-databases-gen2/ha-dr.md
+      - include: ../cloud-databases-gen2/closures.md
+      - topic: ha-dr.md
+        navtitle: Understanding high availability and disaster recovery
       - topicgroup:
           label: Connecting to Databases for Redis
           topics:
@@ -55,8 +61,6 @@ toc:
           - howto-config.md
           - howto-redis-cache.md
           - configuring-persistence.md
-      - include: ../cloud-databases-gen2/howto-manage-backups.md
-      - include: ../cloud-databases-gen2/backup-restore.md
       - topicgroup:
           label: Observability
           topics:
@@ -68,14 +72,8 @@ toc:
           label: Enhancing security
           topics:
           - include: ../cloud-databases-gen2/manage-scc.md
-          - learn-security-compliance.md
-          - include: ../cloud-databases-gen2/howto-cbr.md
-          - include: ../cloud-databases-gen2/reference-service-endpoints.md
-          - include: ../cloud-databases-gen2/howto-vpes.md
           - include: ../cloud-databases-gen2/reference-iam.md
           - include: ../cloud-databases-gen2/reference-key-protect.md
-          - include: ../cloud-databases-gen2/reference-hpcs.md
-          - include: ../cloud-databases-gen2/cbr-tutorial.md
           - include: ../cloud-databases-gen2/howto-deprovisioning.md
   - navgroup:
       id: reference
@@ -84,8 +82,7 @@ toc:
       - include: ../cloud-databases-gen2/api.md
       - include: ../cloud-databases-gen2/db-version-policy.md
       - include: ../cloud-databases-gen2/reference-responsibilities.md
-      - topic: ha-dr.md
-        navtitle: Understanding high availability and disaster recovery
+      - include: ../cloud-databases-gen2/ha-dr.md
       - topic: data-portability.md
         navtitle: Data portability
   - navgroup:
@@ -96,11 +93,11 @@ toc:
           topics:
           - ts-connect.md
           - ts-common-errors.md
-          - include: ../cloud-databases-gen2/ts-terraform.md
       - topicgroup:
           label: FAQs
           topics:
           - faq.md
           - include: ../cloud-databases-gen2/faq.md
+            navtitle: Gen 2 FAQs
           - include: ../cloud-databases-gen2/resource-config-faq.md
           - include: ../cloud-databases-gen2/availability-zones-faq.md
