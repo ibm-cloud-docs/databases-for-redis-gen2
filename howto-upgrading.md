@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-07-16"
+lastupdated: "2026-07-23"
 
 keyowrds: redis, databases, upgrading, major versions, changing versions
 
@@ -45,7 +45,7 @@ Upgrading is handled by [restoring a backup](/docs/cloud-databases?topic=cloud-d
 
 | Current version | Major version upgrade path |
 | ---- | ----- |
-| {{site.data.keyword.databases-for-redis}} V7.2 |	-> {{site.data.keyword.databases-for-redis}} V8.2 |
+| {{site.data.keyword.databases-for-redis}} V7.2 | {{site.data.keyword.databases-for-redis}} V8.2 |
 {: caption="Major version upgrade paths" caption-side="bottom"}
 
 

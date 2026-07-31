@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-07-14"
+lastupdated: "2026-07-23"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision redis
 
@@ -77,7 +77,7 @@ Before provisioning, complete the instructions provided in the documentation to 
 
    The `host_flavor` parameter defines your Compute sizing. Input the appropriate value for your desired CPU and RAM configuration. For available host flavor values, see [host flavor size selection](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=cli).
 
-   The fields in the command are described in the table that follows.
+   The fields in the command are described in the following table:
 
    | Field | Description | Flag |
    |-------|------------|------------|
@@ -258,7 +258,7 @@ Complete these steps to provision using the [Resource Controller API](/apidocs/r
    | `resource_group` [Required]{: tag-red} | The resource group ID. The default value is `Default`. | |
    | `resource_plan_id` [Required]{: tag-red} | Standard gen2 plan (`databases-for-redis`) |  |
    | `parameters` | JSON object of parameters to create service instance | |
-   | `host_flavor` | For Isolated Compute, select your desired CPU and RAM configuration. For more information, see the table below or [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).| |
+   | `host_flavor` | For Isolated Compute, select your desired CPU and RAM configuration. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute).| |
    | `service_endpoints` [Required]{: tag-red} | Configure the [Service endpoints](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-private-endpoints-gen2){: external} of your deployment, either `public`, `private` or `public-and-private`. | |
    | `version` | The version of the database to be provisioned. If omitted, the database is created with the most recent major and minor version. | |
    | `tags` | Array of user tag names |  |
@@ -277,7 +277,7 @@ curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<ser
 {: #update-service-instance-api}
 {: api}
 
-You can update the service instance name and parameters using the command as shown below:
+You can update the service instance name and parameters using the following command:
 
 ```sh
 curl -X PATCH https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}" -H 'Content-Type: application/json' -d '{
@@ -291,7 +291,7 @@ curl -X PATCH https://resource-controller.cloud.ibm.com/v2/resource_instances/<s
 {: #delete-service-instance-api}
 {: api}
 
-Delete an instance by running a command as shown below:
+Delete an instance by running the following command:
 
 ```sh
 curl -X DELETE https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}"
@@ -302,7 +302,7 @@ curl -X DELETE https://resource-controller.cloud.ibm.com/v2/resource_instances/<
 {: #restore-backup-api}
 {: api}
 
-You can provision a new Redis instance from a particular backup using the command as shown below:
+You can provision a new Redis instance from a particular backup using the following command:
 
 ```sh
 curl -X POST   https://resource-controller.cloud.ibm.com/v2/resource_instances   -H "Authorization: ${IAM_TOKEN}"   -H 'Content-Type: application/json' -d '{
@@ -338,9 +338,9 @@ data "ibm_resource_group" "group" {
 }
 
 resource "ibm_resource_instance" "<your_instance_name>" {
-  name = "your_instance_name" 
+  name = "your_instance_name"
   plan = "databases-for-redis-gen2-standard"
-  service = "databases-for-redis" 
+  service = "databases-for-redis"
   location = "us-east"
   tags              = ["terraform", "redis"]
   resource_group_id = data.ibm_resource_group.group.id
@@ -354,7 +354,7 @@ resource "ibm_resource_instance" "<your_instance_name>" {
 ```
 {: codeblock}
 
-Before executing a Terraform script on an existing instance, use the `terraform plan` command to compare the current infrastructure state with the desired state defined in your Terraform files. Any alteration to the `resource_group_id`, `service plan`, `version`, `key_protect_instance`, `key_protect_key`, `backup_encryption_key_crn` attributes recreates your instance. For a list of current argument references with the `Forces new resource` specification, see the [ibm_database Terraform Registry](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
+Before executing a Terraform script on an existing instance, use the `terraform plan` command to compare the current infrastructure state with the desired state defined in your Terraform files. Any alteration to the `resource_group_id`, `service plan`, `version`, `key_protect_instance`, `key_protect_key`, or `backup_encryption_key_crn` attributes recreates your instance. For a list of current argument references with the `Forces new resource` specification, see the [ibm_database Terraform Registry](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 {: important}
 
 ### Get details of the service instance
@@ -370,15 +370,15 @@ data "ibm_resource_instance" "<your_instance_name>" {
   name              = "<your_instance_name>"
   location          = "us-east"
   resource_group_id = data.ibm_resource_group.group.id
-  service = "databases-for-redis" 
+  service = "databases-for-redis"
 }
 
 
 output "<your_instance_name>_output" {
   value ={
-    id = data.ibm_resource_instance.<your_instance_name>.id 
+    id = data.ibm_resource_instance.<your_instance_name>.id
     name = data.ibm_resource_instance.<your_instance_name>.name
-    extensions = data.ibm_resource_instance.<your_instance_name>.extensions 
+    extensions = data.ibm_resource_instance.<your_instance_name>.extensions
     group_id = data.ibm_resource_instance.<your_instance_name>.resource_group_id
   }
 }
@@ -389,7 +389,7 @@ output "<your_instance_name>_output" {
 {: #update-service-instance-api}
 {: terraform}
 
-You can update the host flavor parameter using the command as shown below:
+You can update the host flavor parameter using the following command:
 
 ```terraform
 data "ibm_resource_group" "group" {
@@ -397,14 +397,14 @@ data "ibm_resource_group" "group" {
 }
 
 resource "ibm_resource_instance" "<your_instance_name>" {
-  name = "<your_instance_name>" 
+  name = "<your_instance_name>"
   plan = "databases-for-redis-gen2-standard"
-  service = "databases-for-redis" 
+  service = "databases-for-redis"
   location = "us-east"
   tags              = ["scaling","tf"]
   resource_group_id = data.ibm_resource_group.group.id
 
-  parameters_json = jsonencode({             
+  parameters_json = jsonencode({
   "dataservices": {
       "redis": {
         "host_flavor": "bx2.8x32"
@@ -428,24 +428,24 @@ To delete resources managed by Terraform, run: `terraform destroy`
 
 - When Terraform creates a user, it automatically creates a **state file (terraform.tfstate)** and the details get added in the resources of the state file. This file tracks all managed resources and is used by Terraform to identify what to destroy during deletion.
 
-- Terraform can only delete resources that it created. Resources provisioned through UI/CLI/API cannot be destroyed by Terraform **unless they have first been imported into the Terraform state**.
+- Terraform can only delete resources that it created. Resources provisioned through the UI, CLI, or API cannot be destroyed by Terraform **unless they have first been imported into the Terraform state**.
 
-- All entries present in the resources of the state file will get deleted when you run destroy. Hence, make sure the resources which you want to delete are the only ones in the resources list before running `terraform destroy`
+- All entries present in the resources of the state file are deleted when you run destroy. Hence, make sure the resources that you want to delete are the only ones in the resources list before running `terraform destroy`
 
 ### Restore from Redis backup
 {: #restore-backup-api}
 {: terraform}
 
-You can provision a new redis instance from a particular backup using the command as shown below:
+You can provision a new Redis instance from a particular backup using the following command:
 
 ```terraform
 resource "ibm_resource_instance" "<your_instance_name>" {
-  name = "<your_instance_name>" 
+  name = "<your_instance_name>"
   plan = "databases-for-redis-gen2-standard"
-  service = "databases-for-redis" 
+  service = "databases-for-redis"
   location = "us-east"
   tags      = ["terraform", "redis"]
-  
+
     parameters_json = jsonencode({
       "dataservices": {
         "restore_backup_id": "<service-instance-crn>:backup:<backup-uuid>"
