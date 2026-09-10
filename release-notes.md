@@ -23,8 +23,9 @@ content-type: release-note
 {: #databases-for-redis-10sep2026}
 {: release-note}
 
-{{site.data.keyword.databases-for-redis}} Gen 2 is available in Madrid and Sydney
-:   {{site.data.keyword.databases-for-redis}} Gen 2 is now available in Madrid (eu-es) and Sydney (au-syd). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-overview-gen1-gen2#feature-differentiators).
+{{site.data.keyword.databases-for-redis}} Gen 2 is available in Washington, Madrid, and Sydney
+:   {{site.data.keyword.databases-for-redis}} Gen 2 is now available in Washington (us-east), Madrid (eu-es), and Sydney (au-syd). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-overview-gen1-gen2#feature-differentiators).
+
 
 ## 6 July 2026
 {: #databases-for-redis-06jul2026}
