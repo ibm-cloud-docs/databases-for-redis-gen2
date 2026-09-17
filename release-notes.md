@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-09-10"
+lastupdated: "2026-09-17"
 
 keywords: redis gen 2, release notes, updates, changes, redis 8.2
 
@@ -18,6 +18,15 @@ content-type: release-note
 {: #redis-relnotes}
 
 [Gen 2]{: tag-purple}
+
+
+## 17 Sep 2026
+{: #databases-for-redis-17sep2026}
+{: release-note}
+
+The {{site.data.keyword.databases-for-redis}} Gen 2 is now available in Dallas and London
+: {{site.data.keyword.databases-for-redis}} Gen 2 is now available in Dallas (us-south) and London (eu-gb). These regions are in addition to the existing regions of Montreal (ca-mon), Chennai - Airtel (in-che), Mumbai (in-mum), Frankfurt (eu-de), Washington (us-east), Madrid (eu-es), and Sydney (au-syd). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-mongodb-gen2?topic=databases-for-mongodb-gen2-overview-gen1-gen2#feature-differentiators).
+
 
 ## 10 Sep 2026
 {: #databases-for-redis-10sep2026}
