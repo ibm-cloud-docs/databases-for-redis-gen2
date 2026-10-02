@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-09-17"
+lastupdated: "2026-10-02"
 
 keywords: redis gen 2, release notes, updates, changes, redis 8.2
 
@@ -18,6 +18,7 @@ content-type: release-note
 {: #redis-relnotes}
 
 [Gen 2]{: tag-purple}
+
 
 
 ## 17 Sep 2026
