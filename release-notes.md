@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-10-06"
+lastupdated: "2026-10-08"
 
 keywords: redis gen 2, release notes, updates, changes, redis 8.2
 
@@ -19,14 +19,19 @@ content-type: release-note
 
 [Gen 2]{: tag-purple}
 
+## 7 October 2026
+{: #databases-for-redis-gen2-07oct2026}
+{: release-note}
+
+Enhanced Bring Your Own Key (BYOK) experience in the provisioning UI
+: The provisioning experience now includes an updated encryption configuration component for customer-managed encryption keys through {{site.data.keyword.keymanagementservicefull}}. This update provides a more consistent key management experience during deployment creation. Learn more about [{{site.data.keyword.keymanagementserviceshort}} integration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-key-protect&interface=ui) or provision a new [{{site.data.keyword.databases-for-redis}} Gen 2 deployment](https://cloud.ibm.com/databases/databases-for-redis/create) with customer-managed encryption enabled.
+
 ## 30 Sep 2026
 {: #databases-for-redis-gen2-30sep2026}
 {: release-note}
 
 The {{site.data.keyword.databases-for-redis}} Gen 2 is now available in all VPC multizone regions
 : You can now deploy {{site.data.keyword.databases-for-redis}} Gen 2 in all supported {{site.data.keyword.cloud}} VPC multizone regions (MZRs). This release adds support for Toronto (ca-tor), Tokyo (jp-tok), Osaka (jp-osa), and Sao Paulo (br-sao). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-mongodb-gen2?topic=databases-for-mongodb-gen2-overview-gen1-gen2#feature-differentiators).
-
-
 
 ## 17 Sep 2026
 {: #databases-for-redis-gen2-17sep2026}
