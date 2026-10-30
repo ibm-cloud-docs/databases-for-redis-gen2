@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-07-14"
+lastupdated: "2026-10-30"
 
 keywords: redis, databases, configs
 
@@ -29,7 +29,6 @@ To make permanent changes to the database configuration, use the {{site.data.key
 ```sh
 ibmcloud resource service-instance-update <NAME | ID> \
  -g <resource group> -p '{
-    "parameters": {
       "dataservices": {
         "redis": {
           "configuration":{
@@ -42,8 +41,20 @@ ibmcloud resource service-instance-update <NAME | ID> \
 {: codeblock}
 
 You can view the configuation details by retrieving the service instance details.
+
 ```sh
-   ibmcloud resource service-instance <INSTANCE_NAME>
+  ibmcloud resource service-instance <INSTANCE_NAME> -o json | jq '.[0].extensions.dataservices.redis.configuration'
+```
+{: codeblock}
+
+Example output:
+
+```sh
+  {
+    "appendonly": "no",
+    "maxmemory-policy": "allkeys-lru",
+    "stop-writes-on-bgsave-error": "no"
+  }
 ```
 {: codeblock}
 
@@ -70,7 +81,9 @@ curl -X PATCH \
   }'
 ```
 {: codeblock}
+
 You can view the configuation details by retrieving the service instance details.
+
 ```sh
 curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}" | jq
 ```
@@ -92,6 +105,32 @@ The following table details the customer configurable parameters:
 | `maxmemory-samples` | Number of samples for LRU/LFU eviction (1-10) | 5 |
 | `appendonly` | Enable/disable AOF (Append Only File) persistence | Yes |
 | `stop-writes-on-bgsave-error` | Stop accepting writes if RDB save fails | Yes |
+| `notify-keyspace-events`| subscribe to Pub/Sub channels to receive events affecting the dataset | ""(Disabled) |
 {: caption="Configurable parameters for redis" caption-side="top"}
 
-For more information on redis configuration, refer [Redis conf](https://redis.io/docs/latest/operate/oss_and_stack/management/config) and [Redis 8.2 conf](https://raw.githubusercontent.com/redis/redis/8.2/redis.conf).
+[Keyspace notifications](https://redis.io/docs/latest/develop/pubsub/keyspace-notifications/) are computationally expensive. Each write command generates additional Pub/Sub messages proportional to the number of keys affected. Enable notification only for the specific event types you need (for example, set notify-keyspace-events: Kx, 'x' for expiry events) rather than using A (all types). Monitor CPU usage after enabling, especially on high-throughput instances.
+{: note}
+
+Permitted `notify-keyspace-events` characters:
+
+| Character | Usage |
+|-----------|-------|
+| `K` | Keyspace events (__keyspace@<db>__ prefix) |
+| `E` | Keyspace events (__keyevent@<db>__ prefix) |
+| `g` | Generic commands (DEL, EXPIRE, RENAME…) |
+| `$` | String commands |
+| `l` | List commands |
+| `s` | Set commands |
+| `h` | Hash commands |
+| `z` | Sorted set commands |
+| `x` | Expired events |
+| `d` | Module key type events |
+| `t` | Stream commands |
+| `e` | Evicted events |
+| `A` | Alias for g$lshzxet(All events) |
+{: caption="Redis notify-keyspace-events" caption-side="top"}
+
+'m' (missed events) and 'n' (keyspace miss) are excluded due to high CPU usage.
+{:note}
+
+For more information on Redis configuration, see [Redis configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config) and [Redis 8.2 configuration](https://raw.githubusercontent.com/redis/redis/8.2/redis.conf).
