@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-10-30"
+lastupdated: "2026-11-02"
 
 keywords: redis gen 2, release notes, updates, changes, redis 8.2
 
@@ -19,7 +19,12 @@ content-type: release-note
 
 [Gen 2]{: tag-purple}
 
+## 2 November 2026
+{: #cloud-databases-for-redis-gen2-02nov2026}
+{: release-note}
 
+{{site.data.keyword.databases-for-redis}}  Gen 1 to Gen 2 migration is now generally available
+:  Migration from Gen 1 (Classic) to Gen 2 (VPC) is now available for {{site.data.keyword.databases-for-redis}}. You can migrate by using the Migration Hub in the {{site.data.keyword.cloud_notm}} console, Terraform, the API, or the CLI. You can migrate by using backup and restore to preserve Redis data or provision a new Gen 2 instance for cache-only workloads where data can be rebuilt after cutover. For more information, see [Migrating {{site.data.keyword.databases-for-redis}} from Gen 1 to Gen 2](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-migrating-redis-gen1-to-gen2&interface=cli).
 
 ## 12 October 2026
 {: #databases-for-redis-gen2-12oct2026}
