@@ -2,9 +2,9 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-07-23"
+lastupdated: "2026-11-04"
 
-keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision redis
+keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision redis, provisioning configuration, cache
 
 subcollection: databases-for-redis-gen2
 
@@ -150,6 +150,37 @@ Before provisioning, complete the instructions provided in the documentation to 
    ```
    {: codeblock}
 
+### Setting database configuration at provisioning
+{: #provision-configuration-cli}
+{: cli}
+
+You can set selected Redis configuration parameters when you create your deployment, so it starts with the values that you specify. Add a `configuration` object under `dataservices.redis` in the provisioning parameters. The following parameters can be set at provisioning.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `appendonly` | String | `"yes"` | Turns persistence (AOF) on or off. Supported values are `"yes"` and `"no"`. |
+| `maxmemory-policy` | String | `"noeviction"` | The eviction behavior when the memory limit is reached. Supported values are `noeviction`, `allkeys-lru`, `volatile-lru`, `allkeys-random`, `volatile-random`, `volatile-ttl`, `allkeys-lfu`, and `volatile-lfu`. |
+| `maxmemory-samples` | String | `"5"` | The number of keys sampled by the eviction algorithm. Supported values are whole numbers from `"1"` to `"10"`. |
+| `stop-writes-on-bgsave-error` | String | `"yes"` | Controls whether the deployment stops accepting write operations when a background snapshot fails. Supported values are `"yes"` and `"no"`. |
+{: caption="Table 2. Configuration parameters that can be set at provisioning" caption-side="bottom"}
+
+If you don't specify a parameter, the default value is used. Other configuration parameters, including `maxmemory`, can't be set at provisioning. Set them after the deployment is created. For more information, see [Changing the Redis configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=cli).
+{: note}
+
+The following example creates a {{site.data.keyword.databases-for-redis}} deployment that is configured for use as a cache: persistence is turned off, keys are evicted by using the `allkeys-lru` policy, and writes continue if a snapshot fails.
+
+```sh
+ibmcloud resource service-instance-create redis-cache databases-for-redis databases-for-redis-gen2-standard ca-mon -p '{"dataservices": {"redis": {"host_flavor": "bx3d.4x20", "configuration": {"appendonly": "no", "maxmemory-policy": "allkeys-lru", "maxmemory-samples": "8", "stop-writes-on-bgsave-error": "no"}}}, "service_endpoints": "private"}' --user-tags redis-cache
+```
+{: pre}
+
+You can verify the values after the deployment is active by retrieving the service instance details.
+
+```sh
+ibmcloud resource service-instance <INSTANCE_NAME> -o json | jq '.[0].extensions.dataservices.redis.configuration'
+```
+{: pre}
+
 ### Update a service instance
 {: #update-service-instance-cli}
 {: cli}
@@ -270,6 +301,56 @@ Complete these steps to provision using the [Resource Controller API](/apidocs/r
 
 ```sh
 curl -X GET https://resource-controller.cloud.ibm.com/v2/resource_instances/<service-instance-id> -H "Authorization: ${IAM_TOKEN}" | jq
+```
+{: pre}
+
+### Setting database configuration at provisioning
+{: #provision-configuration-api}
+{: api}
+
+You can set selected Redis database configuration parameters when you create your deployment, so it starts with the values that you specify. Add a `configuration` object under `dataservices.redis` in the provisioning parameters. The following parameters can be set at provisioning.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `appendonly` | String | `"yes"` | Turns persistence (AOF) on or off. Supported values are `"yes"` and `"no"`. |
+| `maxmemory-policy` | String | `"noeviction"` | The eviction behavior when the memory limit is reached. Supported values are `noeviction`, `allkeys-lru`, `volatile-lru`, `allkeys-random`, `volatile-random`, `volatile-ttl`, `allkeys-lfu`, and `volatile-lfu`. |
+| `maxmemory-samples` | String | `"5"` | The number of keys sampled by the eviction algorithm. Supported values are whole numbers from `"1"` to `"10"`. |
+| `stop-writes-on-bgsave-error` | String | `"yes"` | Controls whether the deployment stops accepting writes if a background snapshot fails. Supported values are `"yes"` and `"no"`. |
+{: caption="Table 4. Configuration parameters that can be set at provisioning" caption-side="bottom"}
+
+If you don't specify a parameter, the default value is used. Other configuration parameters, including `maxmemory`, can't be set at provisioning. Set them after the deployment is created. For more information, see [Changing the Redis configuration](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-changing-configuration&interface=api).
+{: note}
+
+The following example creates a {{site.data.keyword.databases-for-redis}} deployment that is configured for use as a cache: persistence is turned off, keys are evicted by using the `allkeys-lru` policy, and writes continue if a snapshot fails.
+
+```sh
+curl -X POST https://resource-controller.cloud.ibm.com/v2/resource_instances -H "Authorization: ${IAM_TOKEN}" -H 'Content-Type: application/json' -d '{
+    "name": "redis-cache",
+    "target": "ca-mon",
+    "resource_group": "<RESOURCE_GROUP_ID>",
+    "resource_plan_id": "databases-for-redis-gen2-standard",
+    "parameters": {
+      "dataservices": {
+        "redis": {
+          "host_flavor": "bx3d.4x20",
+          "configuration": {
+            "appendonly": "no",
+            "maxmemory-policy": "allkeys-lru",
+            "maxmemory-samples": "8",
+            "stop-writes-on-bgsave-error": "no"
+          }
+        }
+      },
+      "service_endpoints": "private"
+    }
+  }'
+```
+{: pre}
+
+You can verify the values after the deployment is active by retrieving the service instance details.
+
+```sh
+ibmcloud resource service-instance <INSTANCE_NAME> -o json | jq '.[0].extensions.dataservices.redis.configuration'
 ```
 {: pre}
 

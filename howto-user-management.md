@@ -1,9 +1,9 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-07-12"
+lastupdated: "2026-11-04"
 
-keywords: manager, roles, service credentials, redis users, redis service credentials, connection strings, manager password, new user, Gen 2
+keywords: manager, roles, service credentials, redis users, redis service credentials, connection strings, manager password, new user, Gen 2, ACL, ACL restrictions
 
 subcollection: databases-for-redis-gen2
 
@@ -23,22 +23,22 @@ subcollection: databases-for-redis-gen2
 
 The `manager` user functions as a power user with extensive data access but limited administrative capabilities. The `manager` role provides:
 
-- **Full data access**: complete read and write permissions for all keys
-- **Limited config access**: can view configuration (`config|get`) and reset statistics (`config|resetstat`)
-- **Read-only ACL visibility**: can view ACL information but cannot create or manage users
-- **No dangerous commands**: cannot execute shutdown, replication, or debug commands
+- **Full data access**: Complete read and write permissions for all keys.
+- **Limited config access**: Can view configuration (`config|get`) and reset statistics (`config|resetstat`).
+- **User management**: Can create, update, and delete users with `ACL SETUSER` and `ACL DELUSER`, and can view ACL information. For more information, see [Restrictions on ACL commands](#user-management-acl-protection).
+- **No dangerous commands**: Cannot execute shutdown, replication, or debug commands.
 
 ## The writer user
 {: #user-writer}
 
 The `writer` user is the default role for Redis deployments, providing standard read and write access for application workloads. The `writer` role is designed for typical database operations without administrative privileges. The `writer` role provides:
 
-- **Full read access**: Can read all keys and execute all read commands
-- **Full write access**: Can create, update, and delete data across all keys
-- **Connection management**: Can manage client connections and pub/sub operations
-- **Key operations**: Can list, scan, and inspect keys
-- **No administrative access**: Cannot view or modify configuration, ACL, or system settings
-- **No dangerous commands**: Cannot execute shutdown, replication, debug, or monitoring commands
+- **Full read access**: Can read all keys and execute all read commands.
+- **Full write access**: Can create, update, and delete data across all keys.
+- **Connection management**: Can manage client connections and pub/sub operations.
+- **Key operations**: Can list, scan, and inspect keys.
+- **No administrative access**: Cannot view or modify configuration, ACL, or system settings.
+- **No dangerous commands**: Cannot execute shutdown, replication, debug, or monitoring commands.
 
 ## Creating users in the UI
 {: #user-management-creating-users-service-cred}
@@ -182,16 +182,99 @@ To delete resources managed by Terraform, run the command `terraform destroy`:
 
 - All entries present in the resources of the state file will get deleted when you run destroy. Therefore ensure the resources that you want to delete are the only ones in the resources list before running the `terraform destroy` command.
 
+## Restrictions on ACL commands
+{: #user-management-acl-protection}
+
+Users with the `Manager` role can manage other users by running `ACL` commands, such as `ACL SETUSER` and `ACL DELUSER`. To prevent privilege escalation, {{site.data.keyword.databases-for-redis}} checks each `ACL` command before it runs. Commands that grant administrative privileges or modify reserved users are blocked. This protection is enabled by default in {{site.data.keyword.databases-for-redis}} 8.2 and later. No installation or configuration is required.
+
+This protection affects only `ACL` commands. Reads, writes, and all other commands continue to run normally.
+{: note}
+
+### ACL command permissions by role
+{: #user-management-acl-protection-roles}
+
+- Users with the `Writer` role can't run `ACL` commands.
+- Users with the `Manager` role can run `ACL SETUSER`, `ACL DELUSER`, `ACL GETUSER`, `ACL LIST`, `ACL USERS`, `ACL WHOAMI`, `ACL CAT`, `ACL GENPASS`, `ACL LOG`, and `ACL HELP`. Other `ACL` subcommands, including `ACL LOAD`, `ACL SAVE`, and `ACL DRYRUN`, are not available.
+
+### What is blocked
+{: #user-management-acl-protection-blocks}
+
+The following commands are blocked, even for users with the `Manager` role.
+
+| Command | Blocked when |
+|---------|--------------|
+| `ACL SETUSER` | The target is a [reserved user](#internal-users), or the resulting permissions grant administrative access. |
+| `ACL DELUSER` | The command includes one or more reserved users. |
+{: caption="Table 1. ACL commands that are blocked" caption-side="bottom"}
+
+For `ACL SETUSER`, the permissions are evaluated from left to right. The command is blocked if the resulting permissions grant administrative access. For example, nocommands +@all is blocked. The following permissions are blocked:
+
+- `+@admin`
+- `+@all`
+- `allcommands`
+- Any individual administrative command, such as `+CONFIG`, `+SHUTDOWN`, `+DEBUG`, `+MONITOR`, `+MODULE`, or `+REPLICAOF`
+
+Permissions that remove access, such as `-@admin`, `-@all`, and `nocommands`, are allowed, unless the target is a reserved user.
+
+Reserved users can't be modified or deleted, even to reduce their permissions. The reserved users are `default`, `ibm-user`, `monitoring-user`, `replication-user`, and `sentinel-user`. User names are case-sensitive.
+{: important}
+
+### Error messages
+{: #user-management-acl-protection-errors}
+
+When a command is blocked, it isn't run and the client receives one of the following errors.
+
+| Command | Error |
+|---------|-------|
+| `ACL SETUSER alice +@admin` | `ERR Permission denied: Cannot assign @admin category permissions` |
+| `ACL SETUSER default +@read` | `ERR Permission denied: Cannot modify a protected internal user` |
+| `ACL DELUSER replication-user` | `ERR Permission denied: Cannot delete a protected internal user` |
+{: caption="Table 2. Error messages for blocked ACL commands" caption-side="bottom"}
+
+### Verifying the restrictions
+{: #user-management-acl-protection-verify}
+
+Connect to your deployment with a user that has the `Manager` role, and then run the following commands in `redis-cli`.
+
+1. Confirm that a non-administrative permission is allowed. The expected response is `OK`.
+
+   ```sh
+   ACL SETUSER testuser on >testpassword ~app:* +@read +@write
+   ```
+   {: pre}
+
+2. Confirm that an administrative permission is blocked. The expected response is `ERR Permission denied: Cannot assign @admin category permissions`.
+
+   ```sh
+   ACL SETUSER testuser +@admin
+   ```
+   {: pre}
+
+3. Confirm that a reserved user can't be modified. The expected response is `ERR Permission denied: Cannot modify a protected internal user`.
+
+   ```sh
+   ACL SETUSER default nocommands
+   ```
+   {: pre}
+
+4. Delete the test user. The expected response is `(integer) 1`.
+
+   ```sh
+   ACL DELUSER testuser
+   ```
+   {: pre}
+
 ## Internal-use users
 {: #internal-users}
 
-There are four reserved users on your instance. Modifying these users causes your instance to become unstable or unusable.
+There are five reserved users on your instance. Modifying these users causes your instance to become unstable or unusable.
 
 - **default** Redis's built-in default user account
 - **ibm-user** An internal user for managing the instance, exposing metrics, and API operations
+- **monitoring-user** The user account that is used for monitoring
 - **replication-user** The user account that is used for replication between member nodes
 - **sentinel-user** The user account for sentinels to handle monitoring and failovers
 
 Important notes:
-- The four users (`default`, `ibm-user`, `replication-user`, and`sentinel-user`) are strictly internal and cannot be modified.
+- The five users (`default`, `ibm-user`, `monitoring-user`, `replication-user`, and `sentinel-user`) are strictly internal and cannot be modified.
 - Attempting to create, delete, or modify these reserved users through the API will result in an error.

@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-07-14"
+lastupdated: "2026-11-04"
 
 keywords: redis, databases, redis cache
 
@@ -66,6 +66,21 @@ You can use `CONFIG SET` directly from a Redis CLI client, but any changes made 
 {: .tip}
 
 For example, the Redis documentation recommends the `allkeys-lru` setting as a good starting place for a general-use cache. It's also fine to leave the `maxmemory` and `maxmemory-samples` at their default values.
+
+### Configuring the cache when you provision
+{: #cache-provision}
+
+You can apply the cache settings when you create your deployment, so that it starts as a cache. Add the `appendonly`, `maxmemory-policy`, `maxmemory-samples`, and `stop-writes-on-bgsave-error` parameters to the `configuration` object under `dataservices.redis`.
+
+```sh
+ibmcloud resource service-instance-create redis-cache databases-for-redis databases-for-redis-gen2-standard ca-mon -p '{"dataservices": {"redis": {"host_flavor": "bx3d.4x20", "configuration": {"appendonly": "no", "maxmemory-policy": "allkeys-lru", "maxmemory-samples": "8", "stop-writes-on-bgsave-error": "no"}}}, "service_endpoints": "private"}' --user-tags redis-cache
+```
+{: pre}
+
+`maxmemory` can't be set when you provision a deployment. To change it, update the configuration after the deployment is created. For the full list of parameters and the API format, see [Provisioning](/docs/databases-for-redis-gen2?topic=databases-for-redis-gen2-provisioning).
+{: note}
+
+If your deployment already exists, update its configuration by using the CLI or API in the following sections.
 
 ### Configuring the cache using the CLI
 {: #redis-cache-example-cache-cli}
