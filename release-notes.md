@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-11-02"
+lastupdated: "2026-11-05"
 
 keywords: redis gen 2, release notes, updates, changes, redis 8.2
 
@@ -18,6 +18,13 @@ content-type: release-note
 {: #redis-relnotes}
 
 [Gen 2]{: tag-purple}
+
+## 2 November 2026
+{: #cloud-databases-for-redis-gen2-02nov2026}
+{: release-note}
+
+New regions available for {{site.data.keyword.databases-for-redis}} Gen 1 to Gen 2 migration
+:  Migration from Gen 1 (Classic) to Gen 2 (VPC) is now available in the `br-sao` and `us-south` regions, in addition to `us-east`, for {{site.data.keyword.databases-for-redis}}. 
 
 ## 2 November 2026
 {: #cloud-databases-for-redis-gen2-02nov2026}
