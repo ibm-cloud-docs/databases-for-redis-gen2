@@ -19,8 +19,8 @@ content-type: release-note
 
 [Gen 2]{: tag-purple}
 
-## 2 November 2026
-{: #cloud-databases-for-redis-gen2-02nov2026}
+## 5 November 2026
+{: #cloud-databases-for-redis-gen2-05nov2026}
 {: release-note}
 
 New regions available for {{site.data.keyword.databases-for-redis}} Gen 1 to Gen 2 migration
